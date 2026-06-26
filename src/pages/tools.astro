@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import VowelChart from "../components/islands/VowelChart.tsx";
+import Spectrogram from "../components/islands/Spectrogram.tsx";
+---
+
+<BaseLayout
+  title="ツール | 合同会社語音"
+  description="ブラウザ上で動く音声学の学習・研究ツール。IPA母音四角形などを公開しています。"
+>
+  <section class="mx-auto max-w-5xl px-5 pt-16 pb-10">
+    <h1 class="font-display text-4xl font-semibold tracking-tight text-ink">
+      ツール
+    </h1>
+    <p class="mt-4 max-w-2xl text-muted">
+      静的なページの中に、必要な部分だけインタラクティブな部品（island）を埋め込んでいます。下の母音四角形はReactで動作するデモです。各母音をクリック（またはキーボードで選択）すると説明が表示されます。
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-5 pb-16">
+    <div class="rounded-xl border border-line bg-paper p-6 sm:p-8">
+      <h2 class="font-display text-xl text-ink">IPA母音四角形（デモ）</h2>
+      <p class="mt-1 mb-6 text-sm text-muted">基本母音と曖昧母音（schwa）</p>
+      <!-- client:visible = hydrate this React island only when scrolled into view -->
+      <VowelChart client:visible />
+    </div>
+
+    <div class="mt-8 rounded-xl border border-line bg-paper p-6 sm:p-8">
+      <h2 class="font-display text-xl text-ink">波形＋スペクトログラム</h2>
+      <p class="mt-1 mb-6 text-sm text-muted">
+        WaveSurfer.js による音声ビューア。サンプルを再生するか、手元の音声ファイルを開いて時間—周波数構造を確認できます。
+      </p>
+      <!-- client:visible = 重い依存を含む island はスクロールで初めて水和 -->
+      <Spectrogram client:visible />
+    </div>
+
+    <p class="mt-8 text-sm text-muted">
+      今後の追加予定：IPA子音チャート、フォルマント分析。
+    </p>
+  </section>
+</BaseLayout>
