@@ -1,0 +1,46 @@
+---
+const nav = [
+  { href: "/", label: "ホーム" },
+  { href: "/about", label: "会社概要" },
+  { href: "/tools", label: "ツール" },
+  { href: "/contact", label: "お問い合わせ" },
+];
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
+---
+
+<header class="border-b border-line">
+  <div
+    class="mx-auto flex max-w-5xl items-baseline justify-between gap-4 px-5 py-4"
+  >
+    <a href="/" class="group no-underline" aria-label="合同会社語音 ホーム">
+      <span class="font-display text-xl font-semibold tracking-tight text-ink"
+        >語音</span
+      >
+      <span class="ipa ml-2 text-sm text-muted">/ɡo.oɴ/</span>
+    </a>
+    <nav aria-label="メインナビゲーション">
+      <ul class="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+        {
+          nav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                class:list={[
+                  "no-underline transition-colors",
+                  isActive(item.href)
+                    ? "text-teal-700 font-medium"
+                    : "text-ink hover:text-teal-700",
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/*
+  Design tokens (Tailwind v4 CSS-first config).
+  These generate utilities (e.g. text-ink, bg-paper, font-ipa) AND
+  expose CSS variables (e.g. var(--color-teal)) for hand-written CSS.
+*/
+@theme {
+  --color-ink: #16181d;
+  --color-paper: #fbfbf8;
+  --color-teal: #0e7c6b;
+  --color-teal-700: #0a5d50;
+  --color-amber: #d98a2b;
+  --color-line: #e6e5df;
+  --color-muted: #6a6e76;
+
+  --font-display: "Newsreader", "Noto Serif JP", Georgia, serif;
+  --font-body: "Noto Sans JP", system-ui, -apple-system, sans-serif;
+  --font-ipa: "Gentium Plus", "Charis SIL", "Doulos SIL", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ---- base ---- */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: var(--color-teal-700);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+a:hover {
+  color: var(--color-teal);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-teal) 22%, white);
+}
+
+/* Visible keyboard focus everywhere (accessibility floor). */
+:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* The phonetic-transcription signature face. */
+.ipa {
+  font-family: var(--font-ipa);
+  font-feature-settings: "kern" 1, "liga" 1;
+}

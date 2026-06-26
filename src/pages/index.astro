@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const services = [
+  {
+    t: "ソフトウェアの企画・制作・販売",
+    d: "音声・映像を扱うソフトウェアおよびWebアプリケーションの企画から制作、販売まで。",
+  },
+  {
+    t: "学術出版物の発行",
+    d: "音声学・言語学・言語教育を中心とした書籍・電子書籍の編集と発行。",
+  },
+  {
+    t: "オンライン教育・研修",
+    d: "語学・発音・データ分析などのオンライン講座および研修の企画・運営。",
+  },
+  {
+    t: "研究・調査・コンサルティング",
+    d: "情報技術と音響分析を活用した研究・調査、および専門的コンサルティング。",
+  },
+];
+---
+
+<BaseLayout>
+  <!-- Hero: the name itself is the field. 語音 = "speech sound". -->
+  <section class="mx-auto max-w-5xl px-5 pt-16 pb-20 sm:pt-24">
+    <p class="text-sm tracking-wide text-muted">合同会社語音 ／ Go-on LLC</p>
+    <h1
+      class="mt-4 font-display text-5xl font-semibold leading-[1.05] tracking-tight text-ink sm:text-7xl"
+    >
+      語音
+    </h1>
+    <p class="ipa mt-3 text-2xl text-teal-700 sm:text-3xl">
+      ⟨語音⟩ /ɡo.oɴ/ — <span class="text-muted">speech&nbsp;sound</span>
+    </p>
+
+    <p class="mt-8 max-w-2xl font-display text-2xl leading-snug text-ink sm:text-3xl">
+      音声・言語・教育を、研究と実践でつなぐ。
+    </p>
+    <p class="mt-5 max-w-2xl text-base text-muted">
+      合同会社語音は、音声・言語・教育・情報技術を軸に、研究・教育・コンテンツ制作を行う法人です。
+    </p>
+
+    <div class="mt-9 flex flex-wrap gap-3">
+      <a
+        href="#services"
+        class="rounded-md bg-teal px-5 py-2.5 text-sm font-medium text-white no-underline hover:bg-teal-700"
+        >事業内容を見る</a
+      >
+      <a
+        href="/contact"
+        class="rounded-md border border-line px-5 py-2.5 text-sm font-medium text-ink no-underline hover:border-teal hover:text-teal-700"
+        >お問い合わせ</a
+      >
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="mx-auto max-w-5xl px-5 py-12">
+    <h2 class="font-display text-2xl font-semibold text-ink">事業内容</h2>
+    <div class="mt-7 grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2">
+      {
+        services.map((s) => (
+          <div class="bg-paper p-6">
+            <h3 class="font-display text-lg text-ink">{s.t}</h3>
+            <p class="mt-2 text-sm text-muted">{s.d}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Tools teaser -->
+  <section class="mx-auto max-w-5xl px-5 py-12">
+    <div class="rounded-lg border border-line bg-white p-7 sm:p-9">
+      <p class="ipa text-sm text-amber">[ tuːlz ]</p>
+      <h2 class="mt-1 font-display text-2xl font-semibold text-ink">
+        インタラクティブな音声学ツール
+      </h2>
+      <p class="mt-3 max-w-2xl text-sm text-muted">
+        ブラウザ上で動く音声学の学習・研究ツールを順次公開します。IPAチャート、母音四角形、スペクトログラム表示、波形ビューア、フォルマント分析などを予定しています。
+      </p>
+      <a
+        href="/tools"
+        class="mt-5 inline-block text-sm font-medium text-teal-700"
+        >ツールを見る →</a
+      >
+    </div>
+  </section>
+</BaseLayout>

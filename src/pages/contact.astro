@@ -1,0 +1,70 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="お問い合わせ | 合同会社語音"
+  description="合同会社語音へのお問い合わせフォーム。"
+>
+  <section class="mx-auto max-w-2xl px-5 pt-16 pb-20">
+    <h1 class="font-display text-4xl font-semibold tracking-tight text-ink">
+      お問い合わせ
+    </h1>
+    <p class="mt-4 text-muted">
+      下記フォームよりお問い合わせください。内容を確認のうえ、必要に応じてご連絡いたします。
+    </p>
+
+    <!-- Posts to the existing Formspree endpoint. Change the action URL if needed. -->
+    <form
+      action="https://formspree.io/f/mvgeylky"
+      method="POST"
+      class="mt-10 grid gap-5"
+    >
+      <label class="grid gap-1.5">
+        <span class="text-sm text-ink">お名前</span>
+        <input
+          type="text"
+          name="name"
+          required
+          autocomplete="name"
+          class="rounded-md border border-line bg-white px-3 py-2 text-ink focus:border-teal"
+        />
+      </label>
+
+      <label class="grid gap-1.5">
+        <span class="text-sm text-ink">メールアドレス</span>
+        <input
+          type="email"
+          name="email"
+          required
+          autocomplete="email"
+          class="rounded-md border border-line bg-white px-3 py-2 text-ink focus:border-teal"
+        />
+      </label>
+
+      <label class="grid gap-1.5">
+        <span class="text-sm text-ink">お問い合わせ内容</span>
+        <textarea
+          name="message"
+          rows="6"
+          required
+          class="rounded-md border border-line bg-white px-3 py-2 text-ink focus:border-teal"
+        ></textarea>
+      </label>
+
+      <div>
+        <button
+          type="submit"
+          class="rounded-md bg-teal px-6 py-2.5 text-sm font-medium text-white hover:bg-teal-700"
+        >
+          送信
+        </button>
+      </div>
+    </form>
+
+    <p class="mt-6 text-xs text-muted">
+      本フォームで取得した個人情報の取り扱いについては
+      <a href="/legal#privacy">プライバシーポリシー</a>をご確認ください。
+    </p>
+  </section>
+</BaseLayout>

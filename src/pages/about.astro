@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const rows = [
+  { k: "会社名", v: "合同会社語音（Go-on LLC）" },
+  { k: "所在地", v: "東京都豊島区" },
+  { k: "代表社員", v: "石原 健" },
+];
+---
+
+<BaseLayout
+  title="会社概要 | 合同会社語音"
+  description="合同会社語音（Go-on LLC）の会社概要。所在地は東京都豊島区、代表社員 石原 健。"
+>
+  <section class="mx-auto max-w-3xl px-5 pt-16 pb-12">
+    <h1 class="font-display text-4xl font-semibold tracking-tight text-ink">
+      会社概要
+    </h1>
+    <p class="mt-4 text-muted">
+      音声・言語・教育・情報技術を軸に、研究・教育・コンテンツ制作を行っています。
+    </p>
+
+    <dl class="mt-10 divide-y divide-line border-y border-line">
+      {
+        rows.map((r) => (
+          <div class="grid grid-cols-[8rem_1fr] gap-4 py-4">
+            <dt class="text-sm text-muted">{r.k}</dt>
+            <dd class="text-ink">{r.v}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+</BaseLayout>
