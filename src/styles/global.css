@@ -39,22 +39,28 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/*
+  Minimal monochrome: links stay ink, only the underline carries state.
+  Colour (teal/amber) is reserved for the interactive tool islands.
+*/
 a {
-  color: var(--color-teal-700);
+  color: var(--color-ink);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-line);
+  transition: text-decoration-color 0.15s ease;
 }
 a:hover {
-  color: var(--color-teal);
+  text-decoration-color: var(--color-ink);
 }
 
 ::selection {
-  background: color-mix(in oklab, var(--color-teal) 22%, white);
+  background: color-mix(in oklab, var(--color-ink) 12%, white);
 }
 
 /* Visible keyboard focus everywhere (accessibility floor). */
 :focus-visible {
-  outline: 2px solid var(--color-teal);
+  outline: 2px solid var(--color-ink);
   outline-offset: 2px;
   border-radius: 2px;
 }

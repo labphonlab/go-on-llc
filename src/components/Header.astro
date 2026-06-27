@@ -12,16 +12,16 @@ const isActive = (href: string) =>
 
 <header class="border-b border-line">
   <div
-    class="mx-auto flex max-w-5xl items-baseline justify-between gap-4 px-5 py-4"
+    class="mx-auto flex max-w-5xl items-baseline justify-between gap-4 px-5 py-5"
   >
     <a href="/" class="group no-underline" aria-label="合同会社語音 ホーム">
-      <span class="font-display text-xl font-semibold tracking-tight text-ink"
+      <span class="font-display text-xl font-medium tracking-tight text-ink"
         >語音</span
       >
       <span class="ipa ml-2 text-sm text-muted">/ɡo.oɴ/</span>
     </a>
     <nav aria-label="メインナビゲーション">
-      <ul class="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
+      <ul class="flex flex-wrap items-center gap-x-6 gap-y-1 text-sm">
         {
           nav.map((item) => (
             <li>
@@ -29,10 +29,10 @@ const isActive = (href: string) =>
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 class:list={[
-                  "no-underline transition-colors",
+                  "no-underline underline-offset-[6px] decoration-1 transition-colors",
                   isActive(item.href)
-                    ? "text-teal-700 font-medium"
-                    : "text-ink hover:text-teal-700",
+                    ? "text-ink underline decoration-ink"
+                    : "text-muted hover:text-ink",
                 ]}
               >
                 {item.label}
