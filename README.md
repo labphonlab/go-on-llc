@@ -53,12 +53,13 @@ goonresearch-web/
 │   │   └── url.ts                 # base対応の内部リンク u()
 │   ├── pages/
 │   │   ├── index.astro            # ホーム
-│   │   ├── products.astro         # プロダクト（公開中／開発中）
-│   │   ├── tools.astro            # ツール（islandと公開ツール）
+│   │   ├── products.astro         # プロダクト（紹介のみ・配布はしない）
+│   │   ├── books.astro            # 出版（分野別紹介）
 │   │   ├── research.astro         # 研究・データ公開
-│   │   ├── support.astro          # サポート窓口・FAQ
+│   │   ├── support.astro          # サポート窓口・絞り込み付きFAQ
 │   │   ├── about.astro            # 会社概要
-│   │   ├── contact.astro          # お問い合わせ（Formspree）
+│   │   ├── contact/index.astro    # お問い合わせ（Formspree）
+│   │   ├── contact/thanks.astro   # 送信完了
 │   │   ├── legal.astro            # 特商法・プライバシー
 │   │   ├── sitemap.xml.ts         # サイトマップ（動的生成）
 │   │   ├── robots.txt.ts          # robots.txt（動的生成）

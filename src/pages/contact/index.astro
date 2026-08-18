@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import SupportForm from "../../components/islands/SupportForm.tsx";
+import { u } from "../../lib/url";
+
+const FORMSPREE = "https://formspree.io/f/mvgeylky";
+// Formspree の _next は絶対URLを要求する。
+const next = new URL(u("/contact/thanks"), Astro.site).href;
+---
+
+<BaseLayout
+  title="お問い合わせ"
+  description="合同会社語音へのお問い合わせ。製品のサポート、使い方の質問、不具合の報告、共同研究・受託のご相談を承ります。"
+>
+  <PageHeader
+    eyebrow="contact"
+    title="お問い合わせ"
+    lead={`ご用件を選ぶと、必要な項目だけが表示されます。不具合のご報告では再現手順をうかがい、動作環境は自動で取得します。一度のやり取りで調査に着手できるようにするための構成です。`}
+  />
+
+  <section class="mx-auto max-w-3xl px-5 pb-24">
+    <SupportForm action={FORMSPREE} next={next} client:load />
+
+    <p class="mt-8 text-xs leading-relaxed text-muted">
+      本フォームは外部サービス Formspree を経由して送信されます。取得した個人情報の取り扱いについては<a
+        href={u("/legal#privacy")}>プライバシーポリシー</a
+      >をご確認ください。よくあるご質問は<a href={u("/support")}>サポート</a
+      >にまとめています。送信前にご確認いただくと、解決が早い場合があります。
+    </p>
+  </section>
+</BaseLayout>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
 import { u } from "../lib/url";
 import { datasets } from "../data/catalog";
 
@@ -27,24 +28,20 @@ const areas = [
   title="研究"
   description="合同会社語音の研究活動と、論文に伴って公開しているデータセット・解析コードの一覧。音声学・音韻論・コーパス言語学。"
 >
-  <section class="mx-auto max-w-5xl px-5 pt-16 pb-10">
-    <p class="text-xs uppercase tracking-[0.25em] text-muted">research</p>
-    <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight text-ink">
-      研究
-    </h1>
-    <p class="mt-5 max-w-2xl leading-relaxed text-muted">
-      音声学・音韻論を中心に、自発音声コーパスを用いた実証研究を行っています。プロダクトの設計はここでの知見を土台にしており、逆に研究の道具立てはプロダクトとして公開されます。
-    </p>
-  </section>
+  <PageHeader
+    eyebrow="research"
+    title="研究"
+    lead={`音声学・音韻論を中心に、自発音声コーパスを用いた実証研究を行っています。プロダクトの設計はここでの知見を土台にしており、逆に研究の道具立てはプロダクトとして公開されます。`}
+  />
 
   <section class="mx-auto max-w-5xl px-5 pb-16">
-    <h2 class="text-xs uppercase tracking-[0.25em] text-muted">研究領域</h2>
+    <h2 class="eyebrow">研究領域</h2>
     <div class="mt-8 grid gap-x-12 gap-y-8 sm:grid-cols-2">
       {
         areas.map((a) => (
           <div>
             <h3 class="font-display text-xl text-ink">{a.t}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted">{a.d}</p>
+            <p class="mt-2 leading-relaxed text-muted">{a.d}</p>
           </div>
         ))
       }
@@ -54,13 +51,13 @@ const areas = [
   <section class="mx-auto max-w-5xl px-5 pb-16">
     <div class="border-t border-line pt-10">
       <h2 class="font-display text-2xl text-ink">データ・解析コードの公開</h2>
-      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
+      <p class="mt-4 max-w-2xl leading-relaxed text-muted">
         論文の再現性を担保するため、集計済みデータと解析コードを公開しています。元コーパス（『日本語話し言葉コーパス』『Buckeye Corpus』等）はライセンス上再配布できないため含まれません。各リポジトリの README に入手先を記載しています。
       </p>
       <div class="mt-8 border-t border-line">
         {
           datasets.map((d) => (
-            <article class="border-b border-line py-7">
+            <article class="row py-7">
               <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <h3 class="ipa text-lg text-ink">{d.title}</h3>
                 <span class="rounded-full border border-line px-2.5 py-0.5 text-xs text-muted">
@@ -70,7 +67,7 @@ const areas = [
               <p class="mt-2 max-w-3xl font-display text-base leading-snug text-ink">
                 {d.paper}
               </p>
-              <p class="mt-2 max-w-3xl text-sm leading-relaxed text-muted">
+              <p class="mt-2 max-w-3xl leading-relaxed text-muted">
                 {d.summary}
               </p>
               <a
@@ -92,7 +89,7 @@ const areas = [
   <section class="mx-auto max-w-5xl px-5 pb-24">
     <div class="border-t border-line pt-10">
       <h2 class="font-display text-2xl text-ink">共同研究・受託</h2>
-      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
+      <p class="mt-4 max-w-2xl leading-relaxed text-muted">
         音響分析を伴う調査、コーパス構築・アノテーション設計、統計モデリングの設計と実装についてご相談を承ります。
         <a href={u("/contact")}>お問い合わせ</a>からご連絡ください。
       </p>

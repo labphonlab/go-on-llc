@@ -1,0 +1,27 @@
+---
+/** 下層ページ共通の導入部。eyebrow → 見出し → リード文の3段を全ページで揃える。 */
+interface Props {
+  eyebrow: string;
+  title: string;
+  /** 幅を本文の可読幅に抑える。長いリードほど効く。 */
+  lead?: string;
+}
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<header class="mx-auto max-w-5xl px-5 pt-20 pb-14 sm:pt-28 sm:pb-16">
+  <p class="eyebrow">{eyebrow}</p>
+  <h1
+    class="mt-5 font-display text-4xl font-medium leading-[1.1] tracking-tight text-ink sm:text-5xl"
+  >
+    {title}
+  </h1>
+  {
+    lead && (
+      <p class="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
+        {lead}
+      </p>
+    )
+  }
+  <slot />
+</header>

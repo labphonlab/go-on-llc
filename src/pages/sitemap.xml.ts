@@ -5,7 +5,7 @@ import { u } from "../lib/url";
 const paths = [
   { path: "/", priority: "1.0" },
   { path: "/products", priority: "0.9" },
-  { path: "/tools", priority: "0.9" },
+  { path: "/books", priority: "0.9" },
   { path: "/research", priority: "0.8" },
   { path: "/support", priority: "0.8" },
   { path: "/about", priority: "0.7" },

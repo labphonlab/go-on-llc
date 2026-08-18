@@ -9,11 +9,6 @@
  */
 export type Status = "released" | "development";
 
-export const STATUS_LABEL: Record<Status, string> = {
-  released: "公開中",
-  development: "開発中",
-};
-
 export type Product = {
   id: string;
   name: string;
@@ -23,14 +18,18 @@ export type Product = {
   summary: string;
   detail: string;
   platforms: string;
-  links?: { label: string; href: string }[];
   note?: string;
   /** サポートページに出す、この製品固有の案内（共通FAQに書けないもの）。 */
   support?: string[];
 };
 
-/** 公開済みソフトウェア・ツール */
-export const released: Product[] = [
+/**
+ * 自社で開発したソフトウェア・ツール。
+ *
+ * **サイトからは配布しない。** 内容の紹介にとどめ、利用のご希望は問い合わせで
+ * 受ける方針のため、入手先へのリンクは持たせていない。
+ */
+export const tools: Product[] = [
   {
     id: "praat-ja",
     name: "Praat JA",
@@ -40,10 +39,6 @@ export const released: Product[] = [
     detail:
       "音声ファイルを読み込み、波形・スペクトログラム・ピッチ・フォルマント・TextGrid 作成といった頻用スクリプトを日本語メニューからワンクリックで実行できます。Praat 本体は同梱せず、初回起動時に公式配布元から取得します。",
     platforms: "macOS（DMG）／ Windows（インストーラー）",
-    links: [
-      { label: "配布ページ", href: "https://labphonlab.github.io/praat_ja/" },
-      { label: "ソースコード", href: "https://github.com/labphonlab/praat_ja" },
-    ],
     note: "本ソフトは非公式プロジェクトです。Praat の開発者（Paul Boersma・David Weenink／アムステルダム大学）および公式 Praat プロジェクトとは無関係で、公式の承認・推奨を受けたものではありません。",
     support: [
       "Praat 本体は同梱していません。初回起動時に公式配布元から自動で取得するため、初回のみインターネット接続が必要です。取得に失敗する場合は、通信環境とセキュリティソフトの設定をご確認ください。",
@@ -60,10 +55,6 @@ export const released: Product[] = [
     detail:
       "F1・F2 を入力すると、IPA基本母音の台形を背景に、参照話者（灰）と自分の測定値（赤）を同一平面へ描画します。目盛りは Bark 尺度（Traunmüller 1990）で、PNG・CSV に書き出せます。4言語版は英語・韓国語・中国語（普通話）・日本語の参照値を切り替えられます。",
     platforms: "ブラウザ（インストール不要）",
-    links: [
-      { label: "4言語版を開く", href: "https://labphonlab.github.io/vowel-chart-4lang/" },
-      { label: "英語版を開く", href: "https://labphonlab.github.io/vowel-chart/" },
-    ],
     support: [
       "入力値と作図結果はブラウザ内だけで処理され、送信も保存もされません。ページを閉じると消えるため、必要な結果は PNG または CSV に書き出してください。",
       "二重母音（eɪ, aʊ, oʊ）は前半部分（onset）の F1・F2 を入力してください。",
@@ -79,10 +70,6 @@ export const released: Product[] = [
     detail:
       "連続体上の刺激に対する二肢強制選択の反応と反応時間を記録し、ステップごとの反応率曲線・平均反応時間をその場で作図、CSV に書き出します。授業でのデモや小規模な実験に使えます。",
     platforms: "ブラウザ（インストール不要）",
-    links: [
-      { label: "アプリを開く", href: "https://labphonlab.github.io/go-on-lab/" },
-      { label: "ソースコード", href: "https://github.com/labphonlab/go-on-lab" },
-    ],
     support: [
       "音声の提示は行いません。実験者が別途提示した刺激に対する反応と反応時間だけを記録します。",
       "反応はブラウザ内に保持されます。終了後に必ず CSV を書き出してください。書き出す前にページを閉じるか再読み込みすると、その回のデータは失われます。",
@@ -190,5 +177,74 @@ export const datasets: Dataset[] = [
     summary:
       "L2英語の音声語彙認識において、頻度・音素配列確率・語彙競合リスク・音声的不安定性から語の重要度を捉える研究。内容語 2,996 語の派生指標データセットを公開しています（原コーパスは再配布していません）。",
     href: "https://github.com/labphonlab/L2_Lexical_Importance",
+  },
+];
+
+/**
+ * 出版している書籍・電子書籍。
+ *
+ * 分野ごとの紹介にとどめ、個別の販売リンクは置かない（ソフトウェアと同じ方針）。
+ * 代表的な書名だけを挙げる。刊行が増えたらここに足す。
+ */
+export type BookArea = {
+  id: string;
+  area: string;
+  summary: string;
+  titles: string[];
+};
+
+export const bookAreas: BookArea[] = [
+  {
+    id: "phonetics",
+    area: "音声学・言語学",
+    summary:
+      "音響分析の道具を実際に動かせるようになることを目的とした実践書と、音声学・音韻論の体系をたどる概説書。Praat・Parselmouth を用いた測定手順、実験音韻論の設計、日本語・英語それぞれの音声体系を扱います。",
+    titles: [
+      "音声学概説 —— 声のしくみから音声AIまで",
+      "実践音声研究法",
+      "Praatによる音声研究の方法",
+      "PraatとParselmouthによる音声処理入門",
+      "実験音韻論の方法",
+      "日本語音声学の基礎",
+      "英語音声学・音韻論",
+      "相互行為音声学",
+    ],
+  },
+  {
+    id: "english",
+    area: "英語教育・語学教材",
+    summary:
+      "文法を項目の羅列ではなく構造として説明する概説書と、CEFR に沿って積み上げる教材。語彙習得については、なぜ覚えられないのかという認知の側から扱っています。",
+    titles: [
+      "英文法概論 —— 構造と体系",
+      "英語科教育法",
+      "外国語の単語はなぜ覚えられないのか",
+      "A2–B1 教科書",
+      "My First Step Abroad",
+    ],
+  },
+  {
+    id: "japanese",
+    area: "日本語教育",
+    summary:
+      "登録日本語教員の試験対策と、日本語教師が必要とする言語学の基礎。現場で説明を求められる項目から逆算して構成しています。",
+    titles: [
+      "日本語教員試験 完全対策",
+      "日本語教師のための言語学",
+      "日本語教師のための日本語音声学",
+    ],
+  },
+  {
+    id: "general",
+    area: "一般書",
+    summary:
+      "言語・社会・技術が交わるところを、専門外の読者に向けて書いたもの。音声合成と詐欺、移民と共生、AIと労働など、いま判断を迫られている主題を扱います。",
+    titles: [
+      "クローン音声AIと詐欺の科学",
+      "移民国家日本 —— 共生は可能か",
+      "AI時代に消える仕事・残る仕事",
+      "分断の日本社会",
+      "となりの国から来たわたし",
+    ],
   },
 ];

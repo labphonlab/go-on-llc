@@ -21,7 +21,9 @@
 - **独自ドメインは2か所で管理**：`public/CNAME` と `astro.config.mjs` の `site`。変更時は両方直す。現在は `goonresearch.jp`。
 - **内部リンクは必ず `u()`（`src/lib/url.ts`）を通す**。素の `/about` はプロジェクトパス公開（`/go-on-llc/`）で404になる。`astro.config.mjs` は `SITE_URL` / `SITE_BASE` 環境変数で2通りのデプロイ先に対応する。
 - **掲載プロダクト・公開データの真実源は `src/data/catalog.ts`**。index / products / tools / support はここを読む。状態変更は1か所だけ直す。`status` は `released`（今すぐ入手できる）と `development`（未公開）の2値で、開発中のものを「公開中」と書かない。
-- **未完成・開発途中のものは公開しない**。まだ無い機能・ツール・刊行物の予告（「今後追加予定」「準備しています」）を書かないだけでなく、開発中の製品そのものをサイトに出さない。`catalog.ts` の `status: "development"` の項目はどのページからもレンダリングしていない（公開待ちの控え）。公開できるようになった時点で `released` へ移す。
+- **未完成・開発途中のものは公開しない**。まだ無い機能・ツール・刊行物の予告（「今後追加予定」「準備しています」）を書かないだけでなく、開発中の製品そのものをサイトに出さない。`catalog.ts` の `status: "development"` の項目はどのページからもレンダリングしていない（公開待ちの控え）。
+- **ソフトウェアはサイトから配布しない**。`catalog.ts` の `tools` は内容の紹介にとどめ、入手先へのリンクを持たせない。利用希望は問い合わせで受ける。書籍も同様に分野別の紹介のみで、販売リンクは置かない。
+- **手書きCSSは必ず `@layer base` / `@layer components` に入れる**。レイヤー外に書くと、レイヤー内の Tailwind ユーティリティを常に上書きしてしまい、`<a>` に `text-muted` や `text-paper` を当てても効かなくなる（実際にこれで問い合わせボタンの文字が消えた）。
 - UIコピーは日本語。`<html lang="ja">`。アクセシビリティの床（キーボードフォーカス可視・`prefers-reduced-motion` 尊重・スキップリンク）を維持。
 
 ## デザイントークン（`src/styles/global.css` の `@theme`）
@@ -33,16 +35,25 @@
 ## ディレクトリ
 
 ```
-src/pages/      index / products / tools / research / support / about / contact / legal / 404
+src/pages/      index / products / books / research / support / about / legal / 404
+                contact/index.astro, contact/thanks.astro
                 sitemap.xml.ts, robots.txt.ts（動的生成のエンドポイント）
 src/layouts/    BaseLayout.astro（head・OGP・JSON-LD・フォント・Header/Footer）
-src/components/ Header.astro, Footer.astro
-src/components/islands/  VowelChart.tsx, Spectrogram.tsx
-src/data/       catalog.ts（プロダクト・公開データの真実源）
+src/components/ Header.astro, Footer.astro, PageHeader.astro（下層ページ共通の導入部）
+src/components/islands/  SupportForm.tsx（問い合わせ）
+                         VowelChart.tsx, Spectrogram.tsx（現在どこからも読んでいない）
+src/data/       catalog.ts（tools / inDevelopment / datasets / bookAreas の真実源）
 src/lib/        url.ts（base対応の内部リンク）
-scripts/        build_og.py（public/og.png の生成）
+scripts/        build_og.py, check-links.mjs, health-check.mjs
 public/         CNAME, favicon.svg, og.png
 ```
+
+## タイポグラフィ
+
+- 本文は 17px（`--text-base`）。和文は欧文より小さく見えるため Tailwind 既定より一段大きい。副次テキストも `text-sm`（15px）までにとどめ、説明文を 14px に落とさない。
+- 見出しは `palt` で詰めたうえで `letter-spacing: 0.015em` を戻す。本文にも 0.012em の浅いトラッキング。
+- 明朝は Newsreader（欧文）＋ Noto Serif JP（和文）。和文明朝をOSのフォールバック任せにしない。
+- 主要ボタンは墨色（`bg-ink` / `text-paper`）。teal・amber は島の中と注記に限る。
 
 ## コマンド
 
@@ -77,6 +88,7 @@ python3 scripts/build_og.py   # OGP画像を作り直す（macOSのシステム�
 - `.github/workflows/ci.yml` — main 以外への push と PR で、2通りの配信先どちらでもビルドが通り、リンクが切れていないことを確かめる。
 - `.github/workflows/deploy.yml` — main への push で本番へ自動デプロイ。**現在は暫定でプロジェクトURL向け**（先頭コメントに独自ドメインへ戻す手順あり）。
 - `.github/workflows/monitor.yml` — 毎日 07:00 JST に公開中のサイトを外から確認する。全ページの200確認・外部リンクの生存確認・独自ドメインの向き先確認を行い、異常があれば `site-monitor` ラベルの Issue を立て、復旧したら自動でクローズする。
+- 問い合わせの受付そのものも自動化してある。`SupportForm.tsx` が用件に応じて項目を出し分け、動作環境を `navigator` から自動入力し、件名（`_subject`）を用件と製品から組み立てる。受信箱の時点で仕分けでき、再現手順が揃った状態で届く。サポートページのFAQは絞り込み付きで、`/support#purchase` のような直リンクでその項目が開く。
 - 手元で同じ検査を回す:
 
 ```bash

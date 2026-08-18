@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { u } from "../lib/url";
-import { released, datasets } from "../data/catalog";
+import { tools, datasets } from "../data/catalog";
 
 const services = [
   {
@@ -32,22 +32,44 @@ const services = [
 ---
 
 <BaseLayout>
-  <!-- Hero: the name itself is the field. 語音 = "speech sound". -->
-  <section class="mx-auto max-w-5xl px-5 pt-24 pb-20 sm:pt-36 sm:pb-24">
-    <p class="text-xs uppercase tracking-[0.25em] text-muted">go-on llc</p>
+  <!--
+    Hero: 社名そのものが事業領域なので、辞書の見出し語のかたちで見せる。
+    見出し語 → 読み・音声表記・語義 の3段組は、そのまま会社の説明になる。
+  -->
+  <section class="mx-auto max-w-5xl px-5 pt-16 pb-20 sm:pt-24 sm:pb-24">
+    <p class="eyebrow">go-on llc</p>
+
     <h1
-      class="mt-7 font-display text-5xl font-medium leading-[0.95] tracking-tight text-ink sm:text-6xl"
+      class="mt-8 font-display font-medium leading-[0.85] tracking-tight text-ink"
+      style="font-size: var(--text-hero)"
     >
       語音
     </h1>
-    <p class="ipa mt-5 text-xl text-muted sm:text-2xl">
-      speech&nbsp;sound <span class="text-line">·</span> /ɡo.oɴ/
-    </p>
 
-    <p class="mt-14 max-w-2xl font-display text-2xl leading-snug text-ink sm:text-3xl">
+    <dl
+      class="mt-8 flex flex-wrap items-baseline gap-x-7 gap-y-2 border-t border-line pt-5 text-base sm:text-lg"
+    >
+      <div>
+        <dt class="sr-only">読み</dt>
+        <dd class="text-muted">ごおん</dd>
+      </div>
+      <div>
+        <dt class="sr-only">音声表記</dt>
+        <dd class="ipa text-ink">/ɡo.oɴ/</dd>
+      </div>
+      <div>
+        <dt class="sr-only">語義</dt>
+        <dd class="ipa text-muted">speech sound</dd>
+      </div>
+    </dl>
+
+    <p
+      class="mt-14 max-w-2xl font-display leading-[1.35] text-ink"
+      style="font-size: var(--text-lead)"
+    >
       音声・言語・教育を、<wbr />研究と実践でつなぐ。
     </p>
-    <p class="mt-6 max-w-xl text-base leading-relaxed text-muted">
+    <p class="mt-6 max-w-xl leading-relaxed text-muted">
       合同会社語音は、音声・言語・教育・情報技術を軸に、研究・教育・コンテンツ制作を行う法人です。研究で得た知見をソフトウェアと教材のかたちにし、その土台となったデータと解析コードを公開しています。
     </p>
 
@@ -73,108 +95,115 @@ const services = [
     </div>
   </section>
 
-  <!-- What you can actually use today. -->
-  <section class="mx-auto max-w-5xl px-5 py-16 sm:py-20">
-    <div class="border-t border-line pt-10">
-      <h2 class="text-xs uppercase tracking-[0.25em] text-muted">公開中</h2>
-      <p class="mt-4 max-w-2xl font-display text-2xl leading-snug text-ink">
-        いま使えるもの
-      </p>
-      <div class="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-3">
+  <!-- いま使えるもの -->
+  <section class="mx-auto max-w-5xl px-5 pb-24">
+    <div class="border-t border-line pt-12">
+      <div class="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+        <h2 class="eyebrow">プロダクト</h2>
+        <a
+          href={u("/products")}
+          class="text-sm text-muted no-underline transition-colors hover:text-ink"
+          >すべて見る →</a
+        >
+      </div>
+
+      <div class="mt-8 grid gap-4 sm:grid-cols-3">
         {
-          released.map((p) => (
-            <div>
-              <h3 class="font-display text-lg text-ink">{p.name}</h3>
-              <p class="mt-1 text-xs text-muted">{p.kind}</p>
-              <p class="mt-2 text-sm leading-relaxed text-muted">{p.summary}</p>
-              {p.links?.[0] && (
+          tools.map((p) => (
+            <a href={u("/products")} class="card flex flex-col gap-2 p-7 no-underline">
+              <p class="text-xs text-muted">{p.kind}</p>
+              <h3 class="font-display text-lg leading-snug text-ink">
+                {p.name}
+              </h3>
+              <p class="leading-relaxed text-muted">{p.summary}</p>
+              <p class="mt-auto pt-3 text-sm font-medium text-ink">
+                詳しく見る <span aria-hidden="true">→</span>
+              </p>
+            </a>
+          ))
+        }
+      </div>
+
+      <p class="mt-8 text-sm text-muted">
+        いずれもサイトからの一般配布は行っていません。ご利用のご希望は<a
+          href={u("/contact")}>お問い合わせ</a
+        >ください。
+      </p>
+    </div>
+  </section>
+
+  <!-- 事業内容 -->
+  <section id="services" class="mx-auto max-w-5xl px-5 pb-24 scroll-mt-24">
+    <div class="border-t border-line pt-12">
+      <h2 class="eyebrow">事業内容</h2>
+      <div class="mt-8">
+        {
+          services.map((s, i) => (
+            <div class="row grid grid-cols-[2.5rem_1fr] gap-x-4 py-7 sm:grid-cols-[4rem_1fr] sm:gap-x-8">
+              <span class="ipa pt-1.5 text-sm text-muted">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h3 class="font-display text-xl leading-snug text-ink">{s.t}</h3>
+                <p class="mt-2 max-w-2xl leading-relaxed text-muted">
+                  {s.d}
+                </p>
                 <a
-                  href={p.links[0].href}
-                  class="mt-3 inline-block text-sm font-medium text-ink no-underline underline-offset-[6px] hover:underline"
+                  href={u(s.href)}
+                  class="mt-3 inline-block text-sm text-muted no-underline underline-offset-[7px] transition-colors hover:text-ink hover:underline"
                 >
-                  {p.links[0].label} <span aria-hidden="true">→</span>
+                  {s.cta} <span aria-hidden="true">→</span>
                 </a>
-              )}
+              </div>
             </div>
           ))
         }
       </div>
-      <p class="mt-10 text-sm text-muted">
-        詳しい説明と動作環境は<a href={u("/products")}>プロダクト</a>に、
-        サイト内でそのまま動かせるデモは<a href={u("/tools")}>ツール</a>にあります。
-      </p>
     </div>
   </section>
 
-  <!-- Services -->
-  <section id="services" class="mx-auto max-w-5xl px-5 py-16 sm:py-20">
-    <h2 class="text-xs uppercase tracking-[0.25em] text-muted">事業内容</h2>
-    <div class="mt-8 border-t border-line">
-      {
-        services.map((s, i) => (
-          <div class="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-line py-7 sm:grid-cols-[4rem_1fr] sm:gap-x-8">
-            <span class="ipa pt-1 text-sm text-muted">
-              {String(i + 1).padStart(2, "0")}
-            </span>
-            <div>
-              <h3 class="font-display text-xl text-ink">{s.t}</h3>
-              <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
-                {s.d}
-              </p>
-              <a
-                href={u(s.href)}
-                class="mt-3 inline-block text-sm text-muted no-underline underline-offset-[6px] transition-colors hover:text-ink hover:underline"
-              >
-                {s.cta} <span aria-hidden="true">→</span>
-              </a>
-            </div>
-          </div>
-        ))
-      }
-    </div>
-  </section>
+  <!-- 研究・サポート -->
+  <section class="mx-auto max-w-5xl px-5 pb-28">
+    <div class="grid gap-10 border-t border-line pt-12 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <p class="ipa text-sm text-muted">[ ɹɪˈsɜːtʃ ]</p>
+        <h2 class="mt-2 font-display text-2xl leading-snug text-ink">
+          研究とデータ公開
+        </h2>
+        <p class="mt-4 leading-relaxed text-muted">
+          自発音声コーパスを用いた韻律・語彙・第二言語音声の研究を行い、論文に伴う集計データと解析コードを{
+            datasets.length
+          }件のリポジトリで公開しています。プロダクトの設計はここでの知見を土台にしています。
+        </p>
+        <a
+          href={u("/research")}
+          class="group mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink no-underline"
+          >研究を見る
+          <span
+            class="text-muted transition-transform group-hover:translate-x-0.5"
+            >→</span
+          ></a
+        >
+      </div>
 
-  <!-- Research -->
-  <section class="mx-auto max-w-5xl px-5 py-16">
-    <div class="border-t border-line pt-10">
-      <p class="ipa text-sm text-muted">[ ɹɪˈsɜːtʃ ]</p>
-      <h2 class="mt-2 max-w-2xl font-display text-2xl text-ink sm:text-3xl">
-        研究とデータ公開
-      </h2>
-      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-        自発音声コーパスを用いた韻律・語彙・第二言語音声の研究を行い、論文に伴う集計データと解析コードを{
-          datasets.length
-        }件のリポジトリで公開しています。プロダクトの設計はここでの知見を土台にしています。
-      </p>
-      <a
-        href={u("/research")}
-        class="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink no-underline"
-        >研究を見る
-        <span class="text-muted transition-transform group-hover:translate-x-0.5"
-          >→</span
-        ></a
-      >
-    </div>
-  </section>
-
-  <!-- Support -->
-  <section class="mx-auto max-w-5xl px-5 pb-24 sm:pb-28">
-    <div class="border-t border-line pt-10">
-      <p class="ipa text-sm text-muted">[ səˈpɔːt ]</p>
-      <h2 class="mt-2 max-w-2xl font-display text-2xl text-ink sm:text-3xl">
-        サポート
-      </h2>
-      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-        当社プロダクトについてのご質問、不具合のご報告、ご要望をお受けします。製品ごとの注意点、動作環境、データの取り扱いもサポートページにまとめています。
-      </p>
-      <a
-        href={u("/support")}
-        class="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink no-underline"
-        >サポートを見る
-        <span class="text-muted transition-transform group-hover:translate-x-0.5"
-          >→</span
-        ></a
-      >
+      <div>
+        <p class="ipa text-sm text-muted">[ səˈpɔːt ]</p>
+        <h2 class="mt-2 font-display text-2xl leading-snug text-ink">
+          サポート
+        </h2>
+        <p class="mt-4 leading-relaxed text-muted">
+          当社プロダクトについてのご質問、不具合のご報告、ご要望をお受けします。製品ごとの注意点、動作環境、データの取り扱いもサポートページにまとめています。
+        </p>
+        <a
+          href={u("/support")}
+          class="group mt-5 inline-flex items-center gap-2 text-sm font-medium text-ink no-underline"
+          >サポートを見る
+          <span
+            class="text-muted transition-transform group-hover:translate-x-0.5"
+            >→</span
+          ></a
+        >
+      </div>
     </div>
   </section>
 </BaseLayout>
