@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { u } from "../lib/url";
-import { released, inDevelopment, datasets } from "../data/catalog";
+import { released, datasets } from "../data/catalog";
 
 const services = [
   {
@@ -100,7 +100,7 @@ const services = [
         }
       </div>
       <p class="mt-10 text-sm text-muted">
-        このほか <a href={u("/products")}>{inDevelopment.length}件のプロダクトを開発中</a>です。
+        詳しい説明と動作環境は<a href={u("/products")}>プロダクト</a>に、
         サイト内でそのまま動かせるデモは<a href={u("/tools")}>ツール</a>にあります。
       </p>
     </div>
@@ -165,7 +165,7 @@ const services = [
         サポート
       </h2>
       <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-        公開中・開発中を問わず、当社プロダクトについてのご質問、不具合のご報告、ご要望をお受けします。動作環境やデータの取り扱いもサポートページにまとめています。
+        当社プロダクトについてのご質問、不具合のご報告、ご要望をお受けします。製品ごとの注意点、動作環境、データの取り扱いもサポートページにまとめています。
       </p>
       <a
         href={u("/support")}

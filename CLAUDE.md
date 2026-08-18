@@ -21,7 +21,7 @@
 - **独自ドメインは2か所で管理**：`public/CNAME` と `astro.config.mjs` の `site`。変更時は両方直す。現在は `goonresearch.jp`。
 - **内部リンクは必ず `u()`（`src/lib/url.ts`）を通す**。素の `/about` はプロジェクトパス公開（`/go-on-llc/`）で404になる。`astro.config.mjs` は `SITE_URL` / `SITE_BASE` 環境変数で2通りのデプロイ先に対応する。
 - **掲載プロダクト・公開データの真実源は `src/data/catalog.ts`**。index / products / tools / support はここを読む。状態変更は1か所だけ直す。`status` は `released`（今すぐ入手できる）と `development`（未公開）の2値で、開発中のものを「公開中」と書かない。
-- **未完成のものを「予定」として載せない**。まだ無い機能・ツール・刊行物の予告（「今後追加予定」「準備しています」）は書かない。開発中の製品は、サポート窓口の対象として `/support` に名前を出すにとどめる。
+- **未完成・開発途中のものは公開しない**。まだ無い機能・ツール・刊行物の予告（「今後追加予定」「準備しています」）を書かないだけでなく、開発中の製品そのものをサイトに出さない。`catalog.ts` の `status: "development"` の項目はどのページからもレンダリングしていない（公開待ちの控え）。公開できるようになった時点で `released` へ移す。
 - UIコピーは日本語。`<html lang="ja">`。アクセシビリティの床（キーボードフォーカス可視・`prefers-reduced-motion` 尊重・スキップリンク）を維持。
 
 ## デザイントークン（`src/styles/global.css` の `@theme`）
@@ -60,14 +60,13 @@ python3 scripts/build_og.py   # OGP画像を作り直す（macOSのシステム�
 
 ## 既存の実コンテンツ（勝手に変えない）
 
-- 会社概要：合同会社語音／所在地 東京都豊島区／代表社員 石原 健
+- 会社概要：合同会社語音／〒170-0012 東京都豊島区上池袋4-10-8-709／電話 070-9481-0649／代表社員 石原 健
 - お問い合わせ：`src/pages/contact.astro` は Formspree `https://formspree.io/f/mvgeylky` に POST
 - 特商法（簡易）・プライバシー（要約）は `src/pages/legal.astro`
 
 ## 今後のタスク（着手順の目安）
 
 1. **独自ドメインの開通**（未了・最優先）。`goonresearch.jp` は登録済み・NSは `01〜04.dnsv.jp` だが、Aレコード未設定のため名前解決しない。現状の公開URLは `https://labphonlab.github.io/go-on-llc/`。お名前.com Navi の DNSレコード設定で GitHub Pages の A 4本（185.199.108〜111.153）と `www` の CNAME を追加し、GitHub 側の Settings → Pages → Custom domain を設定する。
-2. 特商法表記の住所・電話番号（現在は「請求があれば開示」で運用）を、実際に販売を開始する時点で確定させる。
 3. IPA子音チャート（pulmonic）を island 化。
 4. フォルマント分析ツール。
 5. プロダクトが App Store で公開されたら `src/data/catalog.ts` の `status` を `released` にし、ストアURLを `links` に追加する。

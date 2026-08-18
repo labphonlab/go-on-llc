@@ -91,7 +91,13 @@ export const released: Product[] = [
   },
 ];
 
-/** 開発中のプロダクト（サポート窓口を先に用意しておくもの） */
+/**
+ * 開発中のプロダクト。
+ *
+ * **サイトには出さない。** 未完成・開発途中のものは積極的に公開しない方針のため、
+ * どのページからもレンダリングしていない。ここは公開待ちの控えとして持っておき、
+ * 実際に公開できるようになった時点で `released` へ移し、`links` に入手先を足す。
+ */
 export const inDevelopment: Product[] = [
   {
     id: "speechlab",
@@ -138,8 +144,6 @@ export const inDevelopment: Product[] = [
     platforms: "iOS",
   },
 ];
-
-export const allProducts = [...released, ...inDevelopment];
 
 /** 論文に伴って公開しているデータ・解析コード */
 export type Dataset = {

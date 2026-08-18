@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { u } from "../lib/url";
-import { released, inDevelopment } from "../data/catalog";
+import { released } from "../data/catalog";
 
 /** 不具合報告に必要な情報。contact ページからも参照される。 */
 const reportItems = [
@@ -38,7 +38,7 @@ const faq = [
 
 <BaseLayout
   title="サポート"
-  description="合同会社語音の製品サポート。Praat JA・母音フォルマントチャート・音声知覚識別課題アプリの使い方と注意点、不具合の報告方法、購入・返金、データの取り扱いについて。"
+  description="合同会社語音の製品サポート。Praat JA・母音フォルマントチャート・音声知覚識別課題アプリの使い方と注意点、不具合の報告方法、データの取り扱いについて。"
 >
   <section class="mx-auto max-w-3xl px-5 pt-16 pb-12">
     <p class="text-xs uppercase tracking-[0.25em] text-muted">support</p>
@@ -46,7 +46,7 @@ const faq = [
       サポート
     </h1>
     <p class="mt-5 leading-relaxed text-muted">
-      当社の製品についてのご質問、不具合のご報告、ご要望をお受けします。個人・法人を問わず、また購入の有無にかかわらずご利用いただけます。対応言語は日本語および英語です。
+      当社の製品についてのご質問、不具合のご報告、ご要望をお受けします。個人・法人を問わずご利用いただけます。対応言語は日本語および英語です。
     </p>
 
     <div class="mt-8 rounded-xl border border-line bg-white/60 p-6 sm:p-8">
@@ -121,27 +121,6 @@ const faq = [
           </article>
         ))
       }
-    </div>
-  </section>
-
-  <section class="mx-auto max-w-3xl px-5 pb-16">
-    <div class="border-t border-line pt-10">
-      <h2 class="font-display text-2xl text-ink">開発中の製品について</h2>
-      <p class="mt-4 text-sm leading-relaxed text-muted">
-        次の製品は開発中で、まだ入手いただけません。公開の見込み、仕様、先行テストへの参加については、製品名を添えて<a
-          href={u("/contact")}>お問い合わせ</a
-        >ください。公開後は本ページに使い方と注意点を追加します。
-      </p>
-      <ul class="mt-6 grid gap-2 text-sm">
-        {
-          inDevelopment.map((p) => (
-            <li class="grid grid-cols-[1fr_auto] gap-4 border-b border-line py-2.5">
-              <span class="text-ink">{p.name}</span>
-              <span class="text-muted">{p.platforms}</span>
-            </li>
-          ))
-        }
-      </ul>
     </div>
   </section>
 

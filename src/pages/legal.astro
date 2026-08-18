@@ -5,16 +5,14 @@ import { u } from "../lib/url";
 const tokushoho = [
   { k: "事業者名", v: "合同会社語音" },
   { k: "代表社員", v: "石原 健" },
-  { k: "所在地", v: "東京都豊島区" },
+  { k: "所在地", v: "〒170-0012 東京都豊島区上池袋4-10-8-709" },
+  { k: "電話番号", v: "070-9481-0649" },
   {
-    k: "電話番号",
-    v: "請求があった場合、遅滞なく開示いたします。お問い合わせフォームよりご請求ください。",
+    k: "お問い合わせ",
+    v: "本サイトの問い合わせフォーム",
+    href: "/contact",
+    hint: "内容の記録が残るため、お問い合わせはフォームからお願いしています。",
   },
-  {
-    k: "所在地の詳細",
-    v: "請求があった場合、遅滞なく開示いたします。",
-  },
-  { k: "お問い合わせ", v: "本サイトの問い合わせフォーム", href: "/contact" },
   {
     k: "販売価格",
     v: "各プロダクトの販売ページ（App Store 等）に表示します。",
@@ -58,6 +56,7 @@ const tokushoho = [
               <dt class="text-sm text-muted">{r.k}</dt>
               <dd class="text-sm leading-relaxed text-ink">
                 {r.href ? <a href={u(r.href)}>{r.v}</a> : r.v}
+                {r.hint && <span class="block text-xs text-muted">{r.hint}</span>}
               </dd>
             </div>
           ))
