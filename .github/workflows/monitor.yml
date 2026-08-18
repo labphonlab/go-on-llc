@@ -1,0 +1,68 @@
+name: Site monitor
+
+# 公開中のサイトを外から毎日確認する。
+#   - sitemap.xml に載る全ページが 200 で返るか
+#   - 外部リンク（GitHub・配布ページ・Formspree 等）が生きているか
+#   - 独自ドメインが GitHub Pages を向き始めたか（切り替えの合図）
+# 異常があれば site-monitor ラベルの Issue を立てる（既にあればコメントを足す）。
+on:
+  schedule:
+    - cron: "0 22 * * *" # 毎日 07:00 JST
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      # 公開URL。deploy.yml の暫定設定に合わせている。独自ドメインへ戻すときは
+      # ここも https://goonresearch.jp/ に直す。
+      - name: Check the live site
+        id: health
+        env:
+          LIVE_URL: https://labphonlab.github.io/go-on-llc/
+        run: node scripts/health-check.mjs 2>&1 | tee health.log
+
+      - name: Check external links
+        if: always()
+        env:
+          SITE_URL: https://labphonlab.github.io
+          SITE_BASE: /go-on-llc/
+        run: |
+          npm run build
+          node scripts/check-links.mjs --external 2>&1 | tee -a health.log
+
+      - name: Report failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          body="$(printf 'サイト監視で異常を検出しました。\n\n```\n%s\n```\n\n実行ログ: %s\n' "$(tail -40 health.log)" "$RUN_URL")"
+          existing="$(gh issue list --label site-monitor --state open --limit 1 --json number --jq '.[0].number')"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --body "$body"
+          else
+            gh label create site-monitor --color B60205 --description "サイト監視の自動通知" 2>/dev/null || true
+            gh issue create --title "サイト監視: 異常を検出" --label site-monitor --body "$body"
+          fi
+
+      - name: Close the alert once healthy
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          existing="$(gh issue list --label site-monitor --state open --limit 1 --json number --jq '.[0].number')"
+          if [ -n "$existing" ]; then
+            gh issue close "$existing" --comment "監視が正常に戻ったため自動でクローズしました。"
+          fi

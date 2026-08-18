@@ -25,6 +25,8 @@ export type Product = {
   platforms: string;
   links?: { label: string; href: string }[];
   note?: string;
+  /** サポートページに出す、この製品固有の案内（共通FAQに書けないもの）。 */
+  support?: string[];
 };
 
 /** 公開済みソフトウェア・ツール */
@@ -43,6 +45,11 @@ export const released: Product[] = [
       { label: "ソースコード", href: "https://github.com/labphonlab/praat_ja" },
     ],
     note: "本ソフトは非公式プロジェクトです。Praat の開発者（Paul Boersma・David Weenink／アムステルダム大学）および公式 Praat プロジェクトとは無関係で、公式の承認・推奨を受けたものではありません。",
+    support: [
+      "Praat 本体は同梱していません。初回起動時に公式配布元から自動で取得するため、初回のみインターネット接続が必要です。取得に失敗する場合は、通信環境とセキュリティソフトの設定をご確認ください。",
+      "分析結果そのものに関する不具合は、まず公式版の Praat でも同じ結果になるかをご確認ください。公式版でも再現する場合、原因は Praat 本体側にあり、当社では対応できません。",
+      "macOS で「開発元を検証できません」と表示される場合は、Finder でアプリを右クリックして「開く」を選んでください。",
+    ],
   },
   {
     id: "vowel-chart",
@@ -56,6 +63,11 @@ export const released: Product[] = [
     links: [
       { label: "4言語版を開く", href: "https://labphonlab.github.io/vowel-chart-4lang/" },
       { label: "英語版を開く", href: "https://labphonlab.github.io/vowel-chart/" },
+    ],
+    support: [
+      "入力値と作図結果はブラウザ内だけで処理され、送信も保存もされません。ページを閉じると消えるため、必要な結果は PNG または CSV に書き出してください。",
+      "二重母音（eɪ, aʊ, oʊ）は前半部分（onset）の F1・F2 を入力してください。",
+      "参照値はいずれも文献由来の代表値です。話者個人の絶対値との一致ではなく、母音間の相対的な配置の比較にお使いください。",
     ],
   },
   {
@@ -71,6 +83,11 @@ export const released: Product[] = [
       { label: "アプリを開く", href: "https://labphonlab.github.io/go-on-lab/" },
       { label: "ソースコード", href: "https://github.com/labphonlab/go-on-lab" },
     ],
+    support: [
+      "音声の提示は行いません。実験者が別途提示した刺激に対する反応と反応時間だけを記録します。",
+      "反応はブラウザ内に保持されます。終了後に必ず CSV を書き出してください。書き出す前にページを閉じるか再読み込みすると、その回のデータは失われます。",
+      "刺激リストと選択肢は HTML 内の設定部分を書き換えて差し替えられます。改変して研究に用いていただいてかまいません。",
+    ],
   },
 ];
 
@@ -85,6 +102,9 @@ export const inDevelopment: Product[] = [
     detail:
       "録音・再生、波形、広帯域／狭帯域スペクトログラム、区間ラベリングを iPad 上で完結させます。解析はすべて端末内で実行し、音声データを外部へ送信しません。有料機能として、単語・文レベルの自動セグメンテーションと自動ラベリングを予定しています。",
     platforms: "iPadOS / iOS",
+    support: [
+      "音声の解析は端末内で完結し、録音した音声を当社サーバーへ送信しません。",
+    ],
   },
   {
     id: "gotan",

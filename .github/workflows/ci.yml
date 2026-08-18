@@ -1,0 +1,32 @@
+name: CI
+
+# 変更のたびに、2通りの配信先どちらでもビルドが通り、リンクが切れていないことを確かめる。
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+
+      - name: Build (独自ドメイン向け)
+        run: npm run build
+      - name: Check links
+        run: node scripts/check-links.mjs
+
+      - name: Build (プロジェクトURL向け)
+        env:
+          SITE_URL: https://labphonlab.github.io
+          SITE_BASE: /go-on-llc/
+        run: npm run build
+      - name: Check links
+        run: node scripts/check-links.mjs

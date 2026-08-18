@@ -1,22 +1,34 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Deploy on every push to main
   push:
     branches: [main]
-  # ...and allow manual runs from the Actions tab
   workflow_dispatch:
 
-# Permissions required to deploy to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow one concurrent deployment; cancel in-progress runs for the same group
 concurrency:
   group: "pages"
   cancel-in-progress: true
+
+# ---------------------------------------------------------------------------
+# 暫定設定：独自ドメイン goonresearch.jp は A レコード未設定で名前解決しないため、
+# GitHub Pages のプロジェクトURL（https://labphonlab.github.io/go-on-llc/）へ
+# 出しています。内部リンクが base 付きになるよう SITE_BASE を渡し、CNAME は
+# 同梱しません（CNAME を置くと GitHub が到達しない独自ドメインへ切り替えてしまう）。
+#
+# ▼ DNS が通ったら独自ドメインへ戻す手順
+#   1. 下の SITE_URL / SITE_BASE の2行を削除する（既定値が独自ドメイン向け）。
+#   2. 「Drop CNAME」ステップを削除する。
+#   3. GitHub の Settings → Pages → Custom domain に goonresearch.jp を設定し、
+#      Enforce HTTPS を有効にする。
+# ---------------------------------------------------------------------------
+env:
+  SITE_URL: https://labphonlab.github.io
+  SITE_BASE: /go-on-llc/
 
 jobs:
   build:
@@ -24,6 +36,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+
+      # 暫定：プロジェクトURL配信のあいだは独自ドメインを宣言しない
+      - name: Drop CNAME (serving from the project URL)
+        run: rm -f public/CNAME
+
       - name: Install, build, and upload your site
         uses: withastro/action@v6
         # with:

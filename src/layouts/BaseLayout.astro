@@ -9,6 +9,8 @@ interface Props {
   description?: string;
   /** Page title as-is; otherwise " | 合同会社語音" is appended. */
   rawTitle?: boolean;
+  /** 検索エンジンに載せないページ（404 など）。 */
+  noindex?: boolean;
 }
 
 const SITE_NAME = "合同会社語音";
@@ -19,6 +21,7 @@ const {
   title = "合同会社語音 | Go-on LLC — 音声・言語・教育",
   description = DEFAULT_DESCRIPTION,
   rawTitle = false,
+  noindex = false,
 } = Astro.props;
 
 const pageTitle = rawTitle || title.includes(SITE_NAME)
@@ -54,7 +57,7 @@ const organization = {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
     <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
     <link rel="sitemap" href={u("/sitemap.xml")} />
 

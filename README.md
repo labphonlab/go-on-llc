@@ -70,6 +70,22 @@ goonresearch-web/
 └── package.json
 ```
 
+## 自動化
+
+| ワークフロー | 起動 | 内容 |
+|---|---|---|
+| `ci.yml` | main 以外への push・PR | 2通りの配信先でビルド＋リンク切れ検査 |
+| `deploy.yml` | main への push | GitHub Pages へ自動デプロイ（現在は暫定でプロジェクトURL向け） |
+| `monitor.yml` | 毎日 07:00 JST | 公開中サイトの全ページ200確認・外部リンク確認・独自ドメインの向き先確認。異常時は Issue を作成し、復旧で自動クローズ |
+
+手元でも同じ検査を回せます。
+
+```bash
+npm run build && node scripts/check-links.mjs   # 内部リンク
+node scripts/check-links.mjs --external         # 外部リンクの生存確認も
+LIVE_URL=https://labphonlab.github.io/go-on-llc/ node scripts/health-check.mjs
+```
+
 ## 掲載内容の更新
 
 プロダクト一覧・公開データの一覧は `src/data/catalog.ts` に集約しています。ホーム・プロダクト・ツール・サポートの

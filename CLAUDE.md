@@ -21,6 +21,7 @@
 - **独自ドメインは2か所で管理**：`public/CNAME` と `astro.config.mjs` の `site`。変更時は両方直す。現在は `goonresearch.jp`。
 - **内部リンクは必ず `u()`（`src/lib/url.ts`）を通す**。素の `/about` はプロジェクトパス公開（`/go-on-llc/`）で404になる。`astro.config.mjs` は `SITE_URL` / `SITE_BASE` 環境変数で2通りのデプロイ先に対応する。
 - **掲載プロダクト・公開データの真実源は `src/data/catalog.ts`**。index / products / tools / support はここを読む。状態変更は1か所だけ直す。`status` は `released`（今すぐ入手できる）と `development`（未公開）の2値で、開発中のものを「公開中」と書かない。
+- **未完成のものを「予定」として載せない**。まだ無い機能・ツール・刊行物の予告（「今後追加予定」「準備しています」）は書かない。開発中の製品は、サポート窓口の対象として `/support` に名前を出すにとどめる。
 - UIコピーは日本語。`<html lang="ja">`。アクセシビリティの床（キーボードフォーカス可視・`prefers-reduced-motion` 尊重・スキップリンク）を維持。
 
 ## デザイントークン（`src/styles/global.css` の `@theme`）
@@ -72,8 +73,21 @@ python3 scripts/build_og.py   # OGP画像を作り直す（macOSのシステム�
 5. プロダクトが App Store で公開されたら `src/data/catalog.ts` の `status` を `released` にし、ストアURLを `links` に追加する。
 6. 決済・ログインが必要になった段階でバックエンド（`api.goonresearch.jp`）を分離。
 
+## 自動化
+
+- `.github/workflows/ci.yml` — main 以外への push と PR で、2通りの配信先どちらでもビルドが通り、リンクが切れていないことを確かめる。
+- `.github/workflows/deploy.yml` — main への push で本番へ自動デプロイ。**現在は暫定でプロジェクトURL向け**（先頭コメントに独自ドメインへ戻す手順あり）。
+- `.github/workflows/monitor.yml` — 毎日 07:00 JST に公開中のサイトを外から確認する。全ページの200確認・外部リンクの生存確認・独自ドメインの向き先確認を行い、異常があれば `site-monitor` ラベルの Issue を立て、復旧したら自動でクローズする。
+- 手元で同じ検査を回す:
+
+```bash
+npm run build && node scripts/check-links.mjs              # 内部リンク
+node scripts/check-links.mjs --external                    # 外部リンクも
+LIVE_URL=https://labphonlab.github.io/go-on-llc/ node scripts/health-check.mjs
+```
+
 ## 作業規約
 
-- 変更後は `npm run build` を通してから完了とする。
+- 変更後は `npm run build` と `node scripts/check-links.mjs` を通してから完了とする。
 - 依存を増やすときは island 内に閉じ込め、トップレベルJSを増やさない。
 - 大きめの変更は小さいコミットに分け、コミットメッセージは日本語可。
