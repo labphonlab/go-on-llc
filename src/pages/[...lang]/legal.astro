@@ -59,16 +59,8 @@ const authoritative = t(copy.authoritative, lang);
       </dl>
     </article>
 
-    <article id="privacy" class="mt-16 scroll-mt-28">
-      <h2 class="font-display leading-snug text-ink" style="font-size: var(--text-section-title)">{t(copy.privacyHeading, lang)}</h2>
-      {
-        copy.privacy.map((s) => (
-          <>
-            <h3 class="mt-8 font-display text-lg text-ink">{t(s.h, lang)}</h3>
-            <p class="mt-3 text-sm leading-relaxed text-muted">{t(s.p, lang)}</p>
-          </>
-        ))
-      }
-    </article>
+    <p class="mt-12 border-t border-line pt-6 text-sm text-muted">
+      <a href={u("/privacy", lang)}>{t(copy.privacyHeading, lang)}</a>
+    </p>
   </section>
 </BaseLayout>

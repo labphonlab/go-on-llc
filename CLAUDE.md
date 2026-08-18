@@ -23,6 +23,8 @@
 - **内部リンクは必ず `u()`（`src/lib/url.ts`）を通す**。素の `/about` はプロジェクトパス公開（`/go-on-llc/`）で404になる。`astro.config.mjs` は `SITE_URL` / `SITE_BASE` 環境変数で2通りのデプロイ先に対応する。
 - **掲載プロダクト・公開データの真実源は `src/data/catalog.ts`**。index / products / tools / support はここを読む。状態変更は1か所だけ直す。`status` は `released`（今すぐ入手できる）と `development`（未公開）の2値で、開発中のものを「公開中」と書かない。
 - **未完成・開発途中のものは公開しない**。まだ無い機能・ツール・刊行物の予告（「今後追加予定」「準備しています」）を書かないだけでなく、開発中の製品そのものをサイトに出さない。`catalog.ts` の `status: "development"` の項目はどのページからもレンダリングしていない（公開待ちの控え）。
+- **アプリが参照するURLは変えない**。SpeechLab のバイナリは設定画面から `https://goonresearch.jp/privacy/` と `https://goonresearch.jp/speechlab/` を開く。提出済みのため、サイト側をアプリに合わせる（逆はしない）。`/privacy` はプライバシーポリシーの正典ページ、`/speechlab` はアプリのサポートページ。
+- **`/speechlab` は未公開扱い**。ナビにもサイトマップにも載せず `noindex`。アプリと App Store 掲載からの直リンクでのみ到達する。App Store 公開後にこの扱いを見直す。
 - **ソフトウェアはサイトから配布しない**。`catalog.ts` の `tools` は内容の紹介にとどめ、入手先へのリンクを持たせない。利用希望は問い合わせで受ける。書籍も同様に分野別の紹介のみで、販売リンクは置かない。
 - **手書きCSSは必ず `@layer base` / `@layer components` に入れる**。レイヤー外に書くと、レイヤー内の Tailwind ユーティリティを常に上書きしてしまい、`<a>` に `text-muted` や `text-paper` を当てても効かなくなる（実際にこれで問い合わせボタンの文字が消えた）。
 - **日英2言語**。日本語が既定（`/`）、英語は `/en/`。ページは `src/pages/[...lang]/` の1ファイルで両言語を生成する（`getStaticPaths = localePaths`）。テンプレートを言語ごとに複製しない。

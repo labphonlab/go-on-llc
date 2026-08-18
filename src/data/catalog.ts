@@ -140,7 +140,7 @@ export const inDevelopment: Product[] = [
   {
     id: "speechlab",
     name: { ja: "SpeechLab", en: "SpeechLab" },
-    kind: { ja: "iPad／iPhone アプリ", en: "iPad / iPhone app" },
+    kind: { ja: "iPad アプリ", en: "iPad app" },
     status: "development",
     summary: {
       ja: "学生・語学教師のための音声分析アプリ。",
@@ -150,7 +150,7 @@ export const inDevelopment: Product[] = [
       ja: "録音・再生、波形、広帯域／狭帯域スペクトログラム、区間ラベリングを iPad 上で完結させます。解析はすべて端末内で実行し、音声データを外部へ送信しません。",
       en: "Recording and playback, waveform, wide- and narrow-band spectrograms, and interval labelling, all on the iPad. Analysis runs entirely on device; no audio leaves it.",
     },
-    platforms: { ja: "iPadOS / iOS", en: "iPadOS / iOS" },
+    platforms: { ja: "iPadOS 17.0 以降", en: "iPadOS 17.0 or later" },
     support: [
       {
         ja: "音声の解析は端末内で完結し、録音した音声を当社サーバーへ送信しません。",

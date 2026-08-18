@@ -1,0 +1,118 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import { u } from "../../lib/url";
+import { localePaths, ui, t, type Lang } from "../../i18n";
+import { speechlab as copy } from "../../i18n/pages";
+
+/*
+  アプリ内の設定画面と App Store 掲載のサポートURLが
+  https://goonresearch.jp/speechlab/ を指しているため、このパスで応じる。
+
+  未公開の製品を宣伝しない方針は保つ：ナビにもサイトマップにも載せず、
+  noindex にしてある。直リンクからのみ到達する。公開後にこの扱いを見直す。
+*/
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+---
+
+<BaseLayout
+  lang={lang}
+  path="/speechlab"
+  title={t(copy.title, lang)}
+  description={t(copy.lead, lang)}
+  noindex
+>
+  <PageHeader
+    eyebrow={copy.eyebrow}
+    title={t(copy.title, lang)}
+    lead={t(copy.lead, lang)}
+  />
+
+  <section class="container-prose pb-16">
+    <h2 class="eyebrow">{t(copy.specsHeading, lang)}</h2>
+    <dl class="mt-6 divide-y divide-line border-y border-line">
+      {
+        copy.specs.map((r) => (
+          <div class="grid grid-cols-[6rem_1fr] gap-4 py-3.5 sm:grid-cols-[9rem_1fr]">
+            <dt class="text-sm text-muted">{t(r.k, lang)}</dt>
+            <dd class="text-sm leading-relaxed text-ink">{t(r.v, lang)}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="container-prose pb-16">
+    <h2 class="eyebrow">{t(copy.featuresHeading, lang)}</h2>
+
+    <div class="mt-6 grid gap-5">
+      <div class="card p-7 sm:p-9">
+        <h3 class="font-display text-lg text-ink">{t(copy.freeHeading, lang)}</h3>
+        <ul class="mt-4 grid gap-2 text-sm leading-relaxed text-muted">
+          {
+            copy.free.map((f) => (
+              <li class="grid grid-cols-[0.75rem_1fr] gap-x-2">
+                <span aria-hidden="true" class="text-line">—</span>
+                <span>{t(f, lang)}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="card p-7 sm:p-9">
+        <h3 class="font-display text-lg text-ink">{t(copy.proHeading, lang)}</h3>
+        <ul class="mt-4 grid gap-2 text-sm leading-relaxed text-muted">
+          {
+            copy.pro.map((f) => (
+              <li class="grid grid-cols-[0.75rem_1fr] gap-x-2">
+                <span aria-hidden="true" class="text-line">—</span>
+                <span>{t(f, lang)}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-4 text-sm leading-relaxed text-muted">{t(copy.proNote, lang)}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-prose pb-16">
+    <h2 class="eyebrow">{t(copy.dataHeading, lang)}</h2>
+    <div class="mt-6 grid gap-4">
+      {copy.data.map((d) => <p class="leading-relaxed text-muted">{t(d, lang)}</p>)}
+    </div>
+    <p class="mt-6 text-sm text-muted">
+      <a href={u("/privacy", lang)}>
+        {lang === "ja" ? "プライバシーポリシー" : "Privacy policy"}
+      </a>
+    </p>
+  </section>
+
+  <section class="container-prose pb-16">
+    <h2 class="eyebrow">{t(copy.faqHeading, lang)}</h2>
+    <dl class="mt-6 border-t border-line">
+      {
+        copy.faq.map((item) => (
+          <div class="row py-6">
+            <dt class="font-display text-lg leading-snug text-ink">{t(item.q, lang)}</dt>
+            <dd class="mt-2 text-sm leading-relaxed text-muted">{t(item.a, lang)}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="container-prose pb-24">
+    <div class="card p-7 sm:p-9">
+      <h2 class="font-display text-xl text-ink">{t(copy.contactHeading, lang)}</h2>
+      <p class="mt-3 leading-relaxed text-muted">{t(copy.contactBody, lang)}</p>
+      <a
+        href={u("/contact", lang)}
+        class="mt-7 inline-block rounded-md bg-ink px-6 py-3 text-sm font-medium text-paper no-underline transition-opacity hover:opacity-85"
+        >{t(ui.contactCta, lang)}</a
+      >
+    </div>
+  </section>
+</BaseLayout>

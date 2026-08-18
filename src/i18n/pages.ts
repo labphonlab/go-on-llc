@@ -255,7 +255,7 @@ export const support = {
         ja: "送信しません。音声分析アプリの解析は端末内で完結し、Webツールの入力値・読み込んだ音声ファイル・測定結果はブラウザ内だけで処理されます。当社は閲覧者を追跡するCookieやアクセス解析ツールも使用していません。",
         en: "No. Analysis in our speech applications completes on your device, and in the web tools the values you enter, the audio you load and the results are processed entirely in the browser. We also use no tracking cookies and no analytics.",
       },
-      link: { label: { ja: "プライバシーポリシーを見る", en: "Read the privacy policy" }, href: "/legal#privacy" },
+      link: { label: { ja: "プライバシーポリシーを見る", en: "Read the privacy policy" }, href: "/privacy" },
     },
     {
       id: "data-loss",
@@ -597,4 +597,115 @@ export const form = {
     },
     { ja: "その他", en: "Other", needsProduct: false, needsRepro: false },
   ],
+} as const;
+
+/**
+ * SpeechLab のサポートページ。
+ *
+ * アプリ内の設定画面と App Store 掲載のサポートURLが
+ * `https://goonresearch.jp/speechlab/` を指しているため、そのパスで応じる。
+ * 未公開の製品を宣伝しない方針は保つので、ナビにもサイトマップにも載せず、
+ * noindex にしている（直リンクからのみ到達する）。
+ */
+export const speechlab = {
+  eyebrow: "speechlab",
+  title: { ja: "SpeechLab サポート", en: "SpeechLab Support" },
+  lead: {
+    ja: "iPad 向けの音声分析アプリ SpeechLab のサポートページです。使い方、動作環境、データの取り扱い、不具合のご報告について記載しています。",
+    en: "Support for SpeechLab, a speech analysis app for iPad. How it works, what it runs on, how data is handled, and how to report a problem.",
+  },
+  specsHeading: { ja: "動作環境", en: "Requirements" },
+  specs: [
+    { k: { ja: "対応機種", en: "Device" }, v: { ja: "iPad", en: "iPad" } },
+    { k: { ja: "対応OS", en: "Operating system" }, v: { ja: "iPadOS 17.0 以降", en: "iPadOS 17.0 or later" } },
+    { k: { ja: "バージョン", en: "Version" }, v: { ja: "1.0", en: "1.0" } },
+    {
+      k: { ja: "対応言語", en: "Languages" },
+      v: {
+        ja: "日本語・英語・韓国語・中国語（簡体／繁体）・ドイツ語・スペイン語・フランス語・イタリア語・ポルトガル語・アラビア語・ヒンディー語",
+        en: "Japanese, English, Korean, Chinese (Simplified and Traditional), German, Spanish, French, Italian, Portuguese, Arabic, Hindi",
+      },
+    },
+  ],
+  featuresHeading: { ja: "機能", en: "Features" },
+  freeHeading: { ja: "無料で使えます", en: "Included" },
+  free: [
+    { ja: "録音と再生（範囲選択・ループ・再生速度の変更）", en: "Recording and playback, with range selection, looping and playback speed" },
+    { ja: "音声ファイルの読み込みと WAV 書き出し", en: "Importing audio files and exporting WAV" },
+    { ja: "波形（オシログラム）表示", en: "Waveform (oscillogram) display" },
+    { ja: "スペクトログラム（広帯域・狭帯域）", en: "Spectrogram, wide band and narrow band" },
+    { ja: "F0（ピッチ）トラック", en: "F0 (pitch) track" },
+    { ja: "フォルマントトラック", en: "Formant track" },
+    { ja: "母音図（F1×F2 プロット、IPA台形の重ね描き）", en: "Vowel chart (F1×F2 plot with the IPA quadrilateral overlaid)" },
+    { ja: "区間ラベリング（複数ティア・点ラベル、IPAキーボード付き）", en: "Interval labelling with multiple tiers and point labels, with an IPA keyboard" },
+    { ja: "TextGrid の読み書き", en: "Reading and writing TextGrid files" },
+    { ja: "図の書き出しと共有", en: "Exporting and sharing figures" },
+  ],
+  proHeading: { ja: "Pro（買い切りのアプリ内課金）", en: "Pro (a one-time in-app purchase)" },
+  pro: [
+    { ja: "自動セグメンテーションと自動ラベリング", en: "Automatic segmentation and labelling" },
+    { ja: "ピッチシフト（TD-PSOLA によるF0の書き換え）", en: "Pitch shift, rewriting F0 with TD-PSOLA" },
+  ],
+  proNote: {
+    ja: "Pro は買い切りです。サブスクリプションではありません。購入すると同じ Apple Account の端末で利用でき、「購入を復元」から復元できます。",
+    en: "Pro is a one-time purchase, not a subscription. It applies to devices signed in to the same Apple Account and can be restored with “Restore Purchases”.",
+  },
+  dataHeading: { ja: "データの取り扱い", en: "How your data is handled" },
+  data: [
+    {
+      ja: "録音した音声とその解析結果は、すべて iPad の中で処理されます。当社のサーバーへ送信することはありません。アカウント登録もありません。",
+      en: "Recorded audio and its analysis are processed entirely on your iPad. Nothing is sent to our servers, and there is no account to create.",
+    },
+    {
+      ja: "マイクは録音時にのみ使用します。許可は iPad の「設定」からいつでも変更できます。",
+      en: "The microphone is used only while recording. You can change the permission at any time in the iPad Settings app.",
+    },
+    {
+      ja: "Pro の自動ラベリングを初めて実行するときに限り、音声認識モデル（約150MB）をインターネットから取得します。取得するのはモデルだけで、あなたの音声は送信されません。取得後は端末内に保存され、以降の処理はオフラインで完結します。",
+      en: "The first time you run Pro automatic labelling, the app downloads a speech recognition model (about 150 MB) over the internet. Only the model is downloaded — your audio is never uploaded. Once stored on the device, all later processing runs offline.",
+    },
+  ],
+  faqHeading: { ja: "よくあるご質問", en: "Frequently asked questions" },
+  faq: [
+    {
+      q: { ja: "iPhone でも使えますか。", en: "Does it run on iPhone?" },
+      a: {
+        ja: "現在は iPad 専用です。波形・スペクトログラム・ラベリングを同時に扱うには画面の広さが要るためです。",
+        en: "It is currently for iPad only. Showing the waveform, spectrogram and labelling together needs the screen area.",
+      },
+    },
+    {
+      q: { ja: "自動ラベリングが始まらない・途中で止まります。", en: "Automatic labelling won't start, or stops partway." },
+      a: {
+        ja: "初回はモデルの取得（約150MB）が必要です。Wi-Fi 接続と空き容量をご確認ください。進捗は画面上部に表示されます。取得が完了すれば、次回以降はオフラインで動作します。",
+        en: "The first run downloads a model of about 150 MB. Check your Wi-Fi connection and free storage; progress appears at the top of the screen. Once the download finishes, later runs work offline.",
+      },
+    },
+    {
+      q: { ja: "購入したのに Pro 機能が使えません。", en: "I purchased Pro but the features are locked." },
+      a: {
+        ja: "設定の「購入を復元」をお試しください。購入時と同じ Apple Account でサインインしている必要があります。それでも解決しない場合は、購入日時を添えてお問い合わせください。",
+        en: "Try “Restore Purchases” in the settings. You need to be signed in with the same Apple Account used for the purchase. If that does not help, write to us with the date and time of purchase.",
+      },
+    },
+    {
+      q: { ja: "返金してほしいのですが。", en: "How do I request a refund?" },
+      a: {
+        ja: "アプリ内課金の決済と返金は Apple が管理しています。reportaproblem.apple.com からお申し出ください。",
+        en: "Payment and refunds for in-app purchases are handled by Apple. Please request them at reportaproblem.apple.com.",
+      },
+    },
+    {
+      q: { ja: "書き出したファイルはどこに保存されますか。", en: "Where do exported files go?" },
+      a: {
+        ja: "共有シートから「ファイル」アプリや他のアプリへ保存できます。保存先はその場で選べます。",
+        en: "You choose the destination from the share sheet — the Files app or another app.",
+      },
+    },
+  ],
+  contactHeading: { ja: "不具合の報告・お問い合わせ", en: "Reporting a problem" },
+  contactBody: {
+    ja: "不具合のご報告には、アプリのバージョン、iPad の機種と iPadOS のバージョン、再現手順、期待した動作と実際に起きたことを添えてください。フォームではこれらの項目を順に表示します。",
+    en: "When reporting a problem, please include the app version, your iPad model and iPadOS version, the steps to reproduce, and what you expected versus what happened. The form asks for these in turn.",
+  },
 } as const;
