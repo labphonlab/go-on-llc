@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import { u } from "../../../lib/url";
+import { localePaths, ui, t, type Lang } from "../../../i18n";
+import { contact as copy } from "../../../i18n/pages";
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+---
+
+<BaseLayout
+  lang={lang}
+  path="/contact/thanks"
+  title={t(copy.thanksTitle, lang)}
+  description={t(copy.thanksLead, lang)}
+  noindex
+>
+  <PageHeader
+    eyebrow={copy.eyebrow}
+    title={t(copy.thanksTitle, lang)}
+    lead={t(copy.thanksLead, lang)}
+  />
+
+  <section class="mx-auto max-w-3xl px-5 pb-24">
+    <div class="card p-7 sm:p-9">
+      <h2 class="font-display text-xl text-ink">{t(copy.thanksHeading, lang)}</h2>
+      <ol class="mt-4 grid gap-3 text-sm leading-relaxed text-muted">
+        {
+          copy.thanksSteps.map((step, i) => (
+            <li class="grid grid-cols-[2rem_1fr] items-baseline">
+              <span class="ipa text-muted">{String(i + 1).padStart(2, "0")}</span>
+              <span>{t(step, lang)}</span>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="mt-5 text-sm leading-relaxed text-muted">{t(copy.thanksNote, lang)}</p>
+    </div>
+
+    <p class="mt-8 text-sm text-muted">
+      <a href={u("/support", lang)}>{t(ui.nav.support, lang)}</a> ・
+      <a href={u("/products", lang)}>{t(ui.nav.products, lang)}</a> ・
+      <a href={u("/", lang)}>{lang === "ja" ? "ホーム" : "Home"}</a>
+    </p>
+  </section>
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import SupportForm from "../../../components/islands/SupportForm.tsx";
+import { u } from "../../../lib/url";
+import { localePaths, t, type Lang } from "../../../i18n";
+import { contact as copy } from "../../../i18n/pages";
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+
+const FORMSPREE = "https://formspree.io/f/mvgeylky";
+// Formspree の _next は絶対URLを要求する。
+const next = new URL(u("/contact/thanks", lang), Astro.site).href;
+
+const description = {
+  ja: "合同会社語音へのお問い合わせ。製品のサポート、使い方の質問、不具合の報告、共同研究・受託のご相談を承ります。",
+  en: "Contact Go-on LLC about product support, questions on use, bug reports, or research collaboration and commissioned work.",
+};
+---
+
+<BaseLayout
+  lang={lang}
+  path="/contact"
+  title={t(copy.title, lang)}
+  description={t(description, lang)}
+>
+  <PageHeader
+    eyebrow={copy.eyebrow}
+    title={t(copy.title, lang)}
+    lead={t(copy.lead, lang)}
+  />
+
+  <section class="mx-auto max-w-3xl px-5 pb-24">
+    <SupportForm action={FORMSPREE} next={next} lang={lang} client:load />
+    <p class="mt-8 text-xs leading-relaxed text-muted">
+      <a href={u("/legal#privacy", lang)}>{t(copy.note, lang)}</a>
+    </p>
+  </section>
+</BaseLayout>

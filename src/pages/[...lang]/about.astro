@@ -1,0 +1,69 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import { u } from "../../lib/url";
+import { localePaths, t, type Lang } from "../../i18n";
+import { about as copy } from "../../i18n/pages";
+
+export const getStaticPaths = localePaths;
+const { lang } = Astro.props as { lang: Lang };
+
+const rows = [
+  { k: copy.rows.company, v: copy.values.company },
+  { k: copy.rows.address, v: copy.values.address },
+  { k: copy.rows.phone, v: copy.values.phone },
+  { k: copy.rows.representative, v: copy.values.representative },
+  { k: copy.rows.business, v: copy.values.business },
+  { k: copy.rows.contact, v: copy.values.contact, href: "/contact" },
+];
+
+const description = {
+  ja: "合同会社語音（Go-on LLC）の会社概要。所在地は東京都豊島区上池袋4-10-8-709、代表社員 石原 健。音声・言語・教育・情報技術を軸に事業を行っています。",
+  en: "About Go-on LLC: registered at 4-10-8-709 Kamiikebukuro, Toshima-ku, Tokyo, represented by Takeshi Ishihara. We work across speech, language, education and technology.",
+};
+---
+
+<BaseLayout
+  lang={lang}
+  path="/about"
+  title={t(copy.title, lang)}
+  description={t(description, lang)}
+>
+  <PageHeader
+    eyebrow={copy.eyebrow}
+    title={t(copy.title, lang)}
+    lead={t(copy.lead, lang)}
+  />
+
+  <section class="mx-auto max-w-3xl px-5 pb-12">
+    <dl class="divide-y divide-line border-y border-line">
+      {
+        rows.map((r) => (
+          <div class="grid grid-cols-[6rem_1fr] gap-4 py-4 sm:grid-cols-[9rem_1fr]">
+            <dt class="text-sm text-muted">{t(r.k, lang)}</dt>
+            <dd class="text-ink">
+              {r.href ? <a href={u(r.href, lang)}>{t(r.v, lang)}</a> : t(r.v, lang)}
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-12">
+    <h2 class="eyebrow">{t(copy.nameHeading, lang)}</h2>
+    <p class="mt-5 leading-relaxed text-muted">{t(copy.nameBody, lang)}</p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-24">
+    <h2 class="eyebrow">{t(copy.workHeading, lang)}</h2>
+    <div class="mt-6 grid gap-6">
+      <p class="leading-relaxed text-muted">{t(copy.workBody1, lang)}</p>
+      <p class="leading-relaxed text-muted">{t(copy.workBody2, lang)}</p>
+      <p class="text-sm leading-relaxed text-muted">
+        <a href={u("/products", lang)}>{lang === "ja" ? "プロダクト" : "Software"}</a> ・
+        <a href={u("/research", lang)}>{lang === "ja" ? "研究" : "Research"}</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

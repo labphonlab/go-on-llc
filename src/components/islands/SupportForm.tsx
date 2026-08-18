@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { tools } from "../../data/catalog";
+import { t, type Lang } from "../../i18n";
+import { form as copy } from "../../i18n/pages";
 
 /**
  * 問い合わせフォーム。
@@ -17,17 +19,8 @@ type Props = {
   action: string;
   /** 送信後に遷移する完了ページの絶対URL。 */
   next: string;
+  lang: Lang;
 };
-
-const TOPICS = [
-  { value: "不具合の報告", needsProduct: true, needsRepro: true },
-  { value: "使い方の質問", needsProduct: true, needsRepro: false },
-  { value: "機能のご要望", needsProduct: true, needsRepro: false },
-  { value: "教育機関での利用について", needsProduct: false, needsRepro: false },
-  { value: "共同研究・受託のご相談", needsProduct: false, needsRepro: false },
-  { value: "取材・講演のご依頼", needsProduct: false, needsRepro: false },
-  { value: "その他", needsProduct: false, needsRepro: false },
-] as const;
 
 const field =
   "w-full rounded-md border border-line bg-white px-3 py-2 text-ink transition-colors focus:border-ink focus:outline-none";
@@ -45,17 +38,20 @@ function describeEnvironment(): string {
   return parts.join(" / ");
 }
 
-export default function SupportForm({ action, next }: Props) {
-  const [topic, setTopic] = useState<string>(TOPICS[0].value);
-  const [product, setProduct] = useState<string>(tools[0]?.name ?? "");
+export default function SupportForm({ action, next, lang }: Props) {
+  const topics = copy.topics.map((entry) => ({ ...entry, value: t(entry, lang) }));
+  const [topic, setTopic] = useState<string>(topics[0].value);
+  const [product, setProduct] = useState<string>(
+    tools[0] ? t(tools[0].name, lang) : ""
+  );
   const [environment, setEnvironment] = useState("");
 
   // 自動取得はブラウザ上でしか意味がないので、水和後に一度だけ埋める。
   useEffect(() => setEnvironment(describeEnvironment()), []);
 
   const spec = useMemo(
-    () => TOPICS.find((t) => t.value === topic) ?? TOPICS[0],
-    [topic]
+    () => topics.find((entry) => entry.value === topic) ?? topics[0],
+    [topic, lang]
   );
 
   // 受信側で仕分けできるよう、件名を用件と製品から組み立てる。
@@ -70,25 +66,25 @@ export default function SupportForm({ action, next }: Props) {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="grid gap-1.5">
-          <span className={label}>お名前</span>
+          <span className={label}>{t(copy.name, lang)}</span>
           <input type="text" name="name" required autoComplete="name" className={field} />
         </label>
         <label className="grid gap-1.5">
-          <span className={label}>メールアドレス</span>
+          <span className={label}>{t(copy.email, lang)}</span>
           <input type="email" name="email" required autoComplete="email" className={field} />
         </label>
       </div>
 
       <label className="grid gap-1.5">
-        <span className={label}>ご用件</span>
+        <span className={label}>{t(copy.topic, lang)}</span>
         <select
           name="topic"
           value={topic}
           onChange={(e) => setTopic(e.currentTarget.value)}
           className={field}
         >
-          {TOPICS.map((t) => (
-            <option key={t.value}>{t.value}</option>
+          {topics.map((entry) => (
+            <option key={entry.value}>{entry.value}</option>
           ))}
         </select>
       </label>
@@ -96,7 +92,7 @@ export default function SupportForm({ action, next }: Props) {
       {spec.needsProduct && (
         <div className="grid gap-5 sm:grid-cols-[2fr_1fr]">
           <label className="grid gap-1.5">
-            <span className={label}>対象の製品</span>
+            <span className={label}>{t(copy.product, lang)}</span>
             <select
               name="product"
               value={product}
@@ -104,14 +100,15 @@ export default function SupportForm({ action, next }: Props) {
               className={field}
             >
               {tools.map((p) => (
-                <option key={p.id}>{p.name}</option>
+                <option key={p.id}>{t(p.name, lang)}</option>
               ))}
-              <option>その他・不明</option>
+              <option>{t(copy.productOther, lang)}</option>
             </select>
           </label>
           <label className="grid gap-1.5">
             <span className={label}>
-              バージョン <span className="text-muted">（任意）</span>
+              {t(copy.version, lang)}{" "}
+              <span className="text-muted">{t(copy.optional, lang)}</span>
             </span>
             <input type="text" name="version" placeholder="例: 1.0.0" className={field} />
           </label>
@@ -121,22 +118,22 @@ export default function SupportForm({ action, next }: Props) {
       {spec.needsRepro && (
         <>
           <label className="grid gap-1.5">
-            <span className={label}>どう操作すると起きますか（再現手順）</span>
+            <span className={label}>{t(copy.steps, lang)}</span>
             <textarea
               name="steps"
               rows={4}
               required
-              placeholder={"1. 音声ファイルを開く\n2. スペクトログラムを表示する\n3. …"}
+              placeholder={t(copy.stepsPlaceholder, lang)}
               className={field}
             />
           </label>
           <div className="grid gap-5 sm:grid-cols-2">
             <label className="grid gap-1.5">
-              <span className={label}>期待した動作</span>
+              <span className={label}>{t(copy.expected, lang)}</span>
               <textarea name="expected" rows={3} required className={field} />
             </label>
             <label className="grid gap-1.5">
-              <span className={label}>実際に起きたこと</span>
+              <span className={label}>{t(copy.actual, lang)}</span>
               <textarea name="actual" rows={3} required className={field} />
             </label>
           </div>
@@ -145,7 +142,7 @@ export default function SupportForm({ action, next }: Props) {
 
       <label className="grid gap-1.5">
         <span className={label}>
-          {spec.needsRepro ? "補足（エラー表示の文言など）" : "お問い合わせ内容"}
+          {spec.needsRepro ? t(copy.messageBug, lang) : t(copy.message, lang)}
         </span>
         <textarea
           name="message"
@@ -158,7 +155,8 @@ export default function SupportForm({ action, next }: Props) {
       {spec.needsProduct && (
         <label className="grid gap-1.5">
           <span className={label}>
-            動作環境 <span className="text-muted">（自動入力・編集できます）</span>
+            {t(copy.environment, lang)}{" "}
+            <span className="text-muted">{t(copy.environmentAuto, lang)}</span>
           </span>
           <textarea
             name="environment"
@@ -168,7 +166,7 @@ export default function SupportForm({ action, next }: Props) {
             className={`${field} text-xs`}
           />
           <span className={hint}>
-            ご覧のブラウザから取得した情報です。不具合が別の端末で起きている場合は、その端末の情報に書き換えてください。
+            {t(copy.environmentHint, lang)}
           </span>
         </label>
       )}
@@ -188,9 +186,9 @@ export default function SupportForm({ action, next }: Props) {
           type="submit"
           className="rounded-md bg-ink px-7 py-3 text-sm font-medium text-paper transition-opacity hover:opacity-85"
         >
-          送信
+          {t(copy.submit, lang)}
         </button>
-        <p className={hint}>送信すると受付完了のページに移動します。</p>
+        <p className={hint}>{t(copy.submitNote, lang)}</p>
       </div>
     </form>
   );

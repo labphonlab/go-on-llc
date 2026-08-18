@@ -3,7 +3,6 @@
 interface Props {
   eyebrow: string;
   title: string;
-  /** 幅を本文の可読幅に抑える。長いリードほど効く。 */
   lead?: string;
 }
 const { eyebrow, title, lead } = Astro.props;
@@ -18,9 +17,7 @@ const { eyebrow, title, lead } = Astro.props;
   </h1>
   {
     lead && (
-      <p class="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
-        {lead}
-      </p>
+      <p class="mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">{lead}</p>
     )
   }
   <slot />

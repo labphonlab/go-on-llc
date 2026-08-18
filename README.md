@@ -2,7 +2,11 @@
 
 合同会社語音（Go-on LLC）のWebサイト。**Astro + React islands + Tailwind CSS v4** で構築し、**GitHub Pages**（GitHub Actions 自動デプロイ）で公開します。
 
-静的ページを主体とし、インタラクティブな音声学ツールだけを React の「island」として埋め込む構成です。各ページは実体のあるHTMLとして配信されるため、SEO・初期表示に有利で、ディープリンクで404になる問題も発生しません。
+**日本語（`/`）と英語（`/en/`）の2言語**で配信します。ページは `src/pages/[...lang]/` の1ファイルが
+両言語を生成するため、テンプレートは複製しません。文言は `src/i18n/` と `src/data/catalog.ts` に
+`{ ja, en }` の形で置き、`.astro` には生の文言を書きません。
+
+静的ページを主体とし、インタラクティブな部品だけを React の「island」として埋め込む構成です。各ページは実体のあるHTMLとして配信されるため、SEO・初期表示に有利で、ディープリンクで404になる問題も発生しません。
 
 ## 開発
 
@@ -52,19 +56,22 @@ goonresearch-web/
 │   │   └── BaseLayout.astro       # head・OGP・JSON-LD・Header/Footer
 │   ├── lib/
 │   │   └── url.ts                 # base対応の内部リンク u()
+│   ├── i18n/
+│   │   ├── index.ts               # Lang・t()・localePaths()・UI語彙
+│   │   └── pages.ts               # ページ本文の対訳
 │   ├── pages/
-│   │   ├── index.astro            # ホーム
-│   │   ├── products.astro         # プロダクト（紹介のみ・配布はしない）
-│   │   ├── books.astro            # 出版（分野別紹介）
-│   │   ├── research.astro         # 研究・データ公開
-│   │   ├── support.astro          # サポート窓口・絞り込み付きFAQ
-│   │   ├── about.astro            # 会社概要
-│   │   ├── contact/index.astro    # お問い合わせ（Formspree）
-│   │   ├── contact/thanks.astro   # 送信完了
-│   │   ├── legal.astro            # 特商法・プライバシー
-│   │   ├── sitemap.xml.ts         # サイトマップ（動的生成）
+│   │   ├── [...lang]/             # 1ファイルで日英2言語を生成
+│   │   │   ├── index.astro        # ホーム
+│   │   │   ├── products.astro     # プロダクト（紹介のみ・配布はしない）
+│   │   │   ├── books.astro        # 出版（分野別紹介）
+│   │   │   ├── research.astro     # 研究・データ公開
+│   │   │   ├── support.astro      # サポート窓口・絞り込み付きFAQ
+│   │   │   ├── about.astro        # 会社概要
+│   │   │   ├── legal.astro        # 特商法・プライバシー
+│   │   │   └── contact/           # お問い合わせ（Formspree）と送信完了
+│   │   ├── sitemap.xml.ts         # サイトマップ（動的生成・hreflang付き）
 │   │   ├── robots.txt.ts          # robots.txt（動的生成）
-│   │   └── 404.astro
+│   │   └── 404.astro              # 1枚だけなので日英併記
 │   └── styles/
 │       └── global.css             # Tailwind + デザイントークン
 ├── astro.config.mjs

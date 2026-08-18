@@ -1,31 +1,36 @@
 ---
 import { u } from "../lib/url";
+import { ui, t, type Lang } from "../i18n";
 
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
 const year = new Date().getFullYear();
 
 const columns = [
   {
-    heading: "プロダクト",
+    heading: ui.footer.columns.products,
     items: [
-      { href: "/products", label: "プロダクト一覧" },
-      { href: "/books", label: "出版" },
-      { href: "/support", label: "サポート" },
+      { href: "/products", label: ui.nav.products },
+      { href: "/books", label: ui.nav.books },
+      { href: "/support", label: ui.nav.support },
     ],
   },
   {
-    heading: "研究",
+    heading: ui.footer.columns.research,
     items: [
-      { href: "/research", label: "研究とデータ公開" },
-      { href: "https://github.com/labphonlab", label: "GitHub" },
+      { href: "/research", label: ui.nav.research },
+      { href: "https://github.com/labphonlab", label: { ja: "GitHub", en: "GitHub" } },
     ],
   },
   {
-    heading: "会社",
+    heading: ui.footer.columns.company,
     items: [
-      { href: "/about", label: "会社概要" },
-      { href: "/contact", label: "お問い合わせ" },
-      { href: "/legal#tokushoho", label: "特定商取引法に基づく表記" },
-      { href: "/legal#privacy", label: "プライバシーポリシー" },
+      { href: "/about", label: ui.nav.about },
+      { href: "/contact", label: ui.nav.contact },
+      { href: "/legal#tokushoho", label: ui.footer.legalTokusho },
+      { href: "/legal#privacy", label: ui.footer.legalPrivacy },
     ],
   },
 ];
@@ -39,24 +44,22 @@ const columns = [
           語音 <span class="ipa ml-1 text-sm text-muted">/ɡo.oɴ/</span>
         </p>
         <p class="mt-2 text-sm text-muted">
-          合同会社語音（Go-on LLC）<br />
-          音声・言語・教育・情報技術
+          {t(ui.siteNameFull, lang)}<br />
+          {t(ui.footer.blurb, lang)}
         </p>
       </div>
       <nav
-        aria-label="フッターナビゲーション"
+        aria-label={t(ui.footerNavAria, lang)}
         class="grid gap-8 text-sm sm:grid-cols-3 sm:gap-12"
       >
         {
           columns.map((col) => (
             <div>
-              <p class="text-xs uppercase tracking-[0.2em] text-muted">
-                {col.heading}
-              </p>
-              <ul class="mt-3 grid gap-1.5 [&_a]:no-underline [&_a]:text-muted [&_a]:transition-colors [&_a:hover]:text-ink">
+              <p class="eyebrow">{t(col.heading, lang)}</p>
+              <ul class="mt-3 grid gap-1.5 [&_a]:text-muted [&_a]:no-underline [&_a]:transition-colors [&_a:hover]:text-ink">
                 {col.items.map((item) => (
                   <li>
-                    <a href={u(item.href)}>{item.label}</a>
+                    <a href={u(item.href, lang)}>{t(item.label, lang)}</a>
                   </li>
                 ))}
               </ul>
@@ -65,8 +68,6 @@ const columns = [
         }
       </nav>
     </div>
-    <p class="mt-10 border-t border-line pt-6 text-xs text-muted">
-      © {year} Go-on LLC
-    </p>
+    <p class="mt-10 border-t border-line pt-6 text-xs text-muted">© {year} Go-on LLC</p>
   </div>
 </footer>

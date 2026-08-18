@@ -3,32 +3,38 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { u } from "../lib/url";
+import { LANGS, htmlLang, ui, t, type Lang } from "../i18n";
 
 interface Props {
+  lang: Lang;
+  /** 言語プレフィックスを含まないルート（例: "/products"）。canonical と hreflang に使う。 */
+  path: string;
   title?: string;
   description?: string;
-  /** Page title as-is; otherwise " | 合同会社語音" is appended. */
-  rawTitle?: boolean;
-  /** 検索エンジンに載せないページ（404 など）。 */
   noindex?: boolean;
 }
 
-const SITE_NAME = "合同会社語音";
-const DEFAULT_DESCRIPTION =
-  "合同会社語音（Go-on LLC）は、音声・言語・教育・情報技術を軸に、音声分析ソフトウェアと語学学習アプリの開発、書籍の発行、音声学の研究とデータ公開を行う法人です。";
+const DEFAULTS = {
+  title: {
+    ja: "合同会社語音 | Go-on LLC — 音声・言語・教育",
+    en: "Go-on LLC — speech, language, education",
+  },
+  description: {
+    ja: "合同会社語音（Go-on LLC）は、音声・言語・教育・情報技術を軸に、音声分析ソフトウェアと語学学習アプリの開発、書籍の発行、音声学の研究とデータ公開を行う法人です。",
+    en: "Go-on LLC works across speech, language, education and technology: developing speech analysis software and language-learning applications, publishing books, and carrying out phonetic research with open data.",
+  },
+};
 
-const {
-  title = "合同会社語音 | Go-on LLC — 音声・言語・教育",
-  description = DEFAULT_DESCRIPTION,
-  rawTitle = false,
-  noindex = false,
-} = Astro.props;
+const { lang, path, title, description, noindex = false } = Astro.props;
 
-const pageTitle = rawTitle || title.includes(SITE_NAME)
-  ? title
-  : `${title} | ${SITE_NAME}`;
+const siteName = t(ui.siteName, lang);
+const resolvedTitle = title ?? t(DEFAULTS.title, lang);
+const pageTitle = resolvedTitle.includes(siteName)
+  ? resolvedTitle
+  : `${resolvedTitle} | ${siteName}`;
+const pageDescription = description ?? t(DEFAULTS.description, lang);
 
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const canonical = new URL(u(path, lang), Astro.site).href;
 const ogImage = new URL(u("/og.png"), Astro.site).href;
 
 const organization = {
@@ -38,7 +44,7 @@ const organization = {
   alternateName: "Go-on LLC",
   url: new URL(u("/"), Astro.site).href,
   logo: ogImage,
-  description: DEFAULT_DESCRIPTION,
+  description: t(DEFAULTS.description, "ja"),
   address: {
     "@type": "PostalAddress",
     postalCode: "170-0012",
@@ -54,26 +60,51 @@ const organization = {
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang={htmlLang[lang]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{pageTitle}</title>
-    <meta name="description" content={description} />
-    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
+    <meta name="description" content={pageDescription} />
+    {
+      noindex ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        <link rel="canonical" href={canonical} />
+      )
+    }
+    {
+      !noindex &&
+        LANGS.map((l) => (
+          <link
+            rel="alternate"
+            hreflang={htmlLang[l]}
+            href={new URL(u(path, l), Astro.site).href}
+          />
+        ))
+    }
+    {
+      !noindex && (
+        <link
+          rel="alternate"
+          hreflang="x-default"
+          href={new URL(u(path, "ja"), Astro.site).href}
+        />
+      )
+    }
     <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
     <link rel="sitemap" href={u("/sitemap.xml")} />
 
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:locale" content={lang === "ja" ? "ja_JP" : "en_US"} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Fonts: Newsreader + Noto Serif JP (display), Noto Sans JP (body), Gentium Plus (IPA) -->
@@ -84,21 +115,18 @@ const organization = {
       href="https://fonts.googleapis.com/css2?family=Gentium+Plus:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;500;600&display=swap"
     />
 
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify(organization)}
-    />
+    <script type="application/ld+json" set:html={JSON.stringify(organization)} />
   </head>
   <body>
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-paper focus:px-3 focus:py-2"
-      >本文へスキップ</a
+      >{t(ui.skipToContent, lang)}</a
     >
-    <Header />
+    <Header lang={lang} path={path} />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <Footer lang={lang} />
   </body>
 </html>

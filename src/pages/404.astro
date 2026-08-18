@@ -1,25 +1,49 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { u } from "../lib/url";
+import { ui, t } from "../i18n";
+import { notFound } from "../i18n/pages";
+
+/*
+  GitHub Pages が返す 404 は1枚だけなので、言語別に出し分けられない。
+  日本語と英語を並べて、どちらの読者も次に行く先が分かるようにする。
+*/
 ---
 
-<BaseLayout title="ページが見つかりません | 合同会社語音" noindex>
+<BaseLayout lang="ja" path="/" title={t(notFound.title, "ja")} noindex>
   <section class="mx-auto max-w-2xl px-5 pt-24 pb-24 text-center">
-    <p class="ipa text-5xl text-teal-700">[ 404 ]</p>
-    <h1 class="mt-4 font-display text-3xl font-semibold text-ink">
-      ページが見つかりません
+    <p class="ipa text-5xl text-muted">[ 404 ]</p>
+
+    <h1 class="mt-6 font-display text-3xl font-medium text-ink">
+      {t(notFound.title, "ja")}
     </h1>
-    <p class="mt-3 text-muted">
-      お探しのページは移動または削除された可能性があります。
+    <p class="mt-3 text-muted">{t(notFound.body, "ja")}</p>
+
+    <h2 lang="en" class="mt-10 font-display text-2xl font-medium text-ink">
+      {t(notFound.title, "en")}
+    </h2>
+    <p lang="en" class="mt-3 text-muted">{t(notFound.body, "en")}</p>
+
+    <div class="mt-10 flex flex-wrap justify-center gap-x-4 gap-y-3 text-sm">
+      <a
+        href={u("/", "ja")}
+        class="rounded-md bg-ink px-6 py-3 font-medium text-paper no-underline transition-opacity hover:opacity-85"
+        >{t(notFound.home, "ja")}</a
+      >
+      <a
+        href={u("/", "en")}
+        lang="en"
+        hreflang="en"
+        class="rounded-md border border-line px-6 py-3 font-medium text-ink no-underline transition-colors hover:border-ink"
+        >{t(notFound.home, "en")}</a
+      >
+    </div>
+
+    <p class="mt-8 text-sm text-muted">
+      <a href={u("/products", "ja")}>{t(ui.nav.products, "ja")}</a> ・
+      <a href={u("/books", "ja")}>{t(ui.nav.books, "ja")}</a> ・
+      <a href={u("/research", "ja")}>{t(ui.nav.research, "ja")}</a> ・
+      <a href={u("/support", "ja")}>{t(ui.nav.support, "ja")}</a>
     </p>
-    <p class="mt-2 text-sm text-muted">
-      <a href={u("/products")}>プロダクト</a> ・ <a href={u("/books")}>出版</a> ・
-      <a href={u("/research")}>研究</a> ・ <a href={u("/support")}>サポート</a>
-    </p>
-    <a
-      href={u("/")}
-      class="mt-8 inline-block rounded-md bg-ink px-6 py-3 text-sm font-medium text-paper no-underline transition-opacity hover:opacity-85"
-      >ホームへ戻る</a
-    >
   </section>
 </BaseLayout>

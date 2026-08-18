@@ -1,26 +1,26 @@
+import type { L } from "../i18n";
+
 /**
- * Single source of truth for what the company has actually shipped and what
- * it is building. Pages (products / research / support / tools / index) read
- * from here so a status change is edited once.
+ * サイトに載せる内容の真実源。ページ（index / products / books / research /
+ * support）はここを読むので、状態が変わったときはこのファイルだけを直す。
  *
- * `status` is deliberately conservative:
- *   "released"    … 誰でも今すぐ入手・利用できる
- *   "development" … 未公開。サポート窓口だけ先に用意しておくもの
+ * 利用者に見える文字列はすべて `L`（日英2言語）で持つ。
  */
+
 export type Status = "released" | "development";
 
 export type Product = {
   id: string;
-  name: string;
-  reading?: string;
-  kind: string;
+  name: L;
+  reading?: L;
+  kind: L;
   status: Status;
-  summary: string;
-  detail: string;
-  platforms: string;
-  note?: string;
+  summary: L;
+  detail: L;
+  platforms: L;
+  note?: L;
   /** サポートページに出す、この製品固有の案内（共通FAQに書けないもの）。 */
-  support?: string[];
+  support?: L[];
 };
 
 /**
@@ -32,48 +32,99 @@ export type Product = {
 export const tools: Product[] = [
   {
     id: "praat-ja",
-    name: "Praat JA",
-    kind: "デスクトップアプリ",
+    name: { ja: "Praat JA", en: "Praat JA" },
+    kind: { ja: "デスクトップアプリ", en: "Desktop application" },
     status: "released",
-    summary: "音声分析ソフト Praat を日本語UIで操作するフロントエンド。",
-    detail:
-      "音声ファイルを読み込み、波形・スペクトログラム・ピッチ・フォルマント・TextGrid 作成といった頻用スクリプトを日本語メニューからワンクリックで実行できます。Praat 本体は同梱せず、初回起動時に公式配布元から取得します。",
-    platforms: "macOS（DMG）／ Windows（インストーラー）",
-    note: "本ソフトは非公式プロジェクトです。Praat の開発者（Paul Boersma・David Weenink／アムステルダム大学）および公式 Praat プロジェクトとは無関係で、公式の承認・推奨を受けたものではありません。",
+    summary: {
+      ja: "音声分析ソフト Praat を日本語UIで操作するフロントエンド。",
+      en: "A Japanese-language front end for the speech analysis program Praat.",
+    },
+    detail: {
+      ja: "音声ファイルを読み込み、波形・スペクトログラム・ピッチ・フォルマント・TextGrid 作成といった頻用スクリプトを日本語メニューからワンクリックで実行できます。Praat 本体は同梱せず、初回起動時に公式配布元から取得します。",
+      en: "Load a sound file and run the scripts you reach for most — waveform, spectrogram, pitch, formants, TextGrid creation — from a Japanese menu in one click. Praat itself is not bundled; the application fetches it from the official distribution on first launch.",
+    },
+    platforms: {
+      ja: "macOS（DMG）／ Windows（インストーラー）",
+      en: "macOS (DMG) / Windows (installer)",
+    },
+    note: {
+      ja: "本ソフトは非公式プロジェクトです。Praat の開発者（Paul Boersma・David Weenink／アムステルダム大学）および公式 Praat プロジェクトとは無関係で、公式の承認・推奨を受けたものではありません。",
+      en: "This is an unofficial project. It is not affiliated with, endorsed by, or sponsored by the developers of Praat (Paul Boersma and David Weenink, University of Amsterdam) or the official Praat project.",
+    },
     support: [
-      "Praat 本体は同梱していません。初回起動時に公式配布元から自動で取得するため、初回のみインターネット接続が必要です。取得に失敗する場合は、通信環境とセキュリティソフトの設定をご確認ください。",
-      "分析結果そのものに関する不具合は、まず公式版の Praat でも同じ結果になるかをご確認ください。公式版でも再現する場合、原因は Praat 本体側にあり、当社では対応できません。",
-      "macOS で「開発元を検証できません」と表示される場合は、Finder でアプリを右クリックして「開く」を選んでください。",
+      {
+        ja: "Praat 本体は同梱していません。初回起動時に公式配布元から自動で取得するため、初回のみインターネット接続が必要です。取得に失敗する場合は、通信環境とセキュリティソフトの設定をご確認ください。",
+        en: "Praat itself is not bundled. It is fetched automatically from the official distribution on first launch, so an internet connection is required that one time. If the download fails, check your network and any security software.",
+      },
+      {
+        ja: "分析結果そのものに関する不具合は、まず公式版の Praat でも同じ結果になるかをご確認ください。公式版でも再現する場合、原因は Praat 本体側にあり、当社では対応できません。",
+        en: "If the analysis results themselves look wrong, first check whether official Praat produces the same output. If it does, the cause lies in Praat itself and is outside what we can address.",
+      },
+      {
+        ja: "macOS で「開発元を検証できません」と表示される場合は、Finder でアプリを右クリックして「開く」を選んでください。",
+        en: "On macOS, if you see “cannot verify the developer”, right-click the app in Finder and choose Open.",
+      },
     ],
   },
   {
     id: "vowel-chart",
-    name: "母音フォルマントチャート",
-    kind: "Webツール",
+    name: { ja: "母音フォルマントチャート", en: "Vowel Formant Chart" },
+    kind: { ja: "Webツール", en: "Web tool" },
     status: "released",
-    summary: "自分の母音フォルマントを、参照値と Bark スケール上で重ねて比較する。",
-    detail:
-      "F1・F2 を入力すると、IPA基本母音の台形を背景に、参照話者（灰）と自分の測定値（赤）を同一平面へ描画します。目盛りは Bark 尺度（Traunmüller 1990）で、PNG・CSV に書き出せます。4言語版は英語・韓国語・中国語（普通話）・日本語の参照値を切り替えられます。",
-    platforms: "ブラウザ（インストール不要）",
+    summary: {
+      ja: "自分の母音フォルマントを、参照値と Bark スケール上で重ねて比較する。",
+      en: "Plot your own vowel formants against reference values on a Bark scale.",
+    },
+    detail: {
+      ja: "F1・F2 を入力すると、IPA基本母音の台形を背景に、参照話者（灰）と自分の測定値（赤）を同一平面へ描画します。目盛りは Bark 尺度（Traunmüller 1990）で、PNG・CSV に書き出せます。4言語版は英語・韓国語・中国語（普通話）・日本語の参照値を切り替えられます。",
+      en: "Enter F1 and F2 and the tool draws reference values (grey) and your own measurements (red) on a single plane, over the IPA cardinal vowel quadrilateral. The axes use the Bark scale (Traunmüller 1990), and results export to PNG or CSV. A four-language edition switches between English, Korean, Mandarin Chinese and Japanese reference values.",
+    },
+    platforms: { ja: "ブラウザ（インストール不要）", en: "Browser (no installation)" },
     support: [
-      "入力値と作図結果はブラウザ内だけで処理され、送信も保存もされません。ページを閉じると消えるため、必要な結果は PNG または CSV に書き出してください。",
-      "二重母音（eɪ, aʊ, oʊ）は前半部分（onset）の F1・F2 を入力してください。",
-      "参照値はいずれも文献由来の代表値です。話者個人の絶対値との一致ではなく、母音間の相対的な配置の比較にお使いください。",
+      {
+        ja: "入力値と作図結果はブラウザ内だけで処理され、送信も保存もされません。ページを閉じると消えるため、必要な結果は PNG または CSV に書き出してください。",
+        en: "Input values and plots are processed entirely in the browser; nothing is transmitted or stored. They are lost when the page closes, so export anything you need as PNG or CSV.",
+      },
+      {
+        ja: "二重母音（eɪ, aʊ, oʊ）は前半部分（onset）の F1・F2 を入力してください。",
+        en: "For diphthongs (eɪ, aʊ, oʊ), enter the F1 and F2 of the onset portion.",
+      },
+      {
+        ja: "参照値はいずれも文献由来の代表値です。話者個人の絶対値との一致ではなく、母音間の相対的な配置の比較にお使いください。",
+        en: "Reference values are representative figures taken from the literature. Use them to compare the relative arrangement of vowels, not to match an individual speaker's absolute values.",
+      },
     ],
   },
   {
     id: "identification-task",
-    name: "音声知覚 識別課題アプリ",
-    kind: "Webツール",
+    name: {
+      ja: "音声知覚 識別課題アプリ",
+      en: "Speech Identification Task",
+    },
+    kind: { ja: "Webツール", en: "Web tool" },
     status: "released",
-    summary: "識別課題（identification task）の反応と反応時間をブラウザで収集する。",
-    detail:
-      "連続体上の刺激に対する二肢強制選択の反応と反応時間を記録し、ステップごとの反応率曲線・平均反応時間をその場で作図、CSV に書き出します。授業でのデモや小規模な実験に使えます。",
-    platforms: "ブラウザ（インストール不要）",
+    summary: {
+      ja: "識別課題（identification task）の反応と反応時間をブラウザで収集する。",
+      en: "Collect responses and reaction times for identification tasks in the browser.",
+    },
+    detail: {
+      ja: "連続体上の刺激に対する二肢強制選択の反応と反応時間を記録し、ステップごとの反応率曲線・平均反応時間をその場で作図、CSV に書き出します。授業でのデモや小規模な実験に使えます。",
+      en: "Records two-alternative forced-choice responses and reaction times for stimuli along a continuum, plots response-rate curves and mean reaction times per step on the spot, and exports to CSV. Suitable for classroom demonstrations and small-scale experiments.",
+    },
+    platforms: { ja: "ブラウザ（インストール不要）", en: "Browser (no installation)" },
     support: [
-      "音声の提示は行いません。実験者が別途提示した刺激に対する反応と反応時間だけを記録します。",
-      "反応はブラウザ内に保持されます。終了後に必ず CSV を書き出してください。書き出す前にページを閉じるか再読み込みすると、その回のデータは失われます。",
-      "刺激リストと選択肢は HTML 内の設定部分を書き換えて差し替えられます。改変して研究に用いていただいてかまいません。",
+      {
+        ja: "音声の提示は行いません。実験者が別途提示した刺激に対する反応と反応時間だけを記録します。",
+        en: "The app does not present audio. It records only responses and reaction times to stimuli that the experimenter presents separately.",
+      },
+      {
+        ja: "反応はブラウザ内に保持されます。終了後に必ず CSV を書き出してください。書き出す前にページを閉じるか再読み込みすると、その回のデータは失われます。",
+        en: "Responses are held in the browser. Always export the CSV when a session ends — closing or reloading the page beforehand loses that session's data.",
+      },
+      {
+        ja: "刺激リストと選択肢は設定部分を書き換えて差し替えられます。研究目的での調整はご相談ください。",
+        en: "The stimulus list and response options can be swapped out by editing the configuration. Please get in touch about adjustments for research use.",
+      },
     ],
   },
 ];
@@ -81,63 +132,88 @@ export const tools: Product[] = [
 /**
  * 開発中のプロダクト。
  *
- * **サイトには出さない。** 未完成・開発途中のものは積極的に公開しない方針のため、
+ * **サイトには出さない。** 未完成・開発途中のものは公開しない方針のため、
  * どのページからもレンダリングしていない。ここは公開待ちの控えとして持っておき、
- * 実際に公開できるようになった時点で `released` へ移し、`links` に入手先を足す。
+ * 実際に公開できるようになった時点で `tools` へ移す。
  */
 export const inDevelopment: Product[] = [
   {
     id: "speechlab",
-    name: "SpeechLab",
-    kind: "iPad／iPhone アプリ",
+    name: { ja: "SpeechLab", en: "SpeechLab" },
+    kind: { ja: "iPad／iPhone アプリ", en: "iPad / iPhone app" },
     status: "development",
-    summary: "学生・語学教師のための音声分析アプリ。",
-    detail:
-      "録音・再生、波形、広帯域／狭帯域スペクトログラム、区間ラベリングを iPad 上で完結させます。解析はすべて端末内で実行し、音声データを外部へ送信しません。有料機能として、単語・文レベルの自動セグメンテーションと自動ラベリングを予定しています。",
-    platforms: "iPadOS / iOS",
+    summary: {
+      ja: "学生・語学教師のための音声分析アプリ。",
+      en: "A speech analysis app for students and language teachers.",
+    },
+    detail: {
+      ja: "録音・再生、波形、広帯域／狭帯域スペクトログラム、区間ラベリングを iPad 上で完結させます。解析はすべて端末内で実行し、音声データを外部へ送信しません。",
+      en: "Recording and playback, waveform, wide- and narrow-band spectrograms, and interval labelling, all on the iPad. Analysis runs entirely on device; no audio leaves it.",
+    },
+    platforms: { ja: "iPadOS / iOS", en: "iPadOS / iOS" },
     support: [
-      "音声の解析は端末内で完結し、録音した音声を当社サーバーへ送信しません。",
+      {
+        ja: "音声の解析は端末内で完結し、録音した音声を当社サーバーへ送信しません。",
+        en: "Analysis is completed on device; recorded audio is never sent to our servers.",
+      },
     ],
   },
   {
     id: "gotan",
-    name: "語単",
-    reading: "ごたん",
-    kind: "iPhone アプリ",
+    name: { ja: "語単", en: "Gotan" },
+    reading: { ja: "ごたん", en: "go-tan" },
+    kind: { ja: "iPhone アプリ", en: "iPhone app" },
     status: "development",
-    summary: "単語帳ではなく、語彙獲得の順序と復習間隔を最適化するエンジン。",
-    detail:
-      "収録語数ではなく「どの語を、どの側面から、いつ復習するか」を商品にします。提示順は目標コーパスへのカバレッジ限界利得で決め、意味想起・綴り産出・聴解・用法といった知識の側面ごとに習熟を追跡します。日本語話者向けに、カタカナ語の干渉や一対多訳を専用のカード型で扱います。韓国語版も同じエンジンで開発しています。",
-    platforms: "iOS",
+    summary: {
+      ja: "単語帳ではなく、語彙獲得の順序と復習間隔を最適化するエンジン。",
+      en: "Not a word list — an engine that optimises the order of vocabulary acquisition and review intervals.",
+    },
+    detail: {
+      ja: "提示順を目標コーパスへのカバレッジ限界利得で決め、意味想起・綴り産出・聴解・用法といった知識の側面ごとに習熟を追跡します。",
+      en: "Presentation order is set by marginal coverage gain over a target corpus, and mastery is tracked separately for each facet of knowledge: meaning recall, spelling production, listening, and usage.",
+    },
+    platforms: { ja: "iOS", en: "iOS" },
   },
   {
     id: "sakubun",
-    name: "ハン文／一文ずつ英語",
-    kind: "iPhone アプリ",
+    name: { ja: "ハン文／一文ずつ英語", en: "Han-bun / One Sentence at a Time" },
+    kind: { ja: "iPhone アプリ", en: "iPhone app" },
     status: "development",
-    summary: "瞬間作文方式で、韓国語・英語の文を一文ずつ産出する練習アプリ。",
-    detail:
-      "文法項目を1つずつ積み上げる累積シラバスに沿って、日→韓（日→英）の作文練習と、韓→日（英→日）の聞き取り練習を切り替えられます。単語をタップすると見出し語・品詞・発音記号・訳・用例を引けます。例文はすべて自社で新規作成したものです。",
-    platforms: "iOS",
+    summary: {
+      ja: "瞬間作文方式で、韓国語・英語の文を一文ずつ産出する練習アプリ。",
+      en: "Sentence-production practice in Korean and English, one sentence at a time.",
+    },
+    detail: {
+      ja: "文法項目を1つずつ積み上げる累積シラバスに沿って、作文練習と聞き取り練習を切り替えられます。",
+      en: "Follows a cumulative syllabus that adds one grammar point at a time, switching between production and listening practice.",
+    },
+    platforms: { ja: "iOS", en: "iOS" },
   },
   {
     id: "korean-pronunciation",
-    name: "韓国語発音診断",
-    kind: "iPhone アプリ",
+    name: { ja: "韓国語発音診断", en: "Korean Pronunciation Diagnostics" },
+    kind: { ja: "iPhone アプリ", en: "iPhone app" },
     status: "development",
-    summary: "日本語話者がつまずく韓国語の音韻現象に的を絞った発音診断。",
-    detail:
-      "パッチムの脱落、平音・激音・濃音の混同、母音の弁別（ㅓ/ㅗ、ㅡ/ㅜ）、流音化などの連音現象を軸に、単語・短文レベルの発音を診断する設計で開発しています。",
-    platforms: "iOS",
+    summary: {
+      ja: "日本語話者がつまずく韓国語の音韻現象に的を絞った発音診断。",
+      en: "Pronunciation diagnostics targeted at the Korean phonological processes Japanese speakers stumble over.",
+    },
+    detail: {
+      ja: "パッチムの脱落、平音・激音・濃音の混同、母音の弁別（ㅓ/ㅗ、ㅡ/ㅜ）、流音化などの連音現象を軸に診断します。",
+      en: "Built around coda deletion, confusion among lax, aspirated and tense stops, vowel contrasts (ㅓ/ㅗ, ㅡ/ㅜ), and connected-speech processes such as lateralisation.",
+    },
+    platforms: { ja: "iOS", en: "iOS" },
   },
 ];
 
-/** 論文に伴って公開しているデータ・解析コード */
+/** 論文に伴って公開しているデータ・解析コード。 */
 export type Dataset = {
+  /** リポジトリ名。翻訳しない。 */
   title: string;
+  /** 論文題目。原語（英語）のまま出す。 */
   paper: string;
-  venue: string;
-  summary: string;
+  venue: L;
+  summary: L;
   href: string;
 };
 
@@ -146,36 +222,44 @@ export const datasets: Dataset[] = [
     title: "csj-pragmatic-intonation",
     paper:
       "Social stratification of pragmatic intonation in spontaneous Japanese: X-JToBI annotations as a sociophonetic resource",
-    venue: "投稿中",
-    summary:
-      "『日本語話し言葉コーパス』の X-JToBI ラベルに付与されながら十分に活用されてこなかった語用論的イントネーション標識を、話者属性とレジスターから説明した研究。講演単位に集計したデータセットと解析コードを公開しています（コーパス本体は再配布不可のため含みません）。",
+    venue: { ja: "投稿中", en: "Under review" },
+    summary: {
+      ja: "『日本語話し言葉コーパス』の X-JToBI ラベルに付与されながら十分に活用されてこなかった語用論的イントネーション標識を、話者属性とレジスターから説明した研究。講演単位に集計したデータセットと解析コードを公開しています（コーパス本体は再配布不可のため含みません）。",
+      en: "Accounts for pragmatic intonation markers — annotated in the X-JToBI labels of the Corpus of Spontaneous Japanese but largely unexploited — in terms of speaker attributes and register. The talk-level aggregate dataset and analysis code are public; the corpus itself cannot be redistributed and is not included.",
+    },
     href: "https://github.com/labphonlab/csj-pragmatic-intonation",
   },
   {
     title: "speaking-rate-f0-excursion",
     paper:
       "Speaking rate compresses F0 excursion, not F0 maximum, in spontaneous speech",
-    venue: "投稿中",
-    summary:
-      "話速が速くなると F0 の変動幅は 1.4–1.5 半音縮まる一方、F0 最大値はほぼ動かないことを日本語・英語の自発音声で示した研究。再現可能な解析コードと原稿素材を公開しています。",
+    venue: { ja: "投稿中", en: "Under review" },
+    summary: {
+      ja: "話速が速くなると F0 の変動幅は 1.4–1.5 半音縮まる一方、F0 最大値はほぼ動かないことを日本語・英語の自発音声で示した研究。再現可能な解析コードと原稿素材を公開しています。",
+      en: "Shows in Japanese and English spontaneous speech that faster speech compresses F0 excursion by 1.4–1.5 semitones while the F0 maximum stays essentially flat. Reproducible analysis code and manuscript materials are public.",
+    },
     href: "https://github.com/labphonlab/speaking-rate-f0-excursion",
   },
   {
     title: "lexical-boundary-phonology",
     paper:
       "Phonological Neighbourhood Metrics Are Boundary-Sensitive: A Controlled Comparison Framework with Korean as a Case Study",
-    venue: "投稿中",
-    summary:
-      "近傍密度などの語彙統計量が、語の固有値ではなく「どの語彙範囲で計算したか」に依存することを、韓国語を事例に5条件で比較した方法論研究。比較フレームワークの実装と派生データを公開しています。",
+    venue: { ja: "投稿中", en: "Under review" },
+    summary: {
+      ja: "近傍密度などの語彙統計量が、語の固有値ではなく「どの語彙範囲で計算したか」に依存することを、韓国語を事例に5条件で比較した方法論研究。比較フレームワークの実装と派生データを公開しています。",
+      en: "A methodological study comparing five conditions in Korean to show that neighbourhood density and related lexical statistics are not fixed properties of a word but depend on the lexical boundary over which they are computed. The comparison framework and derived data are public.",
+    },
     href: "https://github.com/labphonlab/lexical-boundary-phonology",
   },
   {
     title: "L2_Lexical_Importance",
     paper:
       "Lexical Importance in L2 Spoken English: Frequency, Phonological Vulnerability, and Spoken Word Recognition",
-    venue: "投稿中",
-    summary:
-      "L2英語の音声語彙認識において、頻度・音素配列確率・語彙競合リスク・音声的不安定性から語の重要度を捉える研究。内容語 2,996 語の派生指標データセットを公開しています（原コーパスは再配布していません）。",
+    venue: { ja: "投稿中", en: "Under review" },
+    summary: {
+      ja: "L2英語の音声語彙認識において、頻度・音素配列確率・語彙競合リスク・音声的不安定性から語の重要度を捉える研究。内容語 2,996 語の派生指標データセットを公開しています（原コーパスは再配布していません）。",
+      en: "Characterises lexical importance in L2 spoken word recognition through frequency, phonotactic probability, lexical competition risk and phonetic instability. The derived-measure dataset for 2,996 content words is public; the source corpora are not redistributed.",
+    },
     href: "https://github.com/labphonlab/L2_Lexical_Importance",
   },
 ];
@@ -184,67 +268,126 @@ export const datasets: Dataset[] = [
  * 出版している書籍・電子書籍。
  *
  * 分野ごとの紹介にとどめ、個別の販売リンクは置かない（ソフトウェアと同じ方針）。
- * 代表的な書名だけを挙げる。刊行が増えたらここに足す。
+ * 書籍はいずれも日本語で刊行しているため、英語版では原題に英訳を添える。
  */
 export type BookArea = {
   id: string;
-  area: string;
-  summary: string;
-  titles: string[];
+  area: L;
+  summary: L;
+  titles: L[];
 };
 
 export const bookAreas: BookArea[] = [
   {
     id: "phonetics",
-    area: "音声学・言語学",
-    summary:
-      "音響分析の道具を実際に動かせるようになることを目的とした実践書と、音声学・音韻論の体系をたどる概説書。Praat・Parselmouth を用いた測定手順、実験音韻論の設計、日本語・英語それぞれの音声体系を扱います。",
+    area: { ja: "音声学・言語学", en: "Phonetics and linguistics" },
+    summary: {
+      ja: "音響分析の道具を実際に動かせるようになることを目的とした実践書と、音声学・音韻論の体系をたどる概説書。Praat・Parselmouth を用いた測定手順、実験音韻論の設計、日本語・英語それぞれの音声体系を扱います。",
+      en: "Hands-on guides aimed at getting readers actually running the tools of acoustic analysis, alongside surveys that work through the system of phonetics and phonology. Measurement procedures with Praat and Parselmouth, experimental design in laboratory phonology, and the sound systems of Japanese and English.",
+    },
     titles: [
-      "音声学概説 —— 声のしくみから音声AIまで",
-      "実践音声研究法",
-      "Praatによる音声研究の方法",
-      "PraatとParselmouthによる音声処理入門",
-      "実験音韻論の方法",
-      "日本語音声学の基礎",
-      "英語音声学・音韻論",
-      "相互行為音声学",
+      {
+        ja: "音声学概説 —— 声のしくみから音声AIまで",
+        en: "Introduction to Phonetics: From the Mechanics of Voice to Speech AI",
+      },
+      { ja: "実践音声研究法", en: "Practical Methods in Speech Research" },
+      {
+        ja: "Praatによる音声研究の方法",
+        en: "Doing Speech Research with Praat",
+      },
+      {
+        ja: "PraatとParselmouthによる音声処理入門",
+        en: "Speech Processing with Praat and Parselmouth",
+      },
+      { ja: "実験音韻論の方法", en: "Methods in Laboratory Phonology" },
+      {
+        ja: "日本語音声学の基礎",
+        en: "Foundations of Japanese Phonetics",
+      },
+      {
+        ja: "英語音声学・音韻論",
+        en: "English Phonetics and Phonology",
+      },
+      { ja: "相互行為音声学", en: "Interactional Phonetics" },
     ],
   },
   {
     id: "english",
-    area: "英語教育・語学教材",
-    summary:
-      "文法を項目の羅列ではなく構造として説明する概説書と、CEFR に沿って積み上げる教材。語彙習得については、なぜ覚えられないのかという認知の側から扱っています。",
+    area: {
+      ja: "英語教育・語学教材",
+      en: "English language teaching and materials",
+    },
+    summary: {
+      ja: "文法を項目の羅列ではなく構造として説明する概説書と、CEFR に沿って積み上げる教材。語彙習得については、なぜ覚えられないのかという認知の側から扱っています。",
+      en: "A survey that explains grammar as a structure rather than a list of items, and coursework built cumulatively along the CEFR. Vocabulary is approached from the cognitive side: why words fail to stick.",
+    },
     titles: [
-      "英文法概論 —— 構造と体系",
-      "英語科教育法",
-      "外国語の単語はなぜ覚えられないのか",
-      "A2–B1 教科書",
-      "My First Step Abroad",
+      {
+        ja: "英文法概論 —— 構造と体系",
+        en: "English Grammar: Structure and System",
+      },
+      {
+        ja: "英語科教育法",
+        en: "Teaching Methodology for English Education",
+      },
+      {
+        ja: "外国語の単語はなぜ覚えられないのか",
+        en: "Why Foreign Words Won't Stick",
+      },
+      { ja: "A2–B1 教科書", en: "An A2–B1 Coursebook" },
+      { ja: "My First Step Abroad", en: "My First Step Abroad" },
     ],
   },
   {
     id: "japanese",
-    area: "日本語教育",
-    summary:
-      "登録日本語教員の試験対策と、日本語教師が必要とする言語学の基礎。現場で説明を求められる項目から逆算して構成しています。",
+    area: {
+      ja: "日本語教育",
+      en: "Teaching Japanese as a second language",
+    },
+    summary: {
+      ja: "登録日本語教員の試験対策と、日本語教師が必要とする言語学の基礎。現場で説明を求められる項目から逆算して構成しています。",
+      en: "Preparation for the registered Japanese-teacher examination, and the linguistics a Japanese teacher actually needs. Organised backwards from the points teachers are asked to explain in the classroom.",
+    },
     titles: [
-      "日本語教員試験 完全対策",
-      "日本語教師のための言語学",
-      "日本語教師のための日本語音声学",
+      {
+        ja: "日本語教員試験 完全対策",
+        en: "Complete Preparation for the Japanese Teacher Examination",
+      },
+      {
+        ja: "日本語教師のための言語学",
+        en: "Linguistics for Teachers of Japanese",
+      },
+      {
+        ja: "日本語教師のための日本語音声学",
+        en: "Japanese Phonetics for Teachers of Japanese",
+      },
     ],
   },
   {
     id: "general",
-    area: "一般書",
-    summary:
-      "言語・社会・技術が交わるところを、専門外の読者に向けて書いたもの。音声合成と詐欺、移民と共生、AIと労働など、いま判断を迫られている主題を扱います。",
+    area: { ja: "一般書", en: "General readership" },
+    summary: {
+      ja: "言語・社会・技術が交わるところを、専門外の読者に向けて書いたもの。音声合成と詐欺、移民と共生、AIと労働など、いま判断を迫られている主題を扱います。",
+      en: "Writing for non-specialists about where language, society and technology meet: synthesised voice and fraud, immigration and coexistence, AI and work — subjects on which readers are being asked to form a view now.",
+    },
     titles: [
-      "クローン音声AIと詐欺の科学",
-      "移民国家日本 —— 共生は可能か",
-      "AI時代に消える仕事・残る仕事",
-      "分断の日本社会",
-      "となりの国から来たわたし",
+      {
+        ja: "クローン音声AIと詐欺の科学",
+        en: "Voice-Cloning AI and the Science of Fraud",
+      },
+      {
+        ja: "移民国家日本 —— 共生は可能か",
+        en: "Japan as a Country of Immigration: Is Coexistence Possible?",
+      },
+      {
+        ja: "AI時代に消える仕事・残る仕事",
+        en: "Which Jobs Disappear in the Age of AI, and Which Remain",
+      },
+      { ja: "分断の日本社会", en: "A Divided Japan" },
+      {
+        ja: "となりの国から来たわたし",
+        en: "I Came from the Country Next Door",
+      },
     ],
   },
 ];

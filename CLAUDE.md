@@ -25,7 +25,10 @@
 - **未完成・開発途中のものは公開しない**。まだ無い機能・ツール・刊行物の予告（「今後追加予定」「準備しています」）を書かないだけでなく、開発中の製品そのものをサイトに出さない。`catalog.ts` の `status: "development"` の項目はどのページからもレンダリングしていない（公開待ちの控え）。
 - **ソフトウェアはサイトから配布しない**。`catalog.ts` の `tools` は内容の紹介にとどめ、入手先へのリンクを持たせない。利用希望は問い合わせで受ける。書籍も同様に分野別の紹介のみで、販売リンクは置かない。
 - **手書きCSSは必ず `@layer base` / `@layer components` に入れる**。レイヤー外に書くと、レイヤー内の Tailwind ユーティリティを常に上書きしてしまい、`<a>` に `text-muted` や `text-paper` を当てても効かなくなる（実際にこれで問い合わせボタンの文字が消えた）。
-- UIコピーは日本語。`<html lang="ja">`。アクセシビリティの床（キーボードフォーカス可視・`prefers-reduced-motion` 尊重・スキップリンク）を維持。
+- **日英2言語**。日本語が既定（`/`）、英語は `/en/`。ページは `src/pages/[...lang]/` の1ファイルで両言語を生成する（`getStaticPaths = localePaths`）。テンプレートを言語ごとに複製しない。
+- **利用者に見える文字列は必ず `L`（`{ja, en}`）で持ち、`t(value, lang)` で取り出す**。本文は `src/i18n/pages.ts`、UI語彙は `src/i18n/index.ts`、掲載物は `src/data/catalog.ts`。`.astro` に生の文言を書かない。
+- **内部リンクは `u(path, lang)`**。`path` は言語プレフィックスを含まないルート（`/products`）を渡す。`BaseLayout` にも同じ `path` を渡すと canonical・hreflang・言語切り替えが揃う。
+- アクセシビリティの床（キーボードフォーカス可視・`prefers-reduced-motion` 尊重・スキップリンク）を維持。
 
 ## デザイントークン（`src/styles/global.css` の `@theme`）
 
@@ -36,18 +39,27 @@
 ## ディレクトリ
 
 ```
-src/pages/      index / products / books / research / support / about / legal / 404
-                contact/index.astro, contact/thanks.astro
+src/pages/[...lang]/   index / products / books / research / support / about / legal
+                       contact/index.astro, contact/thanks.astro
+                       lang=undefined → 日本語（/products）、lang="en" → 英語（/en/products）
+src/pages/      404.astro（1枚だけなので日英併記）
                 sitemap.xml.ts, robots.txt.ts（動的生成のエンドポイント）
-src/layouts/    BaseLayout.astro（head・OGP・JSON-LD・フォント・Header/Footer）
-src/components/ Header.astro, Footer.astro, PageHeader.astro（下層ページ共通の導入部）
+src/i18n/       index.ts（Lang・t・localePaths・UI語彙）, pages.ts（ページ本文の対訳）
+src/layouts/    BaseLayout.astro（head・OGP・JSON-LD・hreflang・Header/Footer）
+src/components/ Header.astro（言語切り替え込み）, Footer.astro, PageHeader.astro
 src/components/islands/  SupportForm.tsx（問い合わせ）
                          VowelChart.tsx, Spectrogram.tsx（現在どこからも読んでいない）
 src/data/       catalog.ts（tools / inDevelopment / datasets / bookAreas の真実源）
-src/lib/        url.ts（base対応の内部リンク）
+src/lib/        url.ts（base・言語対応の内部リンク u(path, lang)）
 scripts/        build_og.py, check-links.mjs, health-check.mjs
 public/         CNAME, favicon.svg, og.png
 ```
+
+## 言語を1つ足すとき
+
+1. `src/i18n/index.ts` の `LANGS` に足す。
+2. `L` 型の全定義（`i18n/pages.ts`・`data/catalog.ts`）に対訳を足す。型が通らない箇所が漏れになる。
+3. `localePaths()` にルートを足す。ページ側の変更は不要。
 
 ## タイポグラフィ
 

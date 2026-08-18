@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { u } from "../lib/url";
+import { LANGS } from "../i18n";
 
 /** Hand-kept list — the site is small, so this beats pulling in an integration. */
 const paths = [
@@ -15,14 +16,21 @@ const paths = [
 
 export const GET: APIRoute = ({ site }) => {
   const urls = paths
-    .map(({ path, priority }) => {
-      const loc = new URL(u(path), site).href;
-      return `  <url>\n    <loc>${loc}</loc>\n    <priority>${priority}</priority>\n  </url>`;
-    })
+    .flatMap(({ path, priority }) =>
+      LANGS.map((lang) => {
+        const loc = new URL(u(path, lang), site).href;
+        // 各URLに、対応する別言語版を hreflang で添える。
+        const alternates = LANGS.map(
+          (other) =>
+            `    <xhtml:link rel="alternate" hreflang="${other}" href="${new URL(u(path, other), site).href}"/>`
+        ).join("\n");
+        return `  <url>\n    <loc>${loc}</loc>\n${alternates}\n    <priority>${priority}</priority>\n  </url>`;
+      })
+    )
     .join("\n");
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls}
 </urlset>
 `;
