@@ -14,22 +14,6 @@ concurrency:
   group: "pages"
   cancel-in-progress: true
 
-# ---------------------------------------------------------------------------
-# 暫定設定：独自ドメイン goonresearch.jp は A レコード未設定で名前解決しないため、
-# GitHub Pages のプロジェクトURL（https://labphonlab.github.io/go-on-llc/）へ
-# 出しています。内部リンクが base 付きになるよう SITE_BASE を渡し、CNAME は
-# 同梱しません（CNAME を置くと GitHub が到達しない独自ドメインへ切り替えてしまう）。
-#
-# ▼ DNS が通ったら独自ドメインへ戻す手順
-#   1. 下の SITE_URL / SITE_BASE の2行を削除する（既定値が独自ドメイン向け）。
-#   2. 「Drop CNAME」ステップを削除する。
-#   3. GitHub の Settings → Pages → Custom domain に goonresearch.jp を設定し、
-#      Enforce HTTPS を有効にする。
-# ---------------------------------------------------------------------------
-env:
-  SITE_URL: https://labphonlab.github.io
-  SITE_BASE: /go-on-llc/
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,16 +21,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      # 暫定：プロジェクトURL配信のあいだは独自ドメインを宣言しない
-      - name: Drop CNAME (serving from the project URL)
-        run: rm -f public/CNAME
+      # ---------------------------------------------------------------------
+      # 配信先を実際のDNSから決める。
+      #
+      # goonresearch.jp が GitHub Pages の A レコード4本を向いていれば独自ドメイン
+      # 向けにビルドし、CNAME を同梱する。まだ向いていなければプロジェクトURL
+      # （https://labphonlab.github.io/go-on-llc/）向けにビルドし、CNAME は外す。
+      # CNAME を置いたまま名前解決できないと、GitHub が到達しない独自ドメインへ
+      # 切り替えてサイトごと見えなくなるため、この判定を人手に任せない。
+      # ---------------------------------------------------------------------
+      - name: Choose the deploy target
+        run: |
+          set -euo pipefail
+          apex=goonresearch.jp
+          expected="185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153"
+          resolved="$(getent ahostsv4 "$apex" | awk '{print $1}' | sort -u || true)"
+
+          missing=0
+          for ip in $expected; do
+            grep -qx "$ip" <<<"$resolved" || missing=1
+          done
+
+          if [ "$missing" -eq 0 ]; then
+            echo "✔ $apex は GitHub Pages を向いています。独自ドメイン向けにビルドします。"
+            echo "SITE_URL=https://goonresearch.jp" >> "$GITHUB_ENV"
+            echo "SITE_BASE=/" >> "$GITHUB_ENV"
+          else
+            echo "… $apex はまだ GitHub Pages を向いていません（解決結果: ${resolved:-なし}）。"
+            echo "  プロジェクトURL向けにビルドし、CNAME は同梱しません。"
+            echo "SITE_URL=https://labphonlab.github.io" >> "$GITHUB_ENV"
+            echo "SITE_BASE=/go-on-llc/" >> "$GITHUB_ENV"
+            rm -f public/CNAME
+          fi
 
       - name: Install, build, and upload your site
         uses: withastro/action@v6
-        # with:
-        #   path: .            # root of the Astro project (default: repo root)
-        #   node-version: 24   # default: 24
-        #   package-manager: npm
 
   deploy:
     needs: build

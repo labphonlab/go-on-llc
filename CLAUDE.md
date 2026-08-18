@@ -17,7 +17,8 @@
 
 - **Tailwind は `@tailwindcss/vite` プラグイン方式**。古い `@astrojs/tailwind` 統合や `tailwind.config.js` は使わない。設定は `src/styles/global.css` の `@theme` に CSS-first で書く。
 - **インタラクティブ化は island に限定**。`.astro` から `.tsx` を読み、`client:visible`（基本）/ `client:load` / `client:idle` で水和。ページ全体を React 化しない。
-- **デプロイは GitHub Actions 一本**（`.github/workflows/deploy.yml`：`withastro/action@v6` → `actions/deploy-pages@v4`）。ブランチ公開方式と混在させない（CNAME 消失事故の原因）。
+- **デプロイは GitHub Actions 一本**（`.github/workflows/deploy.yml`：`withastro/action@v6` → `actions/deploy-pages@v4`）。ブランチ公開方式と混在させない（CNAME 消失事故の原因）。Pages の build_type は `workflow`。
+- **配信先はDNSから自動判定する**。`deploy.yml` が `goonresearch.jp` の A レコードを見て、GitHub Pages を向いていれば独自ドメイン向け（CNAME 同梱）、向いていなければプロジェクトURL向け（CNAME 除去）でビルドする。名前解決しないまま CNAME を置くとサイトごと到達不能になるため、この判定を人手に委ねない。
 - **独自ドメインは2か所で管理**：`public/CNAME` と `astro.config.mjs` の `site`。変更時は両方直す。現在は `goonresearch.jp`。
 - **内部リンクは必ず `u()`（`src/lib/url.ts`）を通す**。素の `/about` はプロジェクトパス公開（`/go-on-llc/`）で404になる。`astro.config.mjs` は `SITE_URL` / `SITE_BASE` 環境変数で2通りのデプロイ先に対応する。
 - **掲載プロダクト・公開データの真実源は `src/data/catalog.ts`**。index / products / tools / support はここを読む。状態変更は1か所だけ直す。`status` は `released`（今すぐ入手できる）と `development`（未公開）の2値で、開発中のものを「公開中」と書かない。
@@ -77,7 +78,7 @@ python3 scripts/build_og.py   # OGP画像を作り直す（macOSのシステム�
 
 ## 今後のタスク（着手順の目安）
 
-1. **独自ドメインの開通**（未了・最優先）。`goonresearch.jp` は登録済み・NSは `01〜04.dnsv.jp` だが、Aレコード未設定のため名前解決しない。現状の公開URLは `https://labphonlab.github.io/go-on-llc/`。お名前.com Navi の DNSレコード設定で GitHub Pages の A 4本（185.199.108〜111.153）と `www` の CNAME を追加し、GitHub 側の Settings → Pages → Custom domain を設定する。
+1. **独自ドメインの開通**（未了・お名前.com へのログインが必要なため人手作業）。`goonresearch.jp` は登録済み・NSは `01〜04.dnsv.jp` だが、Aレコード未設定のため名前解決しない。現状の公開URLは `https://labphonlab.github.io/go-on-llc/`。お名前.com Navi の DNSレコード設定で A 4本（185.199.108〜111.153）と `www` の CNAME（`labphonlab.github.io.`）を追加すれば、あとは自動で切り替わる（deploy.yml が配信先をDNSから判定し、monitor.yml が開通を検出して deploy を起動する）。ワークフローを手で書き換える必要はない。
 3. IPA子音チャート（pulmonic）を island 化。
 4. フォルマント分析ツール。
 5. プロダクトが App Store で公開されたら `src/data/catalog.ts` の `status` を `released` にし、ストアURLを `links` に追加する。
@@ -86,8 +87,8 @@ python3 scripts/build_og.py   # OGP画像を作り直す（macOSのシステム�
 ## 自動化
 
 - `.github/workflows/ci.yml` — main 以外への push と PR で、2通りの配信先どちらでもビルドが通り、リンクが切れていないことを確かめる。
-- `.github/workflows/deploy.yml` — main への push で本番へ自動デプロイ。**現在は暫定でプロジェクトURL向け**（先頭コメントに独自ドメインへ戻す手順あり）。
-- `.github/workflows/monitor.yml` — 毎日 07:00 JST に公開中のサイトを外から確認する。全ページの200確認・外部リンクの生存確認・独自ドメインの向き先確認を行い、異常があれば `site-monitor` ラベルの Issue を立て、復旧したら自動でクローズする。
+- `.github/workflows/deploy.yml` — main への push で本番へ自動デプロイ。配信先はDNSから自動判定する。
+- `.github/workflows/monitor.yml` — 毎日 07:00 JST に公開中のサイトを外から確認する。全ページの200確認・外部リンクの生存確認を行い、異常があれば `site-monitor` ラベルの Issue を立て、復旧したら自動でクローズする。あわせてDNSの開通を検出したら deploy を起動し、独自ドメインへ自動で切り替える。
 - 問い合わせの受付そのものも自動化してある。`SupportForm.tsx` が用件に応じて項目を出し分け、動作環境を `navigator` から自動入力し、件名（`_subject`）を用件と製品から組み立てる。受信箱の時点で仕分けでき、再現手順が揃った状態で届く。サポートページのFAQは絞り込み付きで、`/support#purchase` のような直リンクでその項目が開く。
 - 手元で同じ検査を回す:
 

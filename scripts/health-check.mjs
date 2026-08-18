@@ -5,8 +5,8 @@
  *   LIVE_URL=https://labphonlab.github.io/go-on-llc/ node scripts/health-check.mjs
  *
  * sitemap.xml を起点に全ページを取得し、200 以外があれば異常終了する。
- * あわせて独自ドメインの A レコードを見て、GitHub Pages に向いているかを報告する
- * （向き始めたら SITE_BASE を外して独自ドメインへ切り替える合図になる）。
+ * あわせて独自ドメインの A レコードを見て、GitHub Pages に向いているかを報告する。
+ * 向き始めた場合、monitor.yml が deploy を起動して独自ドメインへ自動で切り替える。
  */
 import { resolve4 } from "node:dns/promises";
 
@@ -60,13 +60,15 @@ try {
   notes.push(`${APEX} の A レコード: ${addresses.join(", ")}`);
   if (pointsToPages) {
     notes.push(
-      `${APEX} は GitHub Pages を向いています。SITE_BASE を外して独自ドメインへ切り替えられます（.github/workflows/deploy.yml の手順を参照）。`
+      `${APEX} は GitHub Pages を向いています。deploy.yml が配信先をDNSから判定するため、次のデプロイで独自ドメインへ切り替わります。`
     );
   } else {
     notes.push(`${APEX} は GitHub Pages 以外を向いています。設定を確認してください。`);
   }
 } catch (err) {
-  notes.push(`${APEX} は名前解決できません（Aレコード未設定）。公開URLは ${LIVE_URL} のままです。`);
+  notes.push(
+    `${APEX} は名前解決できません（Aレコード未設定）。公開URLは ${LIVE_URL} のままです。Aレコードを追加すれば自動で切り替わります。`
+  );
 }
 
 console.log(notes.map((n) => `・${n}`).join("\n"));

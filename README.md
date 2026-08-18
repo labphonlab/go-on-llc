@@ -19,6 +19,7 @@ npm run preview  # 本番ビルドをローカル確認
 
 独自ドメイン（`https://goonresearch.jp/`、`base = "/"`）と、GitHub Pages のプロジェクトパス
 （`https://labphonlab.github.io/go-on-llc/`、`base = "/go-on-llc/"`）の両方でそのまま動くようにしてあります。
+どちらへ出すかは `deploy.yml` が実際のDNSを見て自動で決めるため、手で切り替える必要はありません。
 
 ```bash
 npm run build                                                          # 独自ドメイン向け（既定）
@@ -76,8 +77,8 @@ goonresearch-web/
 | ワークフロー | 起動 | 内容 |
 |---|---|---|
 | `ci.yml` | main 以外への push・PR | 2通りの配信先でビルド＋リンク切れ検査 |
-| `deploy.yml` | main への push | GitHub Pages へ自動デプロイ（現在は暫定でプロジェクトURL向け） |
-| `monitor.yml` | 毎日 07:00 JST | 公開中サイトの全ページ200確認・外部リンク確認・独自ドメインの向き先確認。異常時は Issue を作成し、復旧で自動クローズ |
+| `deploy.yml` | main への push | GitHub Pages へ自動デプロイ。配信先はDNSから自動判定 |
+| `monitor.yml` | 毎日 07:00 JST | 公開中サイトの全ページ200確認・外部リンク確認。異常時は Issue を作成し、復旧で自動クローズ。DNS開通を検出したら deploy を起動して独自ドメインへ切り替え |
 
 手元でも同じ検査を回せます。
 
@@ -118,6 +119,7 @@ import VowelChart from "../components/islands/VowelChart.tsx";
 
 現在 `goonresearch.jp` はお名前.comに登録済み（ネームサーバーは `01〜04.dnsv.jp`）ですが、
 **Aレコードが未設定のため名前解決しません**。下記のレコードをお名前.com Navi の「DNSレコード設定」で追加してください。
+追加後は `deploy.yml` / `monitor.yml` が開通を検出して自動で独自ドメインへ切り替えるため、リポジトリ側の作業は不要です。
 
 **DNS（ドメイン事業者側）**
 

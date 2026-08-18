@@ -2,8 +2,8 @@ name: Site monitor
 
 # 公開中のサイトを外から毎日確認する。
 #   - sitemap.xml に載る全ページが 200 で返るか
-#   - 外部リンク（GitHub・配布ページ・Formspree 等）が生きているか
-#   - 独自ドメインが GitHub Pages を向き始めたか（切り替えの合図）
+#   - 外部リンクが生きているか
+#   - 独自ドメインが GitHub Pages を向き始めたら、自動でデプロイし直して切り替える
 # 異常があれば site-monitor ラベルの Issue を立てる（既にあればコメントを足す）。
 on:
   schedule:
@@ -13,6 +13,7 @@ on:
 permissions:
   contents: read
   issues: write
+  actions: write # DNS開通を検出したときに deploy を起動する
 
 jobs:
   monitor:
@@ -25,19 +26,40 @@ jobs:
           cache: npm
       - run: npm ci
 
-      # 公開URL。deploy.yml の暫定設定に合わせている。独自ドメインへ戻すときは
-      # ここも https://goonresearch.jp/ に直す。
-      - name: Check the live site
-        id: health
+      # 独自ドメインが応答すればそちらが本番。まだならプロジェクトURLを見る。
+      - name: Decide which URL is live
+        run: |
+          set -euo pipefail
+          if curl -sfI -m 20 https://goonresearch.jp/ >/dev/null 2>&1; then
+            echo "LIVE_URL=https://goonresearch.jp/" >> "$GITHUB_ENV"
+          else
+            echo "LIVE_URL=https://labphonlab.github.io/go-on-llc/" >> "$GITHUB_ENV"
+          fi
+
+      # DNSが通ったのに、まだプロジェクトURLで配信していれば切り替える。
+      # deploy.yml は配信先をDNSから判定するので、起動するだけで独自ドメイン向けに出る。
+      - name: Switch to the custom domain once DNS lands
         env:
-          LIVE_URL: https://labphonlab.github.io/go-on-llc/
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          expected="185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153"
+          resolved="$(getent ahostsv4 goonresearch.jp | awk '{print $1}' | sort -u || true)"
+          missing=0
+          for ip in $expected; do grep -qx "$ip" <<<"$resolved" || missing=1; done
+
+          if [ "$missing" -eq 0 ] && [ "$LIVE_URL" != "https://goonresearch.jp/" ]; then
+            echo "DNSは通っていますが、まだ独自ドメインで配信できていません。デプロイし直します。"
+            gh workflow run "Deploy to GitHub Pages" --ref main
+          else
+            echo "切り替えは不要です。"
+          fi
+
+      - name: Check the live site
         run: node scripts/health-check.mjs 2>&1 | tee health.log
 
       - name: Check external links
         if: always()
-        env:
-          SITE_URL: https://labphonlab.github.io
-          SITE_BASE: /go-on-llc/
         run: |
           npm run build
           node scripts/check-links.mjs --external 2>&1 | tee -a health.log
