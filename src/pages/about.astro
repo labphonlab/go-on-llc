@@ -1,34 +1,70 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { u } from "../lib/url";
 
 const rows = [
   { k: "会社名", v: "合同会社語音（Go-on LLC）" },
   { k: "所在地", v: "東京都豊島区" },
   { k: "代表社員", v: "石原 健" },
+  {
+    k: "事業内容",
+    v: "ソフトウェアの企画・制作・販売／学術出版物の発行／オンライン教育・研修／研究・調査・コンサルティング",
+  },
+  { k: "お問い合わせ", v: "本サイトのフォーム", href: "/contact" },
 ];
 ---
 
 <BaseLayout
-  title="会社概要 | 合同会社語音"
-  description="合同会社語音（Go-on LLC）の会社概要。所在地は東京都豊島区、代表社員 石原 健。"
+  title="会社概要"
+  description="合同会社語音（Go-on LLC）の会社概要。所在地は東京都豊島区、代表社員 石原 健。音声・言語・教育・情報技術を軸に事業を行っています。"
 >
   <section class="mx-auto max-w-3xl px-5 pt-16 pb-12">
-    <h1 class="font-display text-4xl font-semibold tracking-tight text-ink">
+    <p class="text-xs uppercase tracking-[0.25em] text-muted">about</p>
+    <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight text-ink">
       会社概要
     </h1>
-    <p class="mt-4 text-muted">
+    <p class="mt-5 leading-relaxed text-muted">
       音声・言語・教育・情報技術を軸に、研究・教育・コンテンツ制作を行っています。
     </p>
 
     <dl class="mt-10 divide-y divide-line border-y border-line">
       {
         rows.map((r) => (
-          <div class="grid grid-cols-[8rem_1fr] gap-4 py-4">
+          <div class="grid grid-cols-[6rem_1fr] gap-4 py-4 sm:grid-cols-[8rem_1fr]">
             <dt class="text-sm text-muted">{r.k}</dt>
-            <dd class="text-ink">{r.v}</dd>
+            <dd class="text-ink">
+              {r.href ? <a href={u(r.href)}>{r.v}</a> : r.v}
+            </dd>
           </div>
         ))
       }
     </dl>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-12">
+    <h2 class="text-xs uppercase tracking-[0.25em] text-muted">社名について</h2>
+    <p class="mt-5 leading-relaxed text-muted">
+      「語音」は、言語を成り立たせている音そのもの——
+      <span class="ipa">speech sound</span>
+      ——を指します。読みは <span class="ipa">/ɡo.oɴ/</span>。研究の対象と、つくるものの対象が同じ言葉で言い表せることを社名にしました。
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-24">
+    <h2 class="text-xs uppercase tracking-[0.25em] text-muted">
+      何をしているか
+    </h2>
+    <div class="mt-6 grid gap-6">
+      <p class="leading-relaxed text-muted">
+        自発音声コーパスを用いた音声学・音韻論の実証研究を行い、そこで必要になった道具——音声分析の操作環境、母音の可視化、知覚実験の実施環境——を、そのまま誰でも使えるかたちで公開しています。研究と製品が別の活動ではなく、同じ作業の表と裏になっているのが特徴です。
+      </p>
+      <p class="leading-relaxed text-muted">
+        語学学習のアプリケーションも同じ考え方でつくっています。収録語数や問題数ではなく、「どの語を、どの順で、どの側面から学ぶと効率がよいか」という語彙・音韻の研究知見そのものを機能にしています。
+      </p>
+      <p class="text-sm leading-relaxed text-muted">
+        詳しくは <a href={u("/products")}>プロダクト</a> ・
+        <a href={u("/research")}>研究</a> をご覧ください。
+      </p>
+    </div>
   </section>
 </BaseLayout>

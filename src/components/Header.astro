@@ -1,32 +1,41 @@
 ---
+import { u } from "../lib/url";
+
 const nav = [
   { href: "/", label: "ホーム" },
-  { href: "/about", label: "会社概要" },
+  { href: "/products", label: "プロダクト" },
   { href: "/tools", label: "ツール" },
+  { href: "/research", label: "研究" },
+  { href: "/support", label: "サポート" },
+  { href: "/about", label: "会社概要" },
   { href: "/contact", label: "お問い合わせ" },
 ];
-const path = Astro.url.pathname;
-const isActive = (href: string) =>
-  href === "/" ? path === "/" : path.startsWith(href);
+
+// Astro.url.pathname carries the base prefix, so compare against u(href).
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isActive = (href: string) => {
+  const target = u(href).replace(/\/$/, "") || "/";
+  return href === "/" ? path === target : path.startsWith(target);
+};
 ---
 
 <header class="border-b border-line">
   <div
-    class="mx-auto flex max-w-5xl items-baseline justify-between gap-4 px-5 py-5"
+    class="mx-auto flex max-w-5xl flex-wrap items-baseline justify-between gap-x-4 gap-y-2 px-5 py-5"
   >
-    <a href="/" class="group no-underline" aria-label="合同会社語音 ホーム">
+    <a href={u("/")} class="group no-underline" aria-label="合同会社語音 ホーム">
       <span class="font-display text-xl font-medium tracking-tight text-ink"
         >語音</span
       >
       <span class="ipa ml-2 text-sm text-muted">/ɡo.oɴ/</span>
     </a>
     <nav aria-label="メインナビゲーション">
-      <ul class="flex flex-wrap items-center gap-x-6 gap-y-1 text-sm">
+      <ul class="flex flex-wrap items-center gap-x-5 gap-y-1 text-sm">
         {
           nav.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={u(item.href)}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 class:list={[
                   "no-underline underline-offset-[6px] decoration-1 transition-colors",

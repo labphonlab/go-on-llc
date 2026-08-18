@@ -1,29 +1,39 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { u } from "../lib/url";
+import { released, inDevelopment, datasets } from "../data/catalog";
 
 const services = [
   {
     t: "ソフトウェアの企画・制作・販売",
     d: "音声・映像を扱うソフトウェアおよびWebアプリケーションの企画から制作、販売まで。",
+    href: "/products",
+    cta: "プロダクトを見る",
   },
   {
     t: "学術出版物の発行",
     d: "音声学・言語学・言語教育を中心とした書籍・電子書籍の編集と発行。",
+    href: "/products#publishing",
+    cta: "出版について",
   },
   {
     t: "オンライン教育・研修",
     d: "語学・発音・データ分析などのオンライン講座および研修の企画・運営。",
+    href: "/contact",
+    cta: "相談する",
   },
   {
     t: "研究・調査・コンサルティング",
     d: "情報技術と音響分析を活用した研究・調査、および専門的コンサルティング。",
+    href: "/research",
+    cta: "研究を見る",
   },
 ];
 ---
 
 <BaseLayout>
   <!-- Hero: the name itself is the field. 語音 = "speech sound". -->
-  <section class="mx-auto max-w-5xl px-5 pt-24 pb-24 sm:pt-36 sm:pb-32">
+  <section class="mx-auto max-w-5xl px-5 pt-24 pb-20 sm:pt-36 sm:pb-24">
     <p class="text-xs uppercase tracking-[0.25em] text-muted">go-on llc</p>
     <h1
       class="mt-7 font-display text-5xl font-medium leading-[0.95] tracking-tight text-ink sm:text-6xl"
@@ -38,23 +48,61 @@ const services = [
       音声・言語・教育を、<wbr />研究と実践でつなぐ。
     </p>
     <p class="mt-6 max-w-xl text-base leading-relaxed text-muted">
-      合同会社語音は、音声・言語・教育・情報技術を軸に、研究・教育・コンテンツ制作を行う法人です。
+      合同会社語音は、音声・言語・教育・情報技術を軸に、研究・教育・コンテンツ制作を行う法人です。研究で得た知見をソフトウェアと教材のかたちにし、その土台となったデータと解析コードを公開しています。
     </p>
 
     <div class="mt-12 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm">
       <a
-        href="#services"
+        href={u("/products")}
         class="group inline-flex items-center gap-2 font-medium text-ink no-underline"
-        >事業内容を見る
+        >プロダクトを見る
         <span class="text-muted transition-transform group-hover:translate-x-0.5"
           >→</span
         ></a
       >
       <a
-        href="/contact"
+        href="#services"
+        class="text-muted no-underline transition-colors hover:text-ink"
+        >事業内容</a
+      >
+      <a
+        href={u("/contact")}
         class="text-muted no-underline transition-colors hover:text-ink"
         >お問い合わせ</a
       >
+    </div>
+  </section>
+
+  <!-- What you can actually use today. -->
+  <section class="mx-auto max-w-5xl px-5 py-16 sm:py-20">
+    <div class="border-t border-line pt-10">
+      <h2 class="text-xs uppercase tracking-[0.25em] text-muted">公開中</h2>
+      <p class="mt-4 max-w-2xl font-display text-2xl leading-snug text-ink">
+        いま使えるもの
+      </p>
+      <div class="mt-8 grid gap-x-10 gap-y-8 sm:grid-cols-3">
+        {
+          released.map((p) => (
+            <div>
+              <h3 class="font-display text-lg text-ink">{p.name}</h3>
+              <p class="mt-1 text-xs text-muted">{p.kind}</p>
+              <p class="mt-2 text-sm leading-relaxed text-muted">{p.summary}</p>
+              {p.links?.[0] && (
+                <a
+                  href={p.links[0].href}
+                  class="mt-3 inline-block text-sm font-medium text-ink no-underline underline-offset-[6px] hover:underline"
+                >
+                  {p.links[0].label} <span aria-hidden="true">→</span>
+                </a>
+              )}
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-10 text-sm text-muted">
+        このほか <a href={u("/products")}>{inDevelopment.length}件のプロダクトを開発中</a>です。
+        サイト内でそのまま動かせるデモは<a href={u("/tools")}>ツール</a>にあります。
+      </p>
     </div>
   </section>
 
@@ -73,6 +121,12 @@ const services = [
               <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">
                 {s.d}
               </p>
+              <a
+                href={u(s.href)}
+                class="mt-3 inline-block text-sm text-muted no-underline underline-offset-[6px] transition-colors hover:text-ink hover:underline"
+              >
+                {s.cta} <span aria-hidden="true">→</span>
+              </a>
             </div>
           </div>
         ))
@@ -80,20 +134,43 @@ const services = [
     </div>
   </section>
 
-  <!-- Tools teaser -->
-  <section class="mx-auto max-w-5xl px-5 pb-24 sm:pb-28">
+  <!-- Research -->
+  <section class="mx-auto max-w-5xl px-5 py-16">
     <div class="border-t border-line pt-10">
-      <p class="ipa text-sm text-muted">[ tuːlz ]</p>
+      <p class="ipa text-sm text-muted">[ ɹɪˈsɜːtʃ ]</p>
       <h2 class="mt-2 max-w-2xl font-display text-2xl text-ink sm:text-3xl">
-        インタラクティブな音声学ツール
+        研究とデータ公開
       </h2>
       <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
-        ブラウザ上で動く音声学の学習・研究ツールを順次公開します。IPAチャート、母音四角形、スペクトログラム表示、波形ビューア、フォルマント分析などを予定しています。
+        自発音声コーパスを用いた韻律・語彙・第二言語音声の研究を行い、論文に伴う集計データと解析コードを{
+          datasets.length
+        }件のリポジトリで公開しています。プロダクトの設計はここでの知見を土台にしています。
       </p>
       <a
-        href="/tools"
+        href={u("/research")}
         class="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink no-underline"
-        >ツールを見る
+        >研究を見る
+        <span class="text-muted transition-transform group-hover:translate-x-0.5"
+          >→</span
+        ></a
+      >
+    </div>
+  </section>
+
+  <!-- Support -->
+  <section class="mx-auto max-w-5xl px-5 pb-24 sm:pb-28">
+    <div class="border-t border-line pt-10">
+      <p class="ipa text-sm text-muted">[ səˈpɔːt ]</p>
+      <h2 class="mt-2 max-w-2xl font-display text-2xl text-ink sm:text-3xl">
+        サポート
+      </h2>
+      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
+        公開中・開発中を問わず、当社プロダクトについてのご質問、不具合のご報告、ご要望をお受けします。動作環境やデータの取り扱いもサポートページにまとめています。
+      </p>
+      <a
+        href={u("/support")}
+        class="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink no-underline"
+        >サポートを見る
         <span class="text-muted transition-transform group-hover:translate-x-0.5"
           >→</span
         ></a

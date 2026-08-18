@@ -19,3 +19,8 @@ yarn-error.log*
 .DS_Store
 .vscode/*
 !.vscode/extensions.json
+
+# agent/session scratch (may contain private data — never commit)
+.claude/
+.claude.json
+.zcompdump

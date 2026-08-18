@@ -2,18 +2,49 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { u } from "../lib/url";
 
 interface Props {
   title?: string;
   description?: string;
+  /** Page title as-is; otherwise " | 合同会社語音" is appended. */
+  rawTitle?: boolean;
 }
 
+const SITE_NAME = "合同会社語音";
+const DEFAULT_DESCRIPTION =
+  "合同会社語音（Go-on LLC）は、音声・言語・教育・情報技術を軸に、音声分析ソフトウェアと語学学習アプリの開発、書籍の発行、音声学の研究とデータ公開を行う法人です。";
+
 const {
-  title = "合同会社語音 | Go-on LLC",
-  description = "合同会社語音は、音声・言語・教育・情報技術を軸に、研究・教育・コンテンツ制作を行う法人です。",
+  title = "合同会社語音 | Go-on LLC — 音声・言語・教育",
+  description = DEFAULT_DESCRIPTION,
+  rawTitle = false,
 } = Astro.props;
 
+const pageTitle = rawTitle || title.includes(SITE_NAME)
+  ? title
+  : `${title} | ${SITE_NAME}`;
+
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL(u("/og.png"), Astro.site).href;
+
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "合同会社語音",
+  alternateName: "Go-on LLC",
+  url: new URL(u("/"), Astro.site).href,
+  logo: ogImage,
+  description: DEFAULT_DESCRIPTION,
+  address: {
+    "@type": "PostalAddress",
+    addressRegion: "東京都",
+    addressLocality: "豊島区",
+    addressCountry: "JP",
+  },
+  founder: { "@type": "Person", name: "石原 健" },
+  knowsAbout: ["音声学", "音韻論", "音声分析", "言語教育", "コーパス言語学"],
+};
 ---
 
 <!doctype html>
@@ -21,17 +52,23 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={u("/favicon.svg")} type="image/svg+xml" />
+    <link rel="sitemap" href={u("/sitemap.xml")} />
 
-    <!-- Open Graph (fill in an image later) -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Fonts: Newsreader (display), Noto Sans JP (body), Gentium Plus (IPA) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,6 +76,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Gentium+Plus:ital,wght@0,400;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+    />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(organization)}
     />
   </head>
   <body>

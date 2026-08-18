@@ -1,0 +1,111 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { u } from "../lib/url";
+import { released, inDevelopment, STATUS_LABEL } from "../data/catalog";
+---
+
+<BaseLayout
+  title="プロダクト"
+  description="合同会社語音が公開しているソフトウェア（Praat JA・母音フォルマントチャート・音声知覚識別課題アプリ）と、開発中のiOSアプリの一覧。"
+>
+  <section class="mx-auto max-w-5xl px-5 pt-16 pb-10">
+    <p class="text-xs uppercase tracking-[0.25em] text-muted">products</p>
+    <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight text-ink">
+      プロダクト
+    </h1>
+    <p class="mt-5 max-w-2xl leading-relaxed text-muted">
+      音声を扱うソフトウェアと、語学学習のためのアプリを開発しています。すでに公開しているものと、開発中のものを分けて掲載します。開発中のプロダクトについても、
+      <a href={u("/support")}>サポートページ</a>に窓口を用意しています。
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-5 pb-16">
+    <h2 class="text-xs uppercase tracking-[0.25em] text-muted">
+      公開中 — 誰でも今すぐ使えます
+    </h2>
+    <div class="mt-8 grid gap-5">
+      {
+        released.map((p) => (
+          <article class="rounded-xl border border-line bg-white/60 p-6 sm:p-8">
+            <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <h3 class="font-display text-2xl text-ink">{p.name}</h3>
+              <span class="rounded-full border border-teal px-2.5 py-0.5 text-xs text-teal">
+                {STATUS_LABEL[p.status]}
+              </span>
+              <span class="text-xs text-muted">{p.kind}</span>
+            </div>
+            <p class="mt-3 text-ink">{p.summary}</p>
+            <p class="mt-3 text-sm leading-relaxed text-muted">{p.detail}</p>
+            <p class="mt-4 text-sm text-muted">
+              <span class="text-xs tracking-wider text-muted">動作環境</span>{" "}
+              {p.platforms}
+            </p>
+            {p.note && (
+              <p class="mt-4 border-l-2 border-amber pl-3 text-xs leading-relaxed text-muted">
+                {p.note}
+              </p>
+            )}
+            {p.links && (
+              <ul class="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                {p.links.map((l) => (
+                  <li>
+                    <a
+                      href={l.href}
+                      class="font-medium text-ink no-underline underline-offset-[6px] hover:underline"
+                    >
+                      {l.label} <span aria-hidden="true">→</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-5xl px-5 pb-24">
+    <h2 class="text-xs uppercase tracking-[0.25em] text-muted">
+      開発中 — 公開時期は未定です
+    </h2>
+    <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
+      以下は開発中のため、まだ入手できません。仕様は変更される可能性があります。公開の見込みや先行テストについてのお問い合わせは歓迎します。
+    </p>
+    <div class="mt-8 border-t border-line">
+      {
+        inDevelopment.map((p) => (
+          <article class="border-b border-line py-7">
+            <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+              <h3 class="font-display text-xl text-ink">
+                {p.name}
+                {p.reading && (
+                  <span class="ml-2 text-sm text-muted">（{p.reading}）</span>
+                )}
+              </h3>
+              <span class="rounded-full border border-line px-2.5 py-0.5 text-xs text-muted">
+                {STATUS_LABEL[p.status]}
+              </span>
+              <span class="text-xs text-muted">
+                {p.kind} · {p.platforms}
+              </span>
+            </div>
+            <p class="mt-3 text-ink">{p.summary}</p>
+            <p class="mt-2 max-w-3xl text-sm leading-relaxed text-muted">
+              {p.detail}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section id="publishing" class="mx-auto max-w-5xl px-5 pb-24 scroll-mt-24">
+    <div class="border-t border-line pt-10">
+      <h2 class="font-display text-2xl text-ink">出版</h2>
+      <p class="mt-4 max-w-2xl text-sm leading-relaxed text-muted">
+        音声学・音韻論・言語教育を中心に、書籍および電子書籍の編集・発行を準備しています。音声分析ソフトの実践的な手引き、実験音韻論の方法、日本語・英語の音声学の入門書などが主な領域です。刊行が決まりしだい本ページでお知らせします。
+      </p>
+    </div>
+  </section>
+</BaseLayout>

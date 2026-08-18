@@ -15,6 +15,18 @@ npm run preview  # 本番ビルドをローカル確認
 
 必要環境：Node.js 20.19+ または 22.12+。
 
+### 2つのデプロイ先
+
+独自ドメイン（`https://goonresearch.jp/`、`base = "/"`）と、GitHub Pages のプロジェクトパス
+（`https://labphonlab.github.io/go-on-llc/`、`base = "/go-on-llc/"`）の両方でそのまま動くようにしてあります。
+
+```bash
+npm run build                                                          # 独自ドメイン向け（既定）
+SITE_URL=https://labphonlab.github.io SITE_BASE=/go-on-llc/ npm run build   # プロジェクトパス向け
+```
+
+内部リンクは必ず `src/lib/url.ts` の `u()` を通してください。素の `/about` はプロジェクトパス配信で404になります。
+
 ## ディレクトリ構成
 
 ```
@@ -22,21 +34,34 @@ goonresearch-web/
 ├── .github/workflows/deploy.yml   # GitHub Pages 自動デプロイ
 ├── public/
 │   ├── CNAME                      # 独自ドメイン（goonresearch.jp）
-│   └── favicon.svg
+│   ├── favicon.svg
+│   └── og.png                     # OGP画像（scripts/build_og.py で生成）
+├── scripts/
+│   └── build_og.py                # OGP画像の生成スクリプト
 ├── src/
 │   ├── components/
 │   │   ├── Header.astro
 │   │   ├── Footer.astro
 │   │   └── islands/
-│   │       └── VowelChart.tsx     # React island（母音四角形デモ）
+│   │       ├── VowelChart.tsx     # React island（母音四角形）
+│   │       └── Spectrogram.tsx    # React island（波形＋スペクトログラム）
+│   ├── data/
+│   │   └── catalog.ts             # プロダクト・公開データの真実源
 │   ├── layouts/
-│   │   └── BaseLayout.astro
+│   │   └── BaseLayout.astro       # head・OGP・JSON-LD・Header/Footer
+│   ├── lib/
+│   │   └── url.ts                 # base対応の内部リンク u()
 │   ├── pages/
 │   │   ├── index.astro            # ホーム
+│   │   ├── products.astro         # プロダクト（公開中／開発中）
+│   │   ├── tools.astro            # ツール（islandと公開ツール）
+│   │   ├── research.astro         # 研究・データ公開
+│   │   ├── support.astro          # サポート窓口・FAQ
 │   │   ├── about.astro            # 会社概要
-│   │   ├── tools.astro            # ツール（islandを表示）
 │   │   ├── contact.astro          # お問い合わせ（Formspree）
 │   │   ├── legal.astro            # 特商法・プライバシー
+│   │   ├── sitemap.xml.ts         # サイトマップ（動的生成）
+│   │   ├── robots.txt.ts          # robots.txt（動的生成）
 │   │   └── 404.astro
 │   └── styles/
 │       └── global.css             # Tailwind + デザイントークン
@@ -44,6 +69,12 @@ goonresearch-web/
 ├── tsconfig.json
 └── package.json
 ```
+
+## 掲載内容の更新
+
+プロダクト一覧・公開データの一覧は `src/data/catalog.ts` に集約しています。ホーム・プロダクト・ツール・サポートの
+各ページはこのファイルを読むので、状態が変わったときはここだけを直します。`status` は `released`（今すぐ入手できる）
+と `development`（未公開）の2値です。App Store で公開されたら `status` を `released` にし、ストアURLを `links` に足します。
 
 ## React island の使い方
 
@@ -67,6 +98,9 @@ import VowelChart from "../components/islands/VowelChart.tsx";
 ## 独自ドメイン設定（goonresearch.jp）
 
 ドメインを変更する場合は **(a) `public/CNAME`** と **(b) `astro.config.mjs` の `site`** の両方を更新してください。
+
+現在 `goonresearch.jp` はお名前.comに登録済み（ネームサーバーは `01〜04.dnsv.jp`）ですが、
+**Aレコードが未設定のため名前解決しません**。下記のレコードをお名前.com Navi の「DNSレコード設定」で追加してください。
 
 **DNS（ドメイン事業者側）**
 

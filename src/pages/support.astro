@@ -1,0 +1,108 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { u } from "../lib/url";
+import { allProducts, STATUS_LABEL } from "../data/catalog";
+
+const faq = [
+  {
+    q: "不具合を報告するとき、何を書けばよいですか。",
+    a: "「使用しているプロダクト名とバージョン」「OSと機種（例: iPadOS 26 / iPad Air 11インチ M2）」「どう操作したら起きるか」「期待した動作と実際の動作」の4点があると、こちらで再現しやすくなります。エラー表示が出る場合はその文言か画面の写真も添えてください。",
+  },
+  {
+    q: "録音した音声や学習データは外部に送信されますか。",
+    a: "SpeechLab の音声解析は端末内で完結し、録音した音声を当社サーバーへ送信しません。Webツール（母音フォルマントチャート・識別課題アプリ）も、入力値と測定結果はブラウザ内で処理し、送信しません。個別の取り扱いは各プロダクトの説明およびApp Store上のプライバシー表示をご確認ください。",
+  },
+  {
+    q: "Praat JA は公式のPraatですか。",
+    a: "いいえ。Praat JA は当社が独自に開発した非公式の日本語フロントエンドです。Praat の開発者（Paul Boersma・David Weenink／アムステルダム大学）および公式 Praat プロジェクトとは無関係で、公式の承認・推奨を受けたものではありません。Praat 本体の動作に関する不具合は、まず公式版でも再現するかをご確認ください。公式版でのみ起きる問題は当社では対応できません。",
+  },
+  {
+    q: "アプリの購入・返金はどこで手続きしますか。",
+    a: "App Store 経由で販売するアプリおよびアプリ内課金の決済・返金は Apple が管理しています。返金のご依頼は Apple のサポート（reportaproblem.apple.com）へお願いします。購入に関するご不明点は当社でもお答えします。",
+  },
+  {
+    q: "教育機関での利用や、授業での配布は可能ですか。",
+    a: "公開中のWebツールは、授業・研究でそのままご利用いただけます。まとまった台数への導入、学内配布、カスタマイズのご相談はお問い合わせフォームからご連絡ください。",
+  },
+  {
+    q: "開発中のプロダクトを先に試せますか。",
+    a: "先行テストにご協力いただける方を随時募集しています。ご関心のあるプロダクト名を添えてお問い合わせフォームからご連絡ください。",
+  },
+];
+---
+
+<BaseLayout
+  title="サポート"
+  description="合同会社語音のプロダクトに関するサポート窓口。不具合の報告、動作環境、データの取り扱い、購入・返金についてのご案内。"
+>
+  <section class="mx-auto max-w-3xl px-5 pt-16 pb-10">
+    <p class="text-xs uppercase tracking-[0.25em] text-muted">support</p>
+    <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight text-ink">
+      サポート
+    </h1>
+    <p class="mt-5 leading-relaxed text-muted">
+      当社のアプリケーション・ソフトウェアに関するご質問、不具合のご報告、ご要望の窓口です。個人・法人を問わずお受けします。
+    </p>
+
+    <div class="mt-8 rounded-xl border border-line bg-white/60 p-6">
+      <h2 class="font-display text-xl text-ink">お問い合わせ窓口</h2>
+      <p class="mt-3 text-sm leading-relaxed text-muted">
+        <a href={u("/contact")}>お問い合わせフォーム</a>
+        からご連絡ください。内容を確認のうえ、順次返信いたします。対応言語は日本語および英語です。
+      </p>
+      <p class="mt-3 text-sm leading-relaxed text-muted">
+        不具合のご報告には、下の「よくあるご質問」の1点目に挙げた情報を添えていただけると助かります。
+      </p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-16">
+    <h2 class="text-xs uppercase tracking-[0.25em] text-muted">
+      対象プロダクト
+    </h2>
+    <div class="mt-8 border-t border-line">
+      {
+        allProducts.map((p) => (
+          <div class="grid gap-x-8 gap-y-1 border-b border-line py-5 sm:grid-cols-[1fr_auto]">
+            <div>
+              <h3 class="text-ink">
+                {p.name}
+                <span class="ml-2 text-xs text-muted">· {p.kind}</span>
+              </h3>
+              <p class="mt-1 text-sm text-muted">動作環境: {p.platforms}</p>
+            </div>
+            <span
+              class:list={[
+                "self-start rounded-full border px-2.5 py-0.5 text-xs",
+                p.status === "released"
+                  ? "border-teal text-teal"
+                  : "border-line text-muted",
+              ]}
+            >
+              {STATUS_LABEL[p.status]}
+            </span>
+          </div>
+        ))
+      }
+    </div>
+    <p class="mt-5 text-sm text-muted">
+      各プロダクトの内容は<a href={u("/products")}>プロダクト</a>ページをご覧ください。開発中のものについても、仕様や公開時期に関するお問い合わせをお受けしています。
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-3xl px-5 pb-24">
+    <h2 class="text-xs uppercase tracking-[0.25em] text-muted">
+      よくあるご質問
+    </h2>
+    <dl class="mt-8 border-t border-line">
+      {
+        faq.map((item) => (
+          <div class="border-b border-line py-6">
+            <dt class="font-display text-lg leading-snug text-ink">{item.q}</dt>
+            <dd class="mt-2 text-sm leading-relaxed text-muted">{item.a}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+</BaseLayout>

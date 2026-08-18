@@ -19,6 +19,8 @@
 - **インタラクティブ化は island に限定**。`.astro` から `.tsx` を読み、`client:visible`（基本）/ `client:load` / `client:idle` で水和。ページ全体を React 化しない。
 - **デプロイは GitHub Actions 一本**（`.github/workflows/deploy.yml`：`withastro/action@v6` → `actions/deploy-pages@v4`）。ブランチ公開方式と混在させない（CNAME 消失事故の原因）。
 - **独自ドメインは2か所で管理**：`public/CNAME` と `astro.config.mjs` の `site`。変更時は両方直す。現在は `goonresearch.jp`。
+- **内部リンクは必ず `u()`（`src/lib/url.ts`）を通す**。素の `/about` はプロジェクトパス公開（`/go-on-llc/`）で404になる。`astro.config.mjs` は `SITE_URL` / `SITE_BASE` 環境変数で2通りのデプロイ先に対応する。
+- **掲載プロダクト・公開データの真実源は `src/data/catalog.ts`**。index / products / tools / support はここを読む。状態変更は1か所だけ直す。`status` は `released`（今すぐ入手できる）と `development`（未公開）の2値で、開発中のものを「公開中」と書かない。
 - UIコピーは日本語。`<html lang="ja">`。アクセシビリティの床（キーボードフォーカス可視・`prefers-reduced-motion` 尊重・スキップリンク）を維持。
 
 ## デザイントークン（`src/styles/global.css` の `@theme`）
@@ -30,11 +32,15 @@
 ## ディレクトリ
 
 ```
-src/pages/      index / about / tools / contact / legal / 404 （ファイル名=ルート）
-src/layouts/    BaseLayout.astro（head・フォント・Header/Footer）
-src/components/  Header.astro, Footer.astro
-src/components/islands/  VowelChart.tsx（母音四角形デモ）
-public/         CNAME, favicon.svg
+src/pages/      index / products / tools / research / support / about / contact / legal / 404
+                sitemap.xml.ts, robots.txt.ts（動的生成のエンドポイント）
+src/layouts/    BaseLayout.astro（head・OGP・JSON-LD・フォント・Header/Footer）
+src/components/ Header.astro, Footer.astro
+src/components/islands/  VowelChart.tsx, Spectrogram.tsx
+src/data/       catalog.ts（プロダクト・公開データの真実源）
+src/lib/        url.ts（base対応の内部リンク）
+scripts/        build_og.py（public/og.png の生成）
+public/         CNAME, favicon.svg, og.png
 ```
 
 ## コマンド
@@ -44,6 +50,11 @@ npm install
 npm run dev      # http://localhost:4321
 npm run build    # dist/ に静的生成（変更後は必ず通す）
 npm run preview
+
+# GitHub Pages のプロジェクトパスで確認する場合（独自ドメイン未開通時）
+SITE_URL=https://labphonlab.github.io SITE_BASE=/go-on-llc/ npm run build
+
+python3 scripts/build_og.py   # OGP画像を作り直す（macOSのシステムフォントを使用）
 ```
 
 ## 既存の実コンテンツ（勝手に変えない）
@@ -54,11 +65,12 @@ npm run preview
 
 ## 今後のタスク（着手順の目安）
 
-1. WaveSurfer.js ベースの波形＋スペクトログラム表示を `src/components/islands/Spectrogram.tsx` として追加し、`/tools` に載せる（既存のAustralian Englishプロトタイプを移植）。
-2. IPA子音チャート（pulmonic）を island 化。
-3. フォルマント分析ツール。
-4. `research` / `publications` ページの追加（静的でよい）。
-5. 決済・ログインが必要になった段階でバックエンド（`api.goonresearch.jp`）を分離。
+1. **独自ドメインの開通**（未了・最優先）。`goonresearch.jp` は登録済み・NSは `01〜04.dnsv.jp` だが、Aレコード未設定のため名前解決しない。現状の公開URLは `https://labphonlab.github.io/go-on-llc/`。お名前.com Navi の DNSレコード設定で GitHub Pages の A 4本（185.199.108〜111.153）と `www` の CNAME を追加し、GitHub 側の Settings → Pages → Custom domain を設定する。
+2. 特商法表記の住所・電話番号（現在は「請求があれば開示」で運用）を、実際に販売を開始する時点で確定させる。
+3. IPA子音チャート（pulmonic）を island 化。
+4. フォルマント分析ツール。
+5. プロダクトが App Store で公開されたら `src/data/catalog.ts` の `status` を `released` にし、ストアURLを `links` に追加する。
+6. 決済・ログインが必要になった段階でバックエンド（`api.goonresearch.jp`）を分離。
 
 ## 作業規約
 
