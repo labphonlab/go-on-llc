@@ -31,7 +31,7 @@ const description = {
     lead={t(copy.lead, lang)}
   />
 
-  <section class="mx-auto max-w-3xl px-5 pb-24">
+  <section class="container-prose pb-24">
     <SupportForm action={FORMSPREE} next={next} lang={lang} client:load />
     <p class="mt-8 text-xs leading-relaxed text-muted">
       <a href={u("/legal#privacy", lang)}>{t(copy.note, lang)}</a>

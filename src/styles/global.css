@@ -45,15 +45,18 @@
   --text-5xl--line-height: 1.15;
 
   /* 見出し語と導入文だけは画面幅で滑らかに伸ばす。 */
-  --text-hero: clamp(3.5rem, 9vw, 5.75rem);
-  --text-lead: clamp(1.375rem, 2.6vw, 1.875rem);
+  --text-hero: clamp(3.25rem, 9vw, 5.75rem);
+  --text-lead: clamp(1.3125rem, 2.6vw, 1.875rem);
+  /* 下層ページの見出し。長い和文題（特商法など）でも行数が暴れない範囲に収める。 */
+  --text-page-title: clamp(1.75rem, 5.2vw, 3rem);
+  --text-section-title: clamp(1.375rem, 2.8vw, 1.75rem);
 }
 @layer base {
   /* ---- base ---- */
   html {
     scroll-behavior: smooth;
     /* sticky ヘッダーの下にアンカーが潜り込まないようにする。 */
-    scroll-padding-top: 5rem;
+    scroll-padding-top: calc(var(--header-h, 4rem) + 1.5rem);
   }
   @media (prefers-reduced-motion: reduce) {
     html {
@@ -167,5 +170,34 @@
   /* 一覧の行。カードより軽い区切りが要るところで使う。 */
   .row {
     border-bottom: 1px solid var(--color-line);
+  }
+
+  /*
+    ページの器。左右の余白は画面が広がるほど増やす。小さい画面で詰まらず、
+    大きい画面で紙面の余裕が出る。max-width は行長が伸びすぎない値に置く。
+  */
+  .container-page,
+  .container-prose {
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+    width: 100%;
+  }
+  .container-page {
+    max-width: 64rem;
+  }
+  .container-prose {
+    max-width: 48rem;
+  }
+  @media (min-width: 640px) {
+    .container-page,
+    .container-prose {
+      padding-inline: 2rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-page,
+    .container-prose {
+      padding-inline: 2.5rem;
+    }
   }
 }

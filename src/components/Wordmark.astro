@@ -1,0 +1,14 @@
+---
+import { u } from "../lib/url";
+import { ui, t, type Lang } from "../i18n";
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+<a href={u("/", lang)} class="shrink-0 no-underline" aria-label={t(ui.homeAria, lang)}>
+  <span class="font-display text-xl font-medium tracking-tight text-ink">語音</span>
+  <span class="ipa ml-2 text-sm text-muted">/ɡo.oɴ/</span>
+</a>

@@ -1,4 +1,5 @@
 ---
+import Wordmark from "./Wordmark.astro";
 import { u } from "../lib/url";
 import { ui, t, type Lang } from "../i18n";
 
@@ -22,36 +23,78 @@ const nav = [
 const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
 const other: Lang = lang === "ja" ? "en" : "ja";
 const otherLabel = other === "en" ? "English" : "日本語";
+const menuLabel = lang === "ja" ? "メニュー" : "Menu";
+
+const linkClass = (active: boolean) =>
+  [
+    "no-underline underline-offset-[7px] decoration-1 transition-colors",
+    active ? "text-ink underline decoration-ink" : "text-muted hover:text-ink",
+  ].join(" ");
 ---
 
 <header class="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur-sm">
-  <div
-    class="mx-auto flex max-w-5xl flex-wrap items-baseline justify-between gap-x-6 gap-y-2 px-5 py-4"
-  >
-    <a
-      href={u("/", lang)}
-      class="group shrink-0 no-underline"
-      aria-label={t(ui.homeAria, lang)}
+  <!--
+    狭い画面では 6項目＋言語切り替えが3行に折り返し、sticky ヘッダーが画面の
+    2割を占めていた。md 未満は <details> の開閉に畳む（JS不要・キーボード可）。
+  -->
+  <details class="group container-page md:hidden" name="site-nav">
+    <summary
+      class="flex cursor-pointer list-none items-baseline justify-between py-4 marker:content-['']"
     >
-      <span class="font-display text-xl font-medium tracking-tight text-ink">語音</span>
-      <span class="ipa ml-2 text-sm text-muted">/ɡo.oɴ/</span>
-    </a>
+      <Wordmark lang={lang} />
+      <span class="flex items-center gap-2 text-sm text-muted">
+        {menuLabel}
+        <span
+          aria-hidden="true"
+          class="inline-block transition-transform group-open:rotate-45"
+        >＋</span>
+      </span>
+    </summary>
 
-    <div class="flex flex-wrap items-baseline gap-x-5 gap-y-1">
+    <nav aria-label={t(ui.mainNavAria, lang)} class="pb-3">
+      <ul class="border-t border-line">
+        {
+          nav.map((item) => (
+            <li class="border-b border-line">
+              <a
+                href={u(item.href, lang)}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                class:list={["block py-3.5", linkClass(isActive(item.href))]}
+              >
+                {t(item.label, lang)}
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a
+            href={u(path, other)}
+            lang={other}
+            hreflang={other}
+            class="block py-3.5 text-muted no-underline"
+          >
+            {otherLabel}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </details>
+
+  <div
+    class="container-page hidden items-baseline justify-between gap-x-6 py-4 md:flex"
+  >
+    <Wordmark lang={lang} />
+
+    <div class="flex items-baseline gap-x-5">
       <nav aria-label={t(ui.mainNavAria, lang)}>
-        <ul class="flex flex-wrap items-baseline gap-x-5 gap-y-1 text-sm">
+        <ul class="flex items-baseline gap-x-5 text-sm lg:gap-x-6">
           {
             nav.map((item) => (
               <li>
                 <a
                   href={u(item.href, lang)}
                   aria-current={isActive(item.href) ? "page" : undefined}
-                  class:list={[
-                    "no-underline underline-offset-[7px] decoration-1 transition-colors",
-                    isActive(item.href)
-                      ? "text-ink underline decoration-ink"
-                      : "text-muted hover:text-ink",
-                  ]}
+                  class={linkClass(isActive(item.href))}
                 >
                   {t(item.label, lang)}
                 </a>
@@ -72,3 +115,17 @@ const otherLabel = other === "en" ? "English" : "日本語";
     </div>
   </div>
 </header>
+
+<script>
+  // sticky ヘッダーの実高さを CSS 変数に流し、アンカーの着地位置を合わせる。
+  const header = document.querySelector("header");
+  if (header) {
+    const sync = () =>
+      document.documentElement.style.setProperty(
+        "--header-h",
+        `${header.getBoundingClientRect().height}px`
+      );
+    sync();
+    new ResizeObserver(sync).observe(header);
+  }
+</script>

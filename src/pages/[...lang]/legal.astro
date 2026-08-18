@@ -35,9 +35,9 @@ const authoritative = t(copy.authoritative, lang);
     }
   </PageHeader>
 
-  <section class="mx-auto max-w-3xl px-5 pb-20">
+  <section class="container-prose pb-20">
     <article id="tokushoho" class="scroll-mt-28">
-      <h2 class="font-display text-2xl text-ink">{t(copy.tokushohoHeading, lang)}</h2>
+      <h2 class="font-display leading-snug text-ink" style="font-size: var(--text-section-title)">{t(copy.tokushohoHeading, lang)}</h2>
       <dl class="mt-6 divide-y divide-line border-y border-line">
         {
           copy.tokushoho.map((r) => (
@@ -50,7 +50,7 @@ const authoritative = t(copy.authoritative, lang);
                   t(r.v, lang)
                 )}
                 {"hint" in r && r.hint && (
-                  <span class="block text-xs text-muted">{t(r.hint, lang)}</span>
+                  <span class="mt-1 block text-xs text-muted">{t(r.hint, lang)}</span>
                 )}
               </dd>
             </div>
@@ -60,7 +60,7 @@ const authoritative = t(copy.authoritative, lang);
     </article>
 
     <article id="privacy" class="mt-16 scroll-mt-28">
-      <h2 class="font-display text-2xl text-ink">{t(copy.privacyHeading, lang)}</h2>
+      <h2 class="font-display leading-snug text-ink" style="font-size: var(--text-section-title)">{t(copy.privacyHeading, lang)}</h2>
       {
         copy.privacy.map((s) => (
           <>
