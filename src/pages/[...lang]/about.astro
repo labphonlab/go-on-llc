@@ -12,6 +12,7 @@ const rows = [
   { k: copy.rows.company, v: copy.values.company },
   { k: copy.rows.address, v: copy.values.address },
   { k: copy.rows.phone, v: copy.values.phone },
+  { k: copy.rows.email, v: copy.values.email, mailto: true },
   { k: copy.rows.representative, v: copy.values.representative },
   { k: copy.rows.business, v: copy.values.business },
   { k: copy.rows.contact, v: copy.values.contact, href: "/contact" },
@@ -42,7 +43,13 @@ const description = {
           <div class="grid grid-cols-[6rem_1fr] gap-4 py-4 sm:grid-cols-[9rem_1fr]">
             <dt class="text-sm text-muted">{t(r.k, lang)}</dt>
             <dd class="text-ink">
-              {r.href ? <a href={u(r.href, lang)}>{t(r.v, lang)}</a> : t(r.v, lang)}
+              {r.href ? (
+                <a href={u(r.href, lang)}>{t(r.v, lang)}</a>
+              ) : "mailto" in r && r.mailto ? (
+                <a href={`mailto:${t(r.v, lang)}`}>{t(r.v, lang)}</a>
+              ) : (
+                t(r.v, lang)
+              )}
             </dd>
           </div>
         ))

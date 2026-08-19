@@ -329,6 +329,7 @@ export const about = {
     representative: { ja: "代表社員", en: "Representative" },
     business: { ja: "事業内容", en: "Activities" },
     contact: { ja: "お問い合わせ", en: "Contact" },
+    email: { ja: "メールアドレス", en: "Email" },
   },
   values: {
     company: { ja: "合同会社語音（Go-on LLC）", en: "Go-on LLC (合同会社語音)" },
@@ -343,6 +344,7 @@ export const about = {
       en: "Software planning, development and sale / academic publishing / online education and training / research, investigation and consulting",
     },
     contact: { ja: "本サイトのフォーム", en: "The form on this site" },
+    email: { ja: "info@goonresearch.jp", en: "info@goonresearch.jp" },
   },
   nameHeading: { ja: "社名について", en: "On the name" },
   nameBody: {
@@ -434,12 +436,17 @@ export const legal = {
     },
     { k: { ja: "電話番号", en: "Telephone" }, v: { ja: "070-9481-0649", en: "+81 70-9481-0649" } },
     {
+      k: { ja: "メールアドレス", en: "Email" },
+      v: { ja: "info@goonresearch.jp", en: "info@goonresearch.jp" },
+      mailto: true,
+    },
+    {
       k: { ja: "お問い合わせ", en: "Contact" },
       v: { ja: "本サイトの問い合わせフォーム", en: "The contact form on this site" },
       href: "/contact",
       hint: {
-        ja: "内容の記録が残るため、お問い合わせはフォームからお願いしています。",
-        en: "We ask that enquiries come through the form so that a record remains.",
+        ja: "内容の記録が残り、必要な項目がそろうため、お問い合わせはフォームからが確実です。",
+        en: "The form keeps a record and collects what we need, so it is the surer route.",
       },
     },
     {
@@ -588,15 +595,15 @@ export const legal = {
         en: "Retention, and requests for disclosure, correction or suspension",
       },
       p: {
-        ja: "取得した個人情報は、利用目的の達成に必要な期間に限り保管し、不要となった時点で削除します。保有個人データについて、利用目的の通知、開示、訂正・追加・削除、利用停止・消去、第三者提供の停止をご請求いただけます。お問い合わせフォームまたはお電話でお申し出ください。ご本人であることを確認のうえ、法令に従って遅滞なく対応します。手数料はいただきません。",
-        en: "We keep personal information only as long as the stated purpose requires and delete it once it is no longer needed. You may request notification of the purpose of use, disclosure, correction, addition or deletion, suspension of use or erasure, and suspension of provision to third parties. Ask through the contact form or by telephone. Once we have confirmed your identity we respond without undue delay, in accordance with the law. We charge no fee.",
+        ja: "取得した個人情報は、利用目的の達成に必要な期間に限り保管し、不要となった時点で削除します。保有個人データについて、利用目的の通知、開示、訂正・追加・削除、利用停止・消去、第三者提供の停止をご請求いただけます。お問い合わせフォーム、メール（info@goonresearch.jp）、またはお電話でお申し出ください。ご本人であることを確認のうえ、法令に従って遅滞なく対応します。手数料はいただきません。",
+        en: "We keep personal information only as long as the stated purpose requires and delete it once it is no longer needed. You may request notification of the purpose of use, disclosure, correction, addition or deletion, suspension of use or erasure, and suspension of provision to third parties. Ask through the contact form, by email (info@goonresearch.jp), or by telephone. Once we have confirmed your identity we respond without undue delay, in accordance with the law. We charge no fee.",
       },
     },
     {
       h: { ja: "苦情の申出先", en: "Complaints" },
       p: {
-        ja: "個人情報の取り扱いに関する苦情・ご相談は、本サイトのお問い合わせフォームまたはお電話でお受けします。当社の対応にご納得いただけない場合は、個人情報保護委員会（www.ppc.go.jp）へ申し出ることができます。",
-        en: "Complaints and questions about how we handle personal information are received through the contact form or by telephone. If you are not satisfied with our response, you may raise the matter with Japan's Personal Information Protection Commission (www.ppc.go.jp).",
+        ja: "個人情報の取り扱いに関する苦情・ご相談は、本サイトのお問い合わせフォーム、メール（info@goonresearch.jp）、またはお電話でお受けします。当社の対応にご納得いただけない場合は、個人情報保護委員会（www.ppc.go.jp）へ申し出ることができます。",
+        en: "Complaints and questions about how we handle personal information are received through the contact form, by email (info@goonresearch.jp), or by telephone. If you are not satisfied with our response, you may raise the matter with Japan's Personal Information Protection Commission (www.ppc.go.jp).",
       },
     },
     {

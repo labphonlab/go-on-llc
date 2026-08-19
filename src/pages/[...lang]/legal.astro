@@ -46,6 +46,8 @@ const authoritative = t(copy.authoritative, lang);
               <dd class="text-sm leading-relaxed text-ink">
                 {"href" in r && r.href ? (
                   <a href={u(r.href, lang)}>{t(r.v, lang)}</a>
+                ) : "mailto" in r && r.mailto ? (
+                  <a href={`mailto:${t(r.v, lang)}`}>{t(r.v, lang)}</a>
                 ) : (
                   t(r.v, lang)
                 )}
