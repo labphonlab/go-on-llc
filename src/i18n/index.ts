@@ -65,6 +65,7 @@ export const ui = {
       ja: "特定商取引法に基づく表記",
       en: "Commercial transactions disclosure",
     },
+    legalTerms: { ja: "免責事項・準拠法", en: "Disclaimers" },
     legalPrivacy: { ja: "プライバシーポリシー", en: "Privacy policy" },
   },
 } satisfies Record<string, unknown>;

@@ -471,6 +471,20 @@ export const legal = {
       },
     },
     {
+      k: { ja: "商品代金以外の必要料金", en: "Charges besides the price" },
+      v: {
+        ja: "ダウンロードおよびご利用に必要な通信料は、お客様のご負担となります。当社が別途手数料を請求することはありません。",
+        en: "You bear the cost of the data connection needed to download and use the product. We charge no additional fees.",
+      },
+    },
+    {
+      k: { ja: "申込みの有効期限", en: "Validity of an order" },
+      v: {
+        ja: "該当ありません。各配信プラットフォーム上で決済が完了した時点で成立します。",
+        en: "Not applicable. An order completes when payment is taken on the distribution platform.",
+      },
+    },
+    {
       k: { ja: "動作環境", en: "Requirements" },
       v: {
         ja: "各プロダクトの説明ページに記載します。",
@@ -480,7 +494,52 @@ export const legal = {
     },
   ],
   privacyHeading: { ja: "プライバシーポリシー", en: "Privacy Policy" },
+  termsHeading: { ja: "免責事項・準拠法", en: "Disclaimers and governing law" },
+  terms: [
+    {
+      h: { ja: "ソフトウェアの提供について", en: "About the software we provide" },
+      p: {
+        ja: "当社のソフトウェアは、音響測定と教育のための道具です。測定値の解釈および研究上・教育上の判断は、利用者の責任において行われるものとします。医療・臨床・診断の用途を想定しておらず、それらの目的に適することを表明するものではありません。当社は、ソフトウェアが利用者の特定の目的に適合することを保証しません。",
+        en: "Our software is a tool for acoustic measurement and teaching. Interpreting the measurements, and any research or teaching decision that follows, rests with the user. It is not intended for medical, clinical or diagnostic use, and we make no representation that it is fit for such purposes. We do not warrant that the software suits any particular purpose you may have.",
+      },
+    },
+    {
+      h: { ja: "責任の範囲", en: "Extent of our liability" },
+      p: {
+        ja: "当社は、ソフトウェアおよび本サイトの利用によって生じた損害について、当社に故意または過失がある場合を除き、責任を負いません。当社に責任がある場合であっても、消費者契約に該当するときは、法令の定めに従って責任を負います（本項は、消費者契約法その他の法令により当社が負うべき責任を制限するものではありません）。",
+        en: "We are not liable for loss arising from use of our software or this site, except where we have acted intentionally or negligently. Where we are liable and the arrangement is a consumer contract, our liability follows what the law provides. Nothing in this section limits liability that the Consumer Contract Act or other legislation places on us.",
+      },
+    },
+    {
+      h: { ja: "外部サイトへのリンク", en: "Links to other sites" },
+      p: {
+        ja: "本サイトから外部のサイトへのリンクについて、当社はその内容および運営に責任を負いません。",
+        en: "We are not responsible for the content or operation of sites this site links to.",
+      },
+    },
+    {
+      h: { ja: "知的財産", en: "Intellectual property" },
+      p: {
+        ja: "本サイトの文章・図版の著作権は当社に帰属します。研究目的での引用は出典を示してご自由にどうぞ。「Praat」は本来の開発者（アムステルダム大学 Paul Boersma・David Weenink）による同名ソフトウェアを指し、当社の Praat JA は同ソフトウェアの非公式な日本語フロントエンドです。公式プロジェクトとの関係はありません。",
+        en: "Text and figures on this site are our copyright. Quotation for research purposes is welcome with attribution. “Praat” refers to the software of that name by its original authors (Paul Boersma and David Weenink, University of Amsterdam); our Praat JA is an unofficial Japanese front end and has no affiliation with the official project.",
+      },
+    },
+    {
+      h: { ja: "準拠法・裁判管轄", en: "Governing law and jurisdiction" },
+      p: {
+        ja: "本サイトの利用および当社との取引に関しては日本法を準拠法とします。紛争が生じた場合の第一審の専属的合意管轄裁判所は、東京地方裁判所とします。ただし、消費者契約に該当する場合の管轄は、法令の定めるところによります。",
+        en: "Japanese law governs use of this site and dealings with us. The Tokyo District Court has exclusive jurisdiction at first instance over any dispute. Where the arrangement is a consumer contract, jurisdiction follows what the law provides.",
+      },
+    },
+  ],
   privacy: [
+    {
+      h: { ja: "個人情報取扱事業者", en: "The business handling your information" },
+      p: {
+        ja: "合同会社語音（代表社員 石原 健、〒170-0012 東京都豊島区上池袋4-10-8-709）が、本サイトおよび当社アプリケーションで取得する個人情報を取り扱います。",
+        en: "Go-on LLC (representative: Takeshi Ishihara; 4-10-8-709 Kamiikebukuro, Toshima-ku, Tokyo 170-0012, Japan) is responsible for the personal information collected through this site and our applications.",
+      },
+    },
     {
       h: { ja: "取得する情報と利用目的", en: "What we collect and why" },
       p: {
@@ -496,10 +555,24 @@ export const legal = {
       },
     },
     {
-      h: { ja: "第三者への提供・外部サービス", en: "Third parties and external services" },
+      h: { ja: "第三者への提供", en: "Provision to third parties" },
       p: {
-        ja: "取得した個人情報を、法令に基づく場合を除き第三者に提供することはありません。ただし、お問い合わせフォームの送信処理には外部サービス Formspree を利用しており、送信内容は同サービスを経由します。また、本サイトは Google Fonts からWebフォントを読み込むため、閲覧時にアクセス元の情報が同サービスに送信されます。",
-        en: "We do not provide personal information to third parties except as required by law. The contact form is delivered through Formspree, an external service, so your message passes through it. This site also loads web fonts from Google Fonts, which receives request information when you view a page.",
+        ja: "取得した個人情報を、法令に基づく場合を除き、あらかじめご本人の同意を得ることなく第三者に提供することはありません。個人情報を販売することはありません。",
+        en: "We do not provide personal information to third parties without your prior consent, except where required by law. We never sell personal information.",
+      },
+    },
+    {
+      h: { ja: "業務の委託と外国への移転", en: "Processors and transfers outside Japan" },
+      p: {
+        ja: "お問い合わせフォームの送信・保管は、アメリカ合衆国の事業者 Formspree, Inc. に委託しています。そのため、フォームにご入力いただいた情報は同国のサーバーで取り扱われます。同国の個人情報保護制度は日本と異なり、当社は委託先との契約および同社の公表する安全管理措置により保護を図っています。また本サイトは Google Fonts（Google LLC、アメリカ合衆国）からWebフォントを読み込むため、閲覧時に接続元のIPアドレス等が同社に送信されます。フォームの利用を望まれない場合は、お電話でご連絡いただけます（この場合、入力内容が委託先を経由することはありません）。",
+        en: "Delivery and storage of the contact form is entrusted to Formspree, Inc. in the United States, so what you enter in the form is handled on servers in that country, whose data protection regime differs from Japan's; we rely on our agreement with the processor and on the safeguards that company publishes. This site also loads web fonts from Google Fonts (Google LLC, United States), which receives your IP address and similar connection information when you view a page. If you would rather not use the form, you are welcome to telephone us instead; nothing you write then passes through the processor.",
+      },
+    },
+    {
+      h: { ja: "安全管理措置", en: "Security measures" },
+      p: {
+        ja: "取り扱う個人情報の量と範囲を、お問い合わせ対応に必要な限度にとどめています。取得した情報にアクセスできるのは代表社員のみで、通信は暗号化された経路（HTTPS）で行います。委託先を利用する場合は、その所在国の制度を把握したうえで、必要かつ適切な監督を行います。",
+        en: "We keep the volume and range of personal information to what answering your enquiry requires. Only the representative has access to it, and communication uses encrypted channels (HTTPS). Where a processor is used, we take account of the legal regime of the country it operates in and supervise it accordingly.",
       },
     },
     {
@@ -510,10 +583,20 @@ export const legal = {
       },
     },
     {
-      h: { ja: "保管と開示・訂正・削除", en: "Retention, disclosure, correction and deletion" },
+      h: {
+        ja: "保管と、開示・訂正・利用停止のご請求",
+        en: "Retention, and requests for disclosure, correction or suspension",
+      },
       p: {
-        ja: "取得した個人情報は、利用目的の達成に必要な期間に限り保管し、不要となった時点で削除します。ご本人からの開示・訂正・利用停止・削除のご請求には、ご本人であることを確認のうえ、法令に従って対応いたします。お問い合わせフォームよりご連絡ください。",
-        en: "We keep personal information only as long as the stated purpose requires and delete it once it is no longer needed. Requests from the individual concerned for disclosure, correction, suspension of use or deletion are handled in accordance with the law, once identity is confirmed. Please write to us through the contact form.",
+        ja: "取得した個人情報は、利用目的の達成に必要な期間に限り保管し、不要となった時点で削除します。保有個人データについて、利用目的の通知、開示、訂正・追加・削除、利用停止・消去、第三者提供の停止をご請求いただけます。お問い合わせフォームまたはお電話でお申し出ください。ご本人であることを確認のうえ、法令に従って遅滞なく対応します。手数料はいただきません。",
+        en: "We keep personal information only as long as the stated purpose requires and delete it once it is no longer needed. You may request notification of the purpose of use, disclosure, correction, addition or deletion, suspension of use or erasure, and suspension of provision to third parties. Ask through the contact form or by telephone. Once we have confirmed your identity we respond without undue delay, in accordance with the law. We charge no fee.",
+      },
+    },
+    {
+      h: { ja: "苦情の申出先", en: "Complaints" },
+      p: {
+        ja: "個人情報の取り扱いに関する苦情・ご相談は、本サイトのお問い合わせフォームまたはお電話でお受けします。当社の対応にご納得いただけない場合は、個人情報保護委員会（www.ppc.go.jp）へ申し出ることができます。",
+        en: "Complaints and questions about how we handle personal information are received through the contact form or by telephone. If you are not satisfied with our response, you may raise the matter with Japan's Personal Information Protection Commission (www.ppc.go.jp).",
       },
     },
     {
