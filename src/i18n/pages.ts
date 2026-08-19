@@ -104,7 +104,7 @@ export const books = {
     ja: "音声学・言語学を中心に、書籍と電子書籍を編集・発行しています。研究の現場で使う手順書から、専門外の読者に向けた一般書までを扱います。",
     en: "We edit and publish books and ebooks, chiefly in phonetics and linguistics — from working manuals for the research bench to books written for readers outside the field.",
   },
-  titlesLabel: { ja: "主な書名", en: "Selected titles" },
+  titlesLabel: { ja: "刊行書目", en: "Titles in print" },
   languageNote: {
     ja: "",
     en: "All titles are published in Japanese; English renderings are given for reference.",

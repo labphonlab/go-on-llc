@@ -4,7 +4,7 @@ import PageHeader from "../../components/PageHeader.astro";
 import { u } from "../../lib/url";
 import { localePaths, ui, t, type Lang } from "../../i18n";
 import { books as copy } from "../../i18n/pages";
-import { bookAreas } from "../../data/catalog";
+import { bookAreas, BOOK_FORMAT_LABEL } from "../../data/catalog";
 
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
@@ -48,11 +48,16 @@ const note = t(copy.languageNote, lang);
                 <p class="eyebrow">{t(copy.titlesLabel, lang)}</p>
                 <ul class="mt-4">
                   {a.titles.map((title) => (
-                    <li class="row py-3 font-display text-lg leading-snug text-ink">
-                      {t(title, lang)}
+                    <li class="row py-3">
+                      <span class="font-display text-lg leading-snug text-ink">
+                        {t(title.name, lang)}
+                      </span>
+                      <span class="ml-2 text-xs text-faint">
+                        {t(BOOK_FORMAT_LABEL[title.format], lang)}
+                      </span>
                       {lang === "en" && (
-                        <span class="mt-0.5 block font-body text-xs text-faint">
-                          {t(title, "ja")}
+                        <span class="mt-0.5 block text-xs text-faint">
+                          {t(title.name, "ja")}
                         </span>
                       )}
                     </li>

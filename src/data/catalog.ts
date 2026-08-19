@@ -267,14 +267,26 @@ export const datasets: Dataset[] = [
 /**
  * 出版している書籍・電子書籍。
  *
- * 分野ごとの紹介にとどめ、個別の販売リンクは置かない（ソフトウェアと同じ方針）。
- * 書籍はいずれも日本語で刊行しているため、英語版では原題に英訳を添える。
+ * **KDPの出版通知で刊行を確認したものだけを載せる**（2026-08-18 時点で7点）。
+ * 原稿があるだけのもの、刊行準備中のものは載せない——未刊行のものを
+ * 「出版しています」と並べると景品表示法の優良誤認にあたりうる。
+ * 追加するときは、KDPの「出版されました」通知かストアの掲載を確認してから。
+ *
+ * 個別の販売リンクは置かない（ソフトウェアと同じ方針）。
+ * 書籍はいずれも日本語で刊行しているため、英語版では英訳題を添える。
  */
+export type BookFormat = "print" | "ebook";
+
+export const BOOK_FORMAT_LABEL: Record<BookFormat, { ja: string; en: string }> = {
+  print: { ja: "紙書籍", en: "Paperback" },
+  ebook: { ja: "電子書籍", en: "Ebook" },
+};
+
 export type BookArea = {
   id: string;
   area: L;
   summary: L;
-  titles: L[];
+  titles: { name: L; format: BookFormat }[];
 };
 
 export const bookAreas: BookArea[] = [
@@ -282,84 +294,52 @@ export const bookAreas: BookArea[] = [
     id: "phonetics",
     area: { ja: "音声学・言語学", en: "Phonetics and linguistics" },
     summary: {
-      ja: "音響分析の道具を実際に動かせるようになることを目的とした実践書と、音声学・音韻論の体系をたどる概説書。Praat・Parselmouth を用いた測定手順、実験音韻論の設計、日本語・英語それぞれの音声体系を扱います。",
-      en: "Hands-on guides aimed at getting readers actually running the tools of acoustic analysis, alongside surveys that work through the system of phonetics and phonology. Measurement procedures with Praat and Parselmouth, experimental design in laboratory phonology, and the sound systems of Japanese and English.",
+      ja: "音声学の体系をたどる概説書と、音響分析の道具を実際に動かせるようになることを目的とした実践書。日本語・英語それぞれの音声体系と、測定を自動化する手順を扱います。",
+      en: "Surveys that work through the system of phonetics, and hands-on guides aimed at getting readers actually running the tools of acoustic analysis — the sound systems of Japanese and English, and how to automate measurement.",
     },
     titles: [
       {
-        ja: "音声学概説 —— 声のしくみから音声AIまで",
-        en: "Introduction to Phonetics: From the Mechanics of Voice to Speech AI",
-      },
-      { ja: "実践音声研究法", en: "Practical Methods in Speech Research" },
-      {
-        ja: "Praatによる音声研究の方法",
-        en: "Doing Speech Research with Praat",
+        name: { ja: "音声学概説", en: "Introduction to Phonetics" },
+        format: "print",
       },
       {
-        ja: "PraatとParselmouthによる音声処理入門",
-        en: "Speech Processing with Praat and Parselmouth",
-      },
-      { ja: "実験音韻論の方法", en: "Methods in Laboratory Phonology" },
-      {
-        ja: "日本語音声学の基礎",
-        en: "Foundations of Japanese Phonetics",
+        name: { ja: "英語音声学", en: "English Phonetics" },
+        format: "print",
       },
       {
-        ja: "英語音声学・音韻論",
-        en: "English Phonetics and Phonology",
+        name: { ja: "英語音声学・音韻論", en: "English Phonetics and Phonology" },
+        format: "print",
       },
-      { ja: "相互行為音声学", en: "Interactional Phonetics" },
+      {
+        name: {
+          ja: "音声分析自動化マニュアル",
+          en: "A Manual for Automating Speech Analysis",
+        },
+        format: "ebook",
+      },
     ],
   },
   {
     id: "english",
     area: {
       ja: "英語教育・語学教材",
-      en: "English language teaching and materials",
+      en: "English language teaching",
     },
     summary: {
-      ja: "文法を項目の羅列ではなく構造として説明する概説書と、CEFR に沿って積み上げる教材。語彙習得については、なぜ覚えられないのかという認知の側から扱っています。",
-      en: "A survey that explains grammar as a structure rather than a list of items, and coursework built cumulatively along the CEFR. Vocabulary is approached from the cognitive side: why words fail to stick.",
+      ja: "文法を項目の羅列ではなく構造として説明する概説書と、教壇に立つ人のための教育法。",
+      en: "A survey that explains grammar as a structure rather than a list of items, and a methodology for those who teach it.",
     },
     titles: [
       {
-        ja: "英文法概論 —— 構造と体系",
-        en: "English Grammar: Structure and System",
+        name: { ja: "英文法概論", en: "English Grammar: Structure and System" },
+        format: "print",
       },
       {
-        ja: "英語科教育法",
-        en: "Teaching Methodology for English Education",
-      },
-      {
-        ja: "外国語の単語はなぜ覚えられないのか",
-        en: "Why Foreign Words Won't Stick",
-      },
-      { ja: "A2–B1 教科書", en: "An A2–B1 Coursebook" },
-      { ja: "My First Step Abroad", en: "My First Step Abroad" },
-    ],
-  },
-  {
-    id: "japanese",
-    area: {
-      ja: "日本語教育",
-      en: "Teaching Japanese as a second language",
-    },
-    summary: {
-      ja: "登録日本語教員の試験対策と、日本語教師が必要とする言語学の基礎。現場で説明を求められる項目から逆算して構成しています。",
-      en: "Preparation for the registered Japanese-teacher examination, and the linguistics a Japanese teacher actually needs. Organised backwards from the points teachers are asked to explain in the classroom.",
-    },
-    titles: [
-      {
-        ja: "日本語教員試験 完全対策",
-        en: "Complete Preparation for the Japanese Teacher Examination",
-      },
-      {
-        ja: "日本語教師のための言語学",
-        en: "Linguistics for Teachers of Japanese",
-      },
-      {
-        ja: "日本語教師のための日本語音声学",
-        en: "Japanese Phonetics for Teachers of Japanese",
+        name: {
+          ja: "英語科教育法",
+          en: "Teaching Methodology for English Education",
+        },
+        format: "print",
       },
     ],
   },
@@ -367,27 +347,9 @@ export const bookAreas: BookArea[] = [
     id: "general",
     area: { ja: "一般書", en: "General readership" },
     summary: {
-      ja: "言語・社会・技術が交わるところを、専門外の読者に向けて書いたもの。音声合成と詐欺、移民と共生、AIと労働など、いま判断を迫られている主題を扱います。",
-      en: "Writing for non-specialists about where language, society and technology meet: synthesised voice and fraud, immigration and coexistence, AI and work — subjects on which readers are being asked to form a view now.",
+      ja: "専門外の読者に向けて、脳と心のはたらきを実験の形で読ませる一冊。",
+      en: "For readers outside the field: the workings of brain and mind, presented as a series of experiments.",
     },
-    titles: [
-      {
-        ja: "クローン音声AIと詐欺の科学",
-        en: "Voice-Cloning AI and the Science of Fraud",
-      },
-      {
-        ja: "移民国家日本 —— 共生は可能か",
-        en: "Japan as a Country of Immigration: Is Coexistence Possible?",
-      },
-      {
-        ja: "AI時代に消える仕事・残る仕事",
-        en: "Which Jobs Disappear in the Age of AI, and Which Remain",
-      },
-      { ja: "分断の日本社会", en: "A Divided Japan" },
-      {
-        ja: "となりの国から来たわたし",
-        en: "I Came from the Country Next Door",
-      },
-    ],
+    titles: [{ name: { ja: "Brain Lab", en: "Brain Lab" }, format: "ebook" }],
   },
 ];
