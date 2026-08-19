@@ -78,7 +78,8 @@ public/         CNAME, favicon.svg, og.png
 
 - 本文は 17px（`--text-base`）。和文は欧文より小さく見えるため Tailwind 既定より一段大きい。副次テキストも `text-sm`（15px）までにとどめ、説明文を 14px に落とさない。
 - 見出しは `palt` で詰めたうえで `letter-spacing: 0.015em` を戻す。本文にも 0.012em の浅いトラッキング。
-- 明朝は Newsreader（欧文）＋ Noto Serif JP（和文）。和文明朝をOSのフォールバック任せにしない。
+- **フォントは自己ホスト**（`public/fonts` ＋ `global.css` の `@font-face`）。外部CDNを使わない——閲覧のたびに接続元の情報が第三者へ渡るのを避けるため（Google Fonts の外部読み込みはEUで争点になっている）。欧文の Newsreader（可変フォント1本で400–600）と、音声表記の Gentium Plus のみを配信し、latin と latin-ext に絞って計284KB。IPA拡張（U+0250–02AF）と修飾文字（ˈ ː）は latin-ext のレンジに入る。
+- **和文は端末のフォントにまかせる**（ヒラギノ→游→Noto の順）。CJKを配ると数MBになるため。macOS では従来とほぼ同じ見た目になる。
 - 主要ボタンは墨色（`bg-ink` / `text-paper`）。teal・amber は島の中と注記に限る。
 
 ## コマンド

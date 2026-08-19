@@ -564,8 +564,8 @@ export const legal = {
     {
       h: { ja: "業務の委託と外国への移転", en: "Processors and transfers outside Japan" },
       p: {
-        ja: "お問い合わせフォームの送信・保管は、アメリカ合衆国の事業者 Formspree, Inc. に委託しています。そのため、フォームにご入力いただいた情報は同国のサーバーで取り扱われます。同国の個人情報保護制度は日本と異なり、当社は委託先との契約および同社の公表する安全管理措置により保護を図っています。また本サイトは Google Fonts（Google LLC、アメリカ合衆国）からWebフォントを読み込むため、閲覧時に接続元のIPアドレス等が同社に送信されます。フォームの利用を望まれない場合は、お電話でご連絡いただけます（この場合、入力内容が委託先を経由することはありません）。",
-        en: "Delivery and storage of the contact form is entrusted to Formspree, Inc. in the United States, so what you enter in the form is handled on servers in that country, whose data protection regime differs from Japan's; we rely on our agreement with the processor and on the safeguards that company publishes. This site also loads web fonts from Google Fonts (Google LLC, United States), which receives your IP address and similar connection information when you view a page. If you would rather not use the form, you are welcome to telephone us instead; nothing you write then passes through the processor.",
+        ja: "お問い合わせフォームの送信・保管は、アメリカ合衆国の事業者 Formspree, Inc. に委託しています。そのため、フォームにご入力いただいた情報は同国のサーバーで取り扱われます。同国の個人情報保護制度は日本と異なり、当社は委託先との契約および同社の公表する安全管理措置により保護を図っています。これ以外に、本サイトの閲覧によって外部の事業者へ情報が送信されることはありません。Webフォントを含め、表示に必要なファイルはすべて当社のサイトから配信しています。フォームの利用を望まれない場合は、お電話でご連絡いただけます（この場合、入力内容が委託先を経由することはありません）。",
+        en: "Delivery and storage of the contact form is entrusted to Formspree, Inc. in the United States, so what you enter in the form is handled on servers in that country, whose data protection regime differs from Japan's; we rely on our agreement with the processor and on the safeguards that company publishes. Apart from this, browsing the site sends nothing to any external party: everything needed to render a page, web fonts included, is served from our own site. If you would rather not use the form, you are welcome to telephone us instead; nothing you write then passes through the processor.",
       },
     },
     {
@@ -578,8 +578,8 @@ export const legal = {
     {
       h: { ja: "アクセス解析・Cookie", en: "Analytics and cookies" },
       p: {
-        ja: "本サイトは、閲覧者を追跡するためのCookieおよびアクセス解析ツールを使用していません。",
-        en: "This site uses no tracking cookies and no analytics tools.",
+        ja: "本サイトは、閲覧者を追跡するためのCookieおよびアクセス解析ツールを使用していません。外部のCDNや広告配信も利用していません。",
+        en: "This site uses no tracking cookies and no analytics tools. It also uses no external CDN and carries no advertising.",
       },
     },
     {
