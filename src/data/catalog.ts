@@ -168,13 +168,13 @@ export const inDevelopment: Product[] = [
   },
   {
     id: "gotan",
-    name: { ja: "語単", en: "Gotan" },
+    name: { ja: "語単（英語版）", en: "Gotan (English)" },
     reading: { ja: "ごたん", en: "go-tan" },
     kind: { ja: "iPhone アプリ", en: "iPhone app" },
     status: "development",
     summary: {
-      ja: "単語帳ではなく、語彙獲得の順序と復習間隔を最適化するエンジン。",
-      en: "Not a word list — an engine that optimises the order of vocabulary acquisition and review intervals.",
+      ja: "単語帳ではなく、語彙獲得の順序と復習間隔を最適化するエンジン（英語版）。",
+      en: "Not a word list — an engine that optimises the order of vocabulary acquisition and review intervals (English edition).",
     },
     detail: {
       ja: "提示順を目標コーパスへのカバレッジ限界利得で決め、意味想起・綴り産出・聴解・用法といった知識の側面ごとに習熟を追跡します。",
@@ -183,19 +183,52 @@ export const inDevelopment: Product[] = [
     platforms: { ja: "iOS", en: "iOS" },
   },
   {
-    id: "sakubun",
-    name: { ja: "ハン文／一文ずつ英語", en: "Han-bun / One Sentence at a Time" },
+    id: "gotan-ko",
+    supportPath: "/gotan-ko",
+    name: { ja: "語単 韓国語", en: "Gotan Korean" },
     kind: { ja: "iPhone アプリ", en: "iPhone app" },
     status: "development",
     summary: {
-      ja: "瞬間作文方式で、韓国語・英語の文を一文ずつ産出する練習アプリ。",
-      en: "Sentence-production practice in Korean and English, one sentence at a time.",
+      ja: "漢字語を足場にして韓国語の語彙を積む学習アプリ。",
+      en: "A Korean vocabulary app that builds on Sino-Korean words as a foothold.",
     },
     detail: {
-      ja: "文法項目を1つずつ積み上げる累積シラバスに沿って、作文練習と聞き取り練習を切り替えられます。",
-      en: "Follows a cumulative syllabus that adds one grammar point at a time, switching between production and listening practice.",
+      ja: "韓国語の語彙は6〜7割が漢字語で、日本語の音読みと規則的に対応します。この対応を学習コストの見積もりに組み込み、足場になる語・意味がずれる語・日本語にしかない語を区別して提示順を決めます。習熟は意味想起・綴り産出・聴解といった側面ごとに追跡します。",
+      en: "Sixty to seventy percent of Korean vocabulary is Sino-Korean and maps regularly onto Japanese readings. The app builds that correspondence into its estimate of learning cost, distinguishing words that give a foothold, words whose meaning has drifted, and words with no Japanese counterpart. Mastery is tracked separately for meaning recall, spelling and listening.",
     },
-    platforms: { ja: "iOS", en: "iOS" },
+    platforms: { ja: "iOS 18.0 以降", en: "iOS 18.0 or later" },
+  },
+  {
+    id: "hanbun",
+    supportPath: "/hanbun",
+    name: { ja: "ハン文", en: "Han-bun" },
+    kind: { ja: "iPhone アプリ", en: "iPhone app" },
+    status: "development",
+    summary: {
+      ja: "瞬間作文方式で、韓国語の文を一文ずつ産出する練習アプリ。",
+      en: "Sentence-production practice in Korean, one sentence at a time.",
+    },
+    detail: {
+      ja: "TOPIK 1〜4級相当の849文を、文法項目を1つずつ積み上げる順に並べています。日本語文を見て韓国語を作る練習と、韓国語の音声を聞いて意味をとる練習を切り替えられます。",
+      en: "849 sentences at TOPIK levels 1–4, ordered so that one grammar point is added at a time. Switch between producing Korean from a Japanese prompt and listening to Korean for meaning.",
+    },
+    platforms: { ja: "iOS 18.0 以降", en: "iOS 18.0 or later" },
+  },
+  {
+    id: "osaat-en",
+    supportPath: "/osaat-en",
+    name: { ja: "一文ずつ英語", en: "One Sentence at a Time" },
+    kind: { ja: "iPhone アプリ", en: "iPhone app" },
+    status: "development",
+    summary: {
+      ja: "瞬間作文方式で、英語の文を一文ずつ産出する練習アプリ。",
+      en: "Sentence-production practice in English, one sentence at a time.",
+    },
+    detail: {
+      ja: "CEFR A1〜B1相当の929文を、文法項目を1つずつ積み上げる順に並べています。単語をタップすると見出し語・品詞・発音記号・訳・用例を引けます。",
+      en: "929 sentences at CEFR A1–B1, ordered so that one grammar point is added at a time. Tap a word for its headword, part of speech, phonetic transcription, translation and an example.",
+    },
+    platforms: { ja: "iOS 18.0 以降", en: "iOS 18.0 or later" },
   },
   {
     id: "korean-pronunciation",

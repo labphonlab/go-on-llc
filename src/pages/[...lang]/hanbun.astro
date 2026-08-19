@@ -2,10 +2,10 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import AppSupport from "../../components/AppSupport.astro";
 import { localePaths, t, type Lang } from "../../i18n";
-import { speechlab as copy } from "../../i18n/pages";
+import { hanbun as copy } from "../../i18n/pages";
 
 /*
-  アプリ内の設定画面と App Store 掲載のサポートURLが https://goonresearch.jp/speechlab/ を指すため、
+  アプリ内の設定画面と App Store 掲載のサポートURLが https://goonresearch.jp/hanbun/ を指すため、
   このパスで応じる。開発中であることを明記したうえで公開している
   （ナビには置かず、/products と /support の開発中一覧から辿る）。
   中身は AppSupport.astro が描画し、文面は i18n/pages.ts にある。
@@ -16,7 +16,7 @@ const { lang } = Astro.props as { lang: Lang };
 
 <BaseLayout
   lang={lang}
-  path="/speechlab"
+  path="/hanbun"
   title={t(copy.title, lang)}
   description={t(copy.lead, lang)}
 >

@@ -718,12 +718,18 @@ export const form = {
  * 未公開の製品を宣伝しない方針は保つので、ナビにもサイトマップにも載せず、
  * noindex にしている（直リンクからのみ到達する）。
  */
+export type AppSupportCopy = typeof speechlab;
+
 export const speechlab = {
   eyebrow: "speechlab",
   title: { ja: "SpeechLab サポート", en: "SpeechLab Support" },
   lead: {
     ja: "iPad 向けの音声分析アプリ SpeechLab のサポートページです。使い方、動作環境、データの取り扱い、不具合のご報告について記載しています。",
     en: "Support for SpeechLab, a speech analysis app for iPad. How it works, what it runs on, how data is handled, and how to report a problem.",
+  },
+  devNotice: {
+    ja: "SpeechLab は開発中で、まだ配布していません。以下は現時点の仕様で、変わることがあります。",
+    en: "SpeechLab is still in development and not yet available. What follows describes it as it stands and may change.",
   },
   specsHeading: { ja: "動作環境", en: "Requirements" },
   specs: [
@@ -825,3 +831,183 @@ export const speechlab = {
     en: "When reporting a problem, please include the app version, your iPad model and iPadOS version, the steps to reproduce, and what you expected versus what happened. The form asks for these in turn.",
   },
 } as const;
+
+
+/** 各アプリのサポートページ。すべて AppSupport.astro が同じ形で描画する。 */
+export const gotanKo = {
+  eyebrow: "gotan korean",
+  title: { ja: "語単 韓国語 サポート", en: "Gotan Korean Support" },
+  lead: {
+    ja: "日本語話者向けの韓国語語彙学習アプリ「語単 韓国語」のサポートページです。",
+    en: "Support for Gotan Korean, a Korean vocabulary app for speakers of Japanese.",
+  },
+  devNotice: {
+    ja: "語単 韓国語は開発中で、まだ配布していません。現在は TestFlight で先行テストを行っています。以下は現時点の仕様で、変わることがあります。",
+    en: "Gotan Korean is in development and not yet available. Testing is currently running on TestFlight, and what follows may change.",
+  },
+  specsHeading: { ja: "動作環境", en: "Requirements" },
+  specs: [
+    { k: { ja: "対応機種", en: "Device" }, v: { ja: "iPhone", en: "iPhone" } },
+    { k: { ja: "対応OS", en: "Operating system" }, v: { ja: "iOS 18.0 以降", en: "iOS 18.0 or later" } },
+    { k: { ja: "配布状況", en: "Availability" }, v: { ja: "開発中（TestFlight で先行テスト中）", en: "In development (testing on TestFlight)" } },
+  ],
+  featuresHeading: { ja: "機能", en: "Features" },
+  freeHeading: { ja: "本体の機能", en: "In the app" },
+  free: [
+    { ja: "漢字語との対応をもとにした出題順の決定", en: "Presentation order derived from correspondences with Sino-Japanese vocabulary" },
+    { ja: "足場になる語・意味がずれる語・日本語にしかない語の区別", en: "Words that give a foothold, words whose meaning has drifted, and words with no Japanese counterpart, kept apart" },
+    { ja: "意味想起・綴り産出・聴解など、知識の側面ごとの習熟追跡", en: "Mastery tracked separately for meaning recall, spelling and listening" },
+    { ja: "間隔反復による復習スケジューリング", en: "Review scheduling by spaced repetition" },
+    { ja: "iCloud による端末間の同期", en: "Syncing between your devices over iCloud" },
+  ],
+  proHeading: { ja: "コンテンツパック（買い切りのアプリ内課金）", en: "Content packs (one-time in-app purchases)" },
+  pro: [
+    { ja: "音声パック", en: "Audio pack" },
+    { ja: "ドラマ語彙パック", en: "Drama vocabulary pack" },
+    { ja: "ハングル検定対策パック", en: "Hangul proficiency test pack" },
+  ],
+  proNote: {
+    ja: "学習エンジンそのものは課金なしで使えます。パックは買い切りで、サブスクリプションではありません。購入は同じ Apple Account の端末で有効になり、「購入を復元」から復元できます。",
+    en: "The learning engine itself needs no purchase. Packs are one-time purchases, not subscriptions; they apply to devices signed in to the same Apple Account and can be restored with “Restore Purchases”.",
+  },
+  dataHeading: { ja: "データの取り扱い", en: "How your data is handled" },
+  data: [
+    { ja: "氏名・メールアドレス・電話番号・住所といった、個人を特定できる情報は収集しません。アカウント登録もありません。", en: "The app collects no information that identifies you — no name, email address, telephone number or postal address — and there is no account to create." },
+    { ja: "広告や解析のための第三者SDKは組み込んでいません。行動履歴を外部へ送信することもありません。", en: "No third-party advertising or analytics SDK is included, and no record of what you do is sent anywhere." },
+    { ja: "学習の記録は端末内に保存されます。iCloud 同期を有効にした場合、記録はお使いの Apple Account の iCloud に保存されます。当社のサーバーへは送信されません。", en: "Your study record is stored on the device. With iCloud sync enabled it is stored in the iCloud of your own Apple Account. It is never sent to our servers." },
+  ],
+  faqHeading: { ja: "よくあるご質問", en: "Frequently asked questions" },
+  faq: [
+    { q: { ja: "いつ配布されますか。", en: "When will it be available?" },
+      a: { ja: "時期は未定です。TestFlight での先行テストにご協力いただける場合は、お問い合わせフォームからご連絡ください。", en: "There is no date yet. If you would like to take part in TestFlight testing, write to us through the contact form." } },
+    { q: { ja: "端末を変えると学習記録は引き継がれますか。", en: "Does my study record move to a new device?" },
+      a: { ja: "iCloud 同期を有効にしていれば、同じ Apple Account でサインインした端末に引き継がれます。無効の場合は端末内にのみ残ります。", en: "With iCloud sync enabled it carries over to any device signed in to the same Apple Account. Without it, the record stays on the one device." } },
+    { q: { ja: "購入したパックが反映されません。", en: "A pack I purchased isn't showing." },
+      a: { ja: "設定の「購入を復元」をお試しください。購入時と同じ Apple Account でサインインしている必要があります。", en: "Try “Restore Purchases” in the settings. You need to be signed in with the same Apple Account used for the purchase." } },
+    { q: { ja: "返金してほしいのですが。", en: "How do I request a refund?" },
+      a: { ja: "アプリ内課金の決済と返金は Apple が管理しています。reportaproblem.apple.com からお申し出ください。", en: "Payment and refunds for in-app purchases are handled by Apple. Please request them at reportaproblem.apple.com." } },
+  ],
+  contactHeading: { ja: "不具合の報告・お問い合わせ", en: "Reporting a problem" },
+  contactBody: {
+    ja: "不具合のご報告には、アプリのバージョン、iPhone の機種と iOS のバージョン、再現手順、期待した動作と実際に起きたことを添えてください。フォームではこれらの項目を順に表示します。",
+    en: "When reporting a problem, please include the app version, your iPhone model and iOS version, the steps to reproduce, and what you expected versus what happened. The form asks for these in turn.",
+  },
+} satisfies AppSupportCopy;
+
+export const hanbun = {
+  eyebrow: "han-bun",
+  title: { ja: "ハン文 サポート", en: "Han-bun Support" },
+  lead: {
+    ja: "瞬間作文方式で韓国語の文を練習するアプリ「ハン文」のサポートページです。",
+    en: "Support for Han-bun, an app for practising Korean sentence production one sentence at a time.",
+  },
+  devNotice: {
+    ja: "ハン文は開発中で、まだ配布していません。以下は現時点の仕様で、変わることがあります。",
+    en: "Han-bun is in development and not yet available. What follows describes it as it stands and may change.",
+  },
+  specsHeading: { ja: "動作環境", en: "Requirements" },
+  specs: [
+    { k: { ja: "対応機種", en: "Device" }, v: { ja: "iPhone", en: "iPhone" } },
+    { k: { ja: "対応OS", en: "Operating system" }, v: { ja: "iOS 18.0 以降", en: "iOS 18.0 or later" } },
+    { k: { ja: "収録文数", en: "Sentences" }, v: { ja: "849文（TOPIK 1〜4級相当）", en: "849 sentences (TOPIK levels 1–4)" } },
+    { k: { ja: "配布状況", en: "Availability" }, v: { ja: "開発中", en: "In development" } },
+  ],
+  featuresHeading: { ja: "機能", en: "Features" },
+  freeHeading: { ja: "本体の機能", en: "In the app" },
+  free: [
+    { ja: "出題方向の切り替え（日→韓の作文練習／韓→日の聞き取り練習）", en: "Switching direction: Japanese to Korean for production, Korean to Japanese for listening" },
+    { ja: "学習モードとテストモード（テストは段階を踏んで想起させる）", en: "Study mode and test mode, the latter stepping through recall without hints" },
+    { ja: "文法項目を1つずつ積み上げる累積シラバス", en: "A cumulative syllabus that adds one grammar point at a time" },
+    { ja: "設定した文数ごとの復習サイクル（既定10文）", en: "A review cycle every N sentences (10 by default)" },
+    { ja: "カードごとの文法解説（TOPIK等級・CEFR相当・分類）", en: "Grammar notes per card (TOPIK level, CEFR equivalent, category)" },
+    { ja: "単語タップによる辞書引き", en: "Tap a word to look it up" },
+    { ja: "端末の音声合成による読み上げ", en: "Read-aloud using the device's speech synthesis" },
+  ],
+  proHeading: { ja: "全文開放（買い切りのアプリ内課金）", en: "Full unlock (a one-time in-app purchase)" },
+  pro: [{ ja: "収録文すべての利用", en: "Access to every sentence" }],
+  proNote: {
+    ja: "買い切りです。サブスクリプションではありません。購入は同じ Apple Account の端末で有効になり、「購入を復元」から復元できます。",
+    en: "A one-time purchase, not a subscription. It applies to devices signed in to the same Apple Account and can be restored with “Restore Purchases”.",
+  },
+  dataHeading: { ja: "データの取り扱い", en: "How your data is handled" },
+  data: [
+    { ja: "個人を特定できる情報は収集しません。アカウント登録もありません。", en: "The app collects no information that identifies you, and there is no account to create." },
+    { ja: "学習の記録は端末内にのみ保存されます。当社のサーバーへ送信することはありません。", en: "Your study record is stored only on the device. Nothing is sent to our servers." },
+    { ja: "広告や解析のための第三者SDKは組み込んでいません。読み上げは端末の音声合成を使うため、音声のために通信することもありません。", en: "No third-party advertising or analytics SDK is included. Read-aloud uses the device's own speech synthesis, so no network request is made for audio." },
+  ],
+  faqHeading: { ja: "よくあるご質問", en: "Frequently asked questions" },
+  faq: [
+    { q: { ja: "いつ配布されますか。", en: "When will it be available?" },
+      a: { ja: "時期は未定です。先行テストにご協力いただける場合は、お問い合わせフォームからご連絡ください。", en: "There is no date yet. If you would like to take part in testing, write to us through the contact form." } },
+    { q: { ja: "音声が再生されません。", en: "The audio doesn't play." },
+      a: { ja: "端末の音声合成を使っています。「設定」→「アクセシビリティ」→「読み上げコンテンツ」から韓国語の音声が入っているかご確認ください。消音スイッチと音量もあわせてご確認ください。", en: "The app uses the device's speech synthesis. Check that a Korean voice is installed under Settings → Accessibility → Spoken Content, and check the silent switch and volume." } },
+    { q: { ja: "学習記録は端末を変えても残りますか。", en: "Does my record survive changing devices?" },
+      a: { ja: "記録は端末内にのみ保存されるため、機種変更では引き継がれません。", en: "The record is stored only on the device, so it does not carry over to a new one." } },
+    { q: { ja: "返金してほしいのですが。", en: "How do I request a refund?" },
+      a: { ja: "アプリ内課金の決済と返金は Apple が管理しています。reportaproblem.apple.com からお申し出ください。", en: "Payment and refunds for in-app purchases are handled by Apple. Please request them at reportaproblem.apple.com." } },
+  ],
+  contactHeading: { ja: "不具合の報告・お問い合わせ", en: "Reporting a problem" },
+  contactBody: {
+    ja: "不具合のご報告には、アプリのバージョン、iPhone の機種と iOS のバージョン、再現手順、期待した動作と実際に起きたことを添えてください。フォームではこれらの項目を順に表示します。",
+    en: "When reporting a problem, please include the app version, your iPhone model and iOS version, the steps to reproduce, and what you expected versus what happened. The form asks for these in turn.",
+  },
+} satisfies AppSupportCopy;
+
+export const osaatEn = {
+  eyebrow: "one sentence",
+  title: { ja: "一文ずつ英語 サポート", en: "One Sentence at a Time — Support" },
+  lead: {
+    ja: "瞬間作文方式で英語の文を練習するアプリ「一文ずつ英語」のサポートページです。",
+    en: "Support for One Sentence at a Time, an app for practising English sentence production.",
+  },
+  devNotice: {
+    ja: "一文ずつ英語は開発中で、まだ配布していません。以下は現時点の仕様で、変わることがあります。",
+    en: "One Sentence at a Time is in development and not yet available. What follows describes it as it stands and may change.",
+  },
+  specsHeading: { ja: "動作環境", en: "Requirements" },
+  specs: [
+    { k: { ja: "対応機種", en: "Device" }, v: { ja: "iPhone", en: "iPhone" } },
+    { k: { ja: "対応OS", en: "Operating system" }, v: { ja: "iOS 18.0 以降", en: "iOS 18.0 or later" } },
+    { k: { ja: "収録文数", en: "Sentences" }, v: { ja: "929文（CEFR A1〜B1相当）", en: "929 sentences (CEFR A1–B1)" } },
+    { k: { ja: "配布状況", en: "Availability" }, v: { ja: "開発中", en: "In development" } },
+  ],
+  featuresHeading: { ja: "機能", en: "Features" },
+  freeHeading: { ja: "本体の機能", en: "In the app" },
+  free: [
+    { ja: "出題方向の切り替え（日→英の作文練習／英→日の聞き取り練習）", en: "Switching direction: Japanese to English for production, English to Japanese for listening" },
+    { ja: "学習モードとテストモード", en: "Study mode and test mode" },
+    { ja: "文法項目を1つずつ積み上げる累積シラバス（95項目）", en: "A cumulative syllabus of 95 grammar points, one added at a time" },
+    { ja: "10文ごとの復習サイクル", en: "A review cycle every ten sentences" },
+    { ja: "単語タップ辞書（1,230語。品詞・発音記号・訳・用例）", en: "A tap-to-look-up dictionary of 1,230 words with part of speech, phonetic transcription, translation and examples" },
+    { ja: "検索できる単語一覧と発音記号表", en: "A searchable word list and a table of phonetic symbols" },
+    { ja: "端末の音声合成による読み上げ", en: "Read-aloud using the device's speech synthesis" },
+  ],
+  proHeading: { ja: "全文開放（買い切りのアプリ内課金）", en: "Full unlock (a one-time in-app purchase)" },
+  pro: [{ ja: "収録文すべての利用", en: "Access to every sentence" }],
+  proNote: {
+    ja: "買い切りです。サブスクリプションではありません。購入は同じ Apple Account の端末で有効になり、「購入を復元」から復元できます。",
+    en: "A one-time purchase, not a subscription. It applies to devices signed in to the same Apple Account and can be restored with “Restore Purchases”.",
+  },
+  dataHeading: { ja: "データの取り扱い", en: "How your data is handled" },
+  data: [
+    { ja: "個人を特定できる情報は収集しません。アカウント登録もありません。", en: "The app collects no information that identifies you, and there is no account to create." },
+    { ja: "学習の記録は端末内にのみ保存されます。当社のサーバーへ送信することはありません。", en: "Your study record is stored only on the device. Nothing is sent to our servers." },
+    { ja: "広告や解析のための第三者SDKは組み込んでいません。読み上げは端末の音声合成を使うため、音声のために通信することもありません。", en: "No third-party advertising or analytics SDK is included. Read-aloud uses the device's own speech synthesis, so no network request is made for audio." },
+  ],
+  faqHeading: { ja: "よくあるご質問", en: "Frequently asked questions" },
+  faq: [
+    { q: { ja: "いつ配布されますか。", en: "When will it be available?" },
+      a: { ja: "時期は未定です。先行テストにご協力いただける場合は、お問い合わせフォームからご連絡ください。", en: "There is no date yet. If you would like to take part in testing, write to us through the contact form." } },
+    { q: { ja: "例文はどこから採ってきたものですか。", en: "Where do the sentences come from?" },
+      a: { ja: "すべて自社で新規に作成したものです。市販教材からの転記や翻訳は行っていません。文法項目と、最頻出1,000語の網羅を基準に設計しています。", en: "They were all written for this app. Nothing is transcribed or translated from commercial materials. The set is designed to cover the grammar points and the thousand most frequent words." } },
+    { q: { ja: "音声が再生されません。", en: "The audio doesn't play." },
+      a: { ja: "端末の音声合成を使っています。「設定」→「アクセシビリティ」→「読み上げコンテンツ」から英語の音声が入っているかご確認ください。消音スイッチと音量もあわせてご確認ください。", en: "The app uses the device's speech synthesis. Check that an English voice is installed under Settings → Accessibility → Spoken Content, and check the silent switch and volume." } },
+    { q: { ja: "返金してほしいのですが。", en: "How do I request a refund?" },
+      a: { ja: "アプリ内課金の決済と返金は Apple が管理しています。reportaproblem.apple.com からお申し出ください。", en: "Payment and refunds for in-app purchases are handled by Apple. Please request them at reportaproblem.apple.com." } },
+  ],
+  contactHeading: { ja: "不具合の報告・お問い合わせ", en: "Reporting a problem" },
+  contactBody: {
+    ja: "不具合のご報告には、アプリのバージョン、iPhone の機種と iOS のバージョン、再現手順、期待した動作と実際に起きたことを添えてください。フォームではこれらの項目を順に表示します。",
+    en: "When reporting a problem, please include the app version, your iPhone model and iOS version, the steps to reproduce, and what you expected versus what happened. The form asks for these in turn.",
+  },
+} satisfies AppSupportCopy;

@@ -12,6 +12,9 @@ const paths = [
   { path: "/about", priority: "0.7" },
   { path: "/contact", priority: "0.7" },
   { path: "/speechlab", priority: "0.5" },
+  { path: "/gotan-ko", priority: "0.5" },
+  { path: "/hanbun", priority: "0.5" },
+  { path: "/osaat-en", priority: "0.5" },
   { path: "/privacy", priority: "0.4" },
   { path: "/legal", priority: "0.3" },
 ];
