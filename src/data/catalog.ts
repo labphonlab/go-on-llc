@@ -9,6 +9,11 @@ import type { L } from "../i18n";
 
 export type Status = "released" | "development";
 
+export const STATUS_LABEL: Record<Status, L> = {
+  released: { ja: "公開中", en: "Available" },
+  development: { ja: "開発中", en: "In development" },
+};
+
 export type Product = {
   id: string;
   name: L;
@@ -21,6 +26,8 @@ export type Product = {
   note?: L;
   /** サポートページに出す、この製品固有の案内（共通FAQに書けないもの）。 */
   support?: L[];
+  /** 専用サポートページがある場合のパス（App Store のサポートURLに使うもの）。 */
+  supportPath?: string;
 };
 
 /**
@@ -132,13 +139,14 @@ export const tools: Product[] = [
 /**
  * 開発中のプロダクト。
  *
- * **サイトには出さない。** 未完成・開発途中のものは公開しない方針のため、
- * どのページからもレンダリングしていない。ここは公開待ちの控えとして持っておき、
- * 実際に公開できるようになった時点で `tools` へ移す。
+ * サイトには**「開発中で、まだ配布していない」と明記したうえで**出す。伏せるのではなく、
+ * 状態を書く。App Store や TestFlight から来た人が、サイトに何も無いと戸惑うため。
+ * 実際に配布できるようになった時点で `tools` へ移す。
  */
 export const inDevelopment: Product[] = [
   {
     id: "speechlab",
+    supportPath: "/speechlab",
     name: { ja: "SpeechLab", en: "SpeechLab" },
     kind: { ja: "iPad アプリ", en: "iPad app" },
     status: "development",

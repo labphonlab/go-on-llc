@@ -4,7 +4,7 @@ import PageHeader from "../../components/PageHeader.astro";
 import { u } from "../../lib/url";
 import { localePaths, ui, t, type Lang } from "../../i18n";
 import { support as copy } from "../../i18n/pages";
-import { tools } from "../../data/catalog";
+import { tools, inDevelopment } from "../../data/catalog";
 
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
@@ -80,6 +80,29 @@ const description = {
           </article>
         ))
       }
+    </div>
+  </section>
+
+  <section class="container-prose pb-16">
+    <div class="border-t border-line pt-12">
+      <h2 class="eyebrow">{t(copy.devHeading, lang)}</h2>
+      <p class="mt-4 leading-relaxed text-muted">{t(copy.devBody, lang)}</p>
+      <ul class="mt-6">
+        {
+          inDevelopment.map((p) => (
+            <li class="row grid grid-cols-[1fr_auto] gap-4 py-3">
+              <span class="text-ink">
+                {p.supportPath ? (
+                  <a href={u(p.supportPath, lang)}>{t(p.name, lang)}</a>
+                ) : (
+                  t(p.name, lang)
+                )}
+              </span>
+              <span class="text-sm text-muted">{t(p.platforms, lang)}</span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 

@@ -20,8 +20,8 @@ export const home = {
   productsHeading: { ja: "プロダクト", en: "Software" },
   productsAll: { ja: "すべて見る", en: "See all" },
   productsNote: {
-    ja: "いずれもサイトからの一般配布は行っていません。ご利用のご希望はお問い合わせください。",
-    en: "None of these are distributed publicly from this site. Please get in touch if you would like to use one.",
+    ja: "いずれもサイトからの一般配布は行っていません。ご利用のご希望はお問い合わせください。このほかに開発中のものがあり、プロダクトのページにその旨を明記して掲載しています。",
+    en: "None of these are distributed publicly from this site — please get in touch if you would like to use one. Others are still in development; they are listed on the software page and marked as such.",
   },
   servicesHeading: { ja: "事業内容", en: "What we do" },
   services: [
@@ -86,10 +86,26 @@ export const products = {
   eyebrow: "products",
   title: { ja: "プロダクト", en: "Software" },
   lead: {
-    ja: "音声を扱うソフトウェアを自社で開発しています。研究・教育の現場で必要になった道具を、そのつどつくってきたものです。いずれもサイトからの一般配布は行っていません。ご利用をご希望の場合はお問い合わせください。",
-    en: "We develop our own software for working with speech — tools built as they became necessary in research and teaching. None of them are distributed publicly from this site; please get in touch if you would like to use one.",
+    ja: "音声を扱うソフトウェアを自社で開発しています。研究・教育の現場で必要になった道具を、そのつどつくってきたものです。いずれもサイトからの一般配布は行っていません。ご利用をご希望の場合はお問い合わせください。開発中のものは、その旨を明記して分けて掲載しています。",
+    en: "We develop our own software for working with speech — tools built as they became necessary in research and teaching. None of them are distributed publicly from this site; please get in touch if you would like to use one. Anything still in development is listed separately and marked as such.",
+  },
+  releasedHeading: {
+    ja: "できあがっているもの",
+    en: "Built and working",
   },
   requirements: { ja: "動作環境", en: "Requirements" },
+  devHeading: {
+    ja: "開発中 — まだ配布していません",
+    en: "In development — not yet available",
+  },
+  devLead: {
+    ja: "次のものは開発中で、現在は入手できません。仕様は変わることがあります。公開の見込みや先行テストへの参加については、製品名を添えてお問い合わせください。",
+    en: "The following are in development and cannot be obtained yet; details may still change. Write to us naming the product if you would like to know when it will be available, or to take part in testing.",
+  },
+  devBadgeNote: {
+    ja: "配布していません",
+    en: "Not distributed",
+  },
   accessHeading: { ja: "ご利用について", en: "Access" },
   accessBody: {
     ja: "いずれのソフトウェアもサイトからの一般配布は行っていません。授業・研究でのご利用、機関での導入、仕様に合わせた調整のご相談は、対象のソフトウェア名を添えてお問い合わせください。動作環境や制約についてのご質問にもお答えします。",
@@ -210,6 +226,11 @@ export const support = {
     en: "General questions are answered below; notes specific to a single product are collected here.",
   },
   requirements: { ja: "動作環境", en: "Requirements" },
+  devHeading: { ja: "開発中の製品について", en: "Products in development" },
+  devBody: {
+    ja: "次の製品は開発中で、まだ入手いただけません。公開の見込み、仕様、先行テストへの参加については、製品名を添えてお問い合わせください。配布を始めしだい、使い方と注意点をこのページに追加します。",
+    en: "The following are in development and cannot be obtained yet. Write to us naming the product if you would like to know when it will be available, about its specifications, or to take part in testing. Once distribution begins we will add how-to notes here.",
+  },
   faqHeading: { ja: "よくあるご質問", en: "Frequently asked questions" },
   faqFilter: {
     ja: "キーワードで絞り込む（例: 返金、データ、授業）",
@@ -755,6 +776,11 @@ export const speechlab = {
       en: "The first time you run Pro automatic labelling, the app downloads a speech recognition model (about 150 MB) over the internet. Only the model is downloaded — your audio is never uploaded. Once stored on the device, all later processing runs offline.",
     },
   ],
+  devHeading: { ja: "開発中の製品について", en: "Products in development" },
+  devBody: {
+    ja: "次の製品は開発中で、まだ入手いただけません。公開の見込み、仕様、先行テストへの参加については、製品名を添えてお問い合わせください。配布を始めしだい、使い方と注意点をこのページに追加します。",
+    en: "The following are in development and cannot be obtained yet. Write to us naming the product if you would like to know when it will be available, about its specifications, or to take part in testing. Once distribution begins we will add how-to notes here.",
+  },
   faqHeading: { ja: "よくあるご質問", en: "Frequently asked questions" },
   faq: [
     {

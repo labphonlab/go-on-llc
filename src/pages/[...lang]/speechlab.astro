@@ -9,8 +9,8 @@ import { speechlab as copy } from "../../i18n/pages";
   アプリ内の設定画面と App Store 掲載のサポートURLが
   https://goonresearch.jp/speechlab/ を指しているため、このパスで応じる。
 
-  未公開の製品を宣伝しない方針は保つ：ナビにもサイトマップにも載せず、
-  noindex にしてある。直リンクからのみ到達する。公開後にこの扱いを見直す。
+  開発中であることを明記したうえで公開する（伏せない）。ナビには載せず、
+  プロダクト／サポートの開発中一覧から辿れるようにしてある。
 */
 export const getStaticPaths = localePaths;
 const { lang } = Astro.props as { lang: Lang };
@@ -21,13 +21,18 @@ const { lang } = Astro.props as { lang: Lang };
   path="/speechlab"
   title={t(copy.title, lang)}
   description={t(copy.lead, lang)}
-  noindex
 >
   <PageHeader
     eyebrow={copy.eyebrow}
     title={t(copy.title, lang)}
     lead={t(copy.lead, lang)}
-  />
+  >
+    <p class="mt-4 max-w-2xl border-l-2 border-amber pl-3 text-sm leading-relaxed text-muted">
+      {lang === "ja"
+        ? "SpeechLab は開発中で、まだ配布していません。以下は現時点の仕様で、変わることがあります。"
+        : "SpeechLab is still in development and not yet available. What follows describes it as it stands and may change."}
+    </p>
+  </PageHeader>
 
   <section class="container-prose pb-16">
     <h2 class="eyebrow">{t(copy.specsHeading, lang)}</h2>
