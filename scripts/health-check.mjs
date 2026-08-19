@@ -10,7 +10,7 @@
  */
 import { resolve4 } from "node:dns/promises";
 
-const LIVE_URL = process.env.LIVE_URL ?? "https://labphonlab.github.io/go-on-llc/";
+const LIVE_URL = process.env.LIVE_URL ?? "https://goonresearch.jp/";
 const APEX = process.env.APEX_DOMAIN ?? "goonresearch.jp";
 
 /** GitHub Pages の apex 用 A レコード。 */
@@ -59,9 +59,7 @@ try {
   const pointsToPages = PAGES_IPS.every((ip) => addresses.includes(ip));
   notes.push(`${APEX} の A レコード: ${addresses.join(", ")}`);
   if (pointsToPages) {
-    notes.push(
-      `${APEX} は GitHub Pages を向いています。deploy.yml が配信先をDNSから判定するため、次のデプロイで独自ドメインへ切り替わります。`
-    );
+    notes.push(`${APEX} は GitHub Pages を向いています（独自ドメインで配信中）。`);
   } else {
     notes.push(`${APEX} は GitHub Pages 以外を向いています。設定を確認してください。`);
   }

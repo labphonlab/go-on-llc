@@ -26,7 +26,7 @@ jobs:
           cache: npm
       - run: npm ci
 
-      # 独自ドメインが応答すればそちらが本番。まだならプロジェクトURLを見る。
+      # 独自ドメインが本番。応答しない場合だけプロジェクトURLへ退避する。
       - name: Decide which URL is live
         run: |
           set -euo pipefail

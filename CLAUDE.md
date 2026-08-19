@@ -19,6 +19,7 @@
 - **インタラクティブ化は island に限定**。`.astro` から `.tsx` を読み、`client:visible`（基本）/ `client:load` / `client:idle` で水和。ページ全体を React 化しない。
 - **デプロイは GitHub Actions 一本**（`.github/workflows/deploy.yml`：`withastro/action@v6` → `actions/deploy-pages@v4`）。ブランチ公開方式と混在させない（CNAME 消失事故の原因）。Pages の build_type は `workflow`。
 - **配信先はDNSから自動判定する**。`deploy.yml` が `goonresearch.jp` の A レコードを見て、GitHub Pages を向いていれば独自ドメイン向け（CNAME 同梱）、向いていなければプロジェクトURL向け（CNAME 除去）でビルドする。名前解決しないまま CNAME を置くとサイトごと到達不能になるため、この判定を人手に委ねない。
+- **公開URLは `https://goonresearch.jp/`**（2026-08-19開通）。A 4本＋`www` CNAME をお名前.comに登録、Pages側の custom domain と Enforce HTTPS を設定済み。**MX（ImprovMX）とSPFのTXTは同じゾーンに同居している。DNSを触るときは消さないこと**——消すと `info@goonresearch.jp` が止まる。
 - **独自ドメインは2か所で管理**：`public/CNAME` と `astro.config.mjs` の `site`。変更時は両方直す。現在は `goonresearch.jp`。
 - **内部リンクは必ず `u()`（`src/lib/url.ts`）を通す**。素の `/about` はプロジェクトパス公開（`/go-on-llc/`）で404になる。`astro.config.mjs` は `SITE_URL` / `SITE_BASE` 環境変数で2通りのデプロイ先に対応する。
 - **掲載プロダクト・公開データの真実源は `src/data/catalog.ts`**。index / products / tools / support はここを読む。状態変更は1か所だけ直す。`status` は `released`（今すぐ入手できる）と `development`（未公開）の2値で、開発中のものを「公開中」と書かない。
@@ -104,7 +105,6 @@ python3 scripts/build_og.py   # OGP画像を作り直す（macOSのシステム�
 
 ## 今後のタスク（着手順の目安）
 
-1. **独自ドメインの開通**（未了・お名前.com へのログインが必要なため人手作業）。`goonresearch.jp` は登録済み・NSは `01〜04.dnsv.jp` だが、Aレコード未設定のため名前解決しない。現状の公開URLは `https://labphonlab.github.io/go-on-llc/`。お名前.com Navi の DNSレコード設定で A 4本（185.199.108〜111.153）と `www` の CNAME（`labphonlab.github.io.`）を追加すれば、あとは自動で切り替わる（deploy.yml が配信先をDNSから判定し、monitor.yml が開通を検出して deploy を起動する）。ワークフローを手で書き換える必要はない。
 3. IPA子音チャート（pulmonic）を island 化。
 4. フォルマント分析ツール。
 5. プロダクトが App Store で公開されたら `src/data/catalog.ts` の `status` を `released` にし、ストアURLを `links` に追加する。
